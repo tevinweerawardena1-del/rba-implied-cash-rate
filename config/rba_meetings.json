@@ -1,0 +1,11 @@
+{
+  "_comment": "RBA Monetary Policy Board decision dates (the second day of each two-day meeting, announced 2:30pm Sydney). A new cash rate target applies from the day AFTER the decision. Source: rba.gov.au/schedules-events/board-meeting-schedules.html. Add each new year's dates when the RBA publishes them (usually around September-October).",
+  "decision_dates": [
+    "2025-02-18", "2025-04-01", "2025-05-20", "2025-07-08",
+    "2025-08-12", "2025-09-30", "2025-11-04", "2025-12-09",
+    "2026-02-03", "2026-03-17", "2026-05-05", "2026-06-16",
+    "2026-08-11", "2026-09-29", "2026-11-03", "2026-12-08",
+    "2027-02-09", "2027-03-23", "2027-05-04", "2027-06-22",
+    "2027-08-10", "2027-09-28", "2027-11-02", "2027-12-14"
+  ]
+}

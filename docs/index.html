@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RBA Implied Cash Rate</title>
+<meta name="description" content="Market-implied path of the RBA cash rate target, calculated daily from ASX 30 Day Interbank Cash Rate Futures.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #f6f5f2;
+    --surface: #fcfcfb;
+    --border: #e4e2dc;
+    --grid: #ecebe7;
+    --text-primary: #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted: #7a7974;
+    --series-1: #2a78d6;
+    --series-2: #eb6834;
+    --series-3: #1baf7a;
+    --ref: #9a9993;
+    --up: #b8322f;
+    --down: #1c5cab;
+    --bar-track: #ecebe7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --bg: #121211;
+      --surface: #1a1a19;
+      --border: #2e2e2b;
+      --grid: #262624;
+      --text-primary: #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted: #8f8e86;
+      --series-1: #3987e5;
+      --series-2: #d95926;
+      --series-3: #199e70;
+      --ref: #6f6e68;
+      --up: #e66767;
+      --down: #5598e7;
+      --bar-track: #2a2a27;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #121211; --surface: #1a1a19; --border: #2e2e2b; --grid: #262624;
+    --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #8f8e86;
+    --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
+    --ref: #6f6e68; --up: #e66767; --down: #5598e7; --bar-track: #2a2a27;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text-primary);
+    font: 15px/1.55 "IBM Plex Sans", system-ui, sans-serif;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 32px 16px 64px; }
+  header { display: flex; justify-content: space-between; align-items: flex-end;
+           gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+  h1 { font-size: 26px; font-weight: 600; margin: 0 0 4px; letter-spacing: -0.01em; }
+  h2 { font-size: 17px; font-weight: 600; margin: 0 0 2px; }
+  .sub { color: var(--text-secondary); margin: 0; }
+  .asat { font: 13px "IBM Plex Mono", monospace; color: var(--text-secondary); text-align: right; }
+  .num { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; }
+
+  .card { background: var(--surface); border: 1px solid var(--border);
+          border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+  .card-head { display: flex; justify-content: space-between; align-items: flex-start;
+               gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+  .card-head p { margin: 0; color: var(--text-secondary); font-size: 14px; }
+
+  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 16px; }
+  .tile { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; }
+  .tile .label { font-size: 13px; color: var(--text-secondary); }
+  .tile .value { font: 500 30px/1.2 "IBM Plex Mono", monospace; margin: 6px 0 2px; }
+  .tile .detail { font-size: 13px; color: var(--text-secondary); }
+  .tag { display: inline-block; font-size: 12px; font-weight: 500; padding: 1px 7px;
+         border-radius: 999px; border: 1px solid var(--border); color: var(--text-secondary); }
+  .tag.up::before { content: "▲ "; color: var(--up); }
+  .tag.down::before { content: "▼ "; color: var(--down); }
+
+  .chart-box { position: relative; height: 340px; }
+  .legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--text-secondary); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .sw { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+  .sw.dot { width: 8px; height: 8px; border-radius: 50%; }
+  .sw.dash { background: repeating-linear-gradient(90deg, var(--ref) 0 4px, transparent 4px 7px); height: 2px; }
+
+  .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .seg button { font: 500 13px "IBM Plex Sans", sans-serif; background: none; border: 0;
+                padding: 5px 12px; color: var(--text-secondary); cursor: pointer; }
+  .seg button + button { border-left: 1px solid var(--border); }
+  .seg button[aria-pressed="true"] { background: var(--text-primary); color: var(--surface); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { text-align: right; font-weight: 500; color: var(--text-secondary); font-size: 13px;
+       padding: 8px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  td { text-align: right; padding: 9px 10px; border-bottom: 1px solid var(--grid); white-space: nowrap; }
+  th:first-child, td:first-child { text-align: left; }
+  tr:last-child td { border-bottom: 0; }
+  .table-scroll { overflow-x: auto; }
+  .prob { display: inline-flex; align-items: center; gap: 8px; justify-content: flex-end; }
+  .pbar { width: 64px; height: 6px; background: var(--bar-track); border-radius: 3px; overflow: hidden; }
+  .pbar i { display: block; height: 100%; border-radius: 3px; }
+  .muted { color: var(--text-muted); }
+
+  .notes { font-size: 14px; color: var(--text-secondary); }
+  .notes h3 { font-size: 14px; color: var(--text-primary); margin: 18px 0 4px; font-weight: 600; }
+  .notes p { margin: 0 0 8px; }
+  .formula { font: 13px "IBM Plex Mono", monospace; background: var(--bg); border: 1px solid var(--border);
+             border-radius: 6px; padding: 10px 12px; color: var(--text-primary); overflow-x: auto; }
+  a { color: var(--series-1); }
+  .banner { border-left: 3px solid var(--series-2); padding: 8px 12px; background: var(--surface);
+            margin-bottom: 16px; font-size: 14px; color: var(--text-secondary); display: none; }
+  footer { font-size: 13px; color: var(--text-muted); margin-top: 24px; }
+
+  @media (max-width: 720px) {
+    .tiles { grid-template-columns: 1fr; }
+    .chart-box { height: 280px; }
+    .asat { text-align: left; }
+    h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>RBA Implied Cash Rate</h1>
+      <p class="sub">The market's expected cash rate target after each RBA meeting, from ASX 30 Day Interbank Cash Rate Futures.</p>
+    </div>
+    <div class="asat" id="asat">Loading…</div>
+  </header>
+
+  <div class="banner" id="banner"></div>
+
+  <section class="tiles" id="tiles"></section>
+
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>Implied path</h2>
+        <p>Expected cash rate target after each meeting, and each futures month's implied average</p>
+      </div>
+      <div class="legend">
+        <span><i class="sw" style="background:var(--series-1)"></i>Implied target</span>
+        <span><i class="sw dot" style="background:var(--series-2)"></i>Futures monthly average</span>
+        <span><i class="sw dash"></i>Current target</span>
+      </div>
+    </div>
+    <div class="chart-box"><canvas id="pathChart" aria-label="Implied cash rate path chart" role="img"></canvas></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>Meeting by meeting</h2>
+        <p>Probability assumes 25bp moves: a 10bp priced change reads as a 40% chance of one move</p>
+      </div>
+    </div>
+    <div class="table-scroll"><table id="meetingTable"></table></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>How pricing has moved</h2>
+        <p>Implied rate for the next three meetings, each day's close</p>
+      </div>
+      <div class="seg" id="rangeSeg" role="group" aria-label="Time range">
+        <button data-days="30">1M</button>
+        <button data-days="90" aria-pressed="true">3M</button>
+        <button data-days="180">6M</button>
+        <button data-days="365">1Y</button>
+        <button data-days="0">All</button>
+      </div>
+    </div>
+    <div class="legend" id="histLegend" style="margin-bottom:10px"></div>
+    <div class="chart-box"><canvas id="histChart" aria-label="History of implied rates for upcoming meetings" role="img"></canvas></div>
+  </section>
+
+  <section class="card notes">
+    <h2>How it's calculated</h2>
+    <h3>1. Futures give monthly averages</h3>
+    <p>Each ASX 30 Day Interbank Cash Rate Futures contract settles on the <em>average</em> interbank overnight cash rate over its calendar month, so 100 minus the price is the market's expected average rate for that month.</p>
+    <h3>2. Convert to cash rate target terms</h3>
+    <p>The overnight rate trades a few basis points away from the RBA's target. Today's gap (<span class="num" id="spreadNote">–</span>) is subtracted from every contract.</p>
+    <h3>3. Back out the rate after each meeting</h3>
+    <p>A new target applies from the day after the decision. If the month after the meeting has no meeting of its own, its contract gives the post-meeting rate directly. Otherwise, with <span class="num">D</span> days in the month and <span class="num">d₁</span> days before the change:</p>
+    <div class="formula">r_after = (monthly average × D − r_before × d₁) ÷ (D − d₁)</div>
+    <p>Each meeting's result becomes the next meeting's <span class="num">r_before</span>. The futures run about 17 months out, so the path stops there.</p>
+    <h3>Data</h3>
+    <p>Futures: <a href="https://www.asx.com.au/markets/trade-our-derivatives-market/derivatives-market-prices/short-term-derivatives">ASX</a> (previous settlement). Cash rate target and overnight rate: <a href="https://www.rba.gov.au/statistics/tables/">RBA table F1.1</a>. Download the data for Excel:
+      <a href="data/meeting_history.csv">meeting history (CSV)</a> ·
+      <a href="data/futures_history.csv">futures history (CSV)</a> ·
+      <a href="data/latest.json">latest (JSON)</a>.</p>
+    <p>Indicative only and not financial advice.</p>
+  </section>
+
+  <footer id="footer"></footer>
+</div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const fmtDate = (iso, opts = { day: "numeric", month: "short", year: "numeric" }) =>
+  new Date(iso + "T00:00:00").toLocaleDateString("en-AU", opts);
+const pct = (x, dp = 2) => x.toFixed(dp) + "%";
+const bp = (x) => (x > 0 ? "+" : x < 0 ? "−" : "") + Math.abs(x).toFixed(1) + "bp";
+
+function probText(frac) {
+  // frac = change / 25bp. >1 means more than one move priced.
+  if (Math.abs(frac) < 0.02) return { text: "No change", dir: 0, p: 0 };
+  const dir = Math.sign(frac), a = Math.abs(frac);
+  const word = dir > 0 ? "hike" : "cut";
+  if (a <= 1) return { text: `${Math.round(a * 100)}% ${word}`, dir, p: a };
+  const n = Math.floor(a), rem = Math.round((a - n) * 100);
+  return { text: `${n}× ${word}` + (rem ? ` + ${rem}%` : ""), dir, p: 1 };
+}
+
+function parseCSV(text) {
+  const [head, ...rows] = text.trim().split(/\r?\n/);
+  const keys = head.split(",");
+  return rows.map((r) => Object.fromEntries(r.split(",").map((v, i) => [keys[i], v])));
+}
+
+let latest, history, pathChart, histChart, histDays = 90;
+
+function baseOptions() {
+  const grid = css("--grid"), muted = css("--text-muted");
+  return {
+    responsive: true, maintainAspectRatio: false, animation: false,
+    interaction: { mode: "nearest", intersect: false, axis: "x" },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: css("--surface"), borderColor: css("--border"), borderWidth: 1,
+        titleColor: css("--text-primary"), bodyColor: css("--text-secondary"),
+        titleFont: { family: "IBM Plex Sans", weight: "600" },
+        bodyFont: { family: "IBM Plex Mono" }, padding: 10, boxPadding: 4,
+      },
+    },
+    scales: {
+      x: { type: "time", grid: { display: false }, border: { color: grid },
+           ticks: { color: muted, font: { family: "IBM Plex Sans", size: 12 }, maxRotation: 0, autoSkipPadding: 16 } },
+      y: { grid: { color: grid }, border: { display: false },
+           ticks: { color: muted, font: { family: "IBM Plex Mono", size: 12 }, callback: (v) => v.toFixed(2) + "%" } },
+    },
+  };
+}
+
+function renderTiles() {
+  const m = latest.meetings;
+  const next = m[0], last = m[m.length - 1];
+  const tiles = [
+    { label: "Cash rate target", value: pct(latest.cash_rate_target),
+      detail: `Overnight rate ${bp(latest.ibocr_spread_bp)} vs target` },
+  ];
+  if (next) {
+    const pt = probText(next.move_fraction);
+    tiles.push({ label: `Next meeting · ${fmtDate(next.decision_date)}`, value: pct(next.implied_rate, 3),
+      detail: `<span class="tag ${pt.dir > 0 ? "up" : pt.dir < 0 ? "down" : ""}">${pt.text}</span> ${bp(next.change_bp)} priced` });
+  }
+  if (last) {
+    tiles.push({ label: `By ${fmtDate(last.decision_date, { month: "short", year: "numeric" })}`, value: pct(last.implied_rate, 3),
+      detail: `${bp(last.cumulative_bp)} vs today · ${(last.cumulative_bp / 25).toFixed(1)} moves of 25bp` });
+  }
+  $("#tiles").innerHTML = tiles.map((t) =>
+    `<div class="tile"><div class="label">${t.label}</div><div class="value">${t.value}</div><div class="detail">${t.detail}</div></div>`).join("");
+}
+
+function renderTable() {
+  const up = css("--up"), down = css("--down");
+  const rows = latest.meetings.map((r) => {
+    const pt = probText(r.move_fraction);
+    const color = pt.dir > 0 ? up : down;
+    return `<tr>
+      <td>${fmtDate(r.decision_date, { weekday: "short", day: "numeric", month: "short", year: "numeric" })}</td>
+      <td class="num">${pct(r.implied_rate, 3)}</td>
+      <td class="num">${bp(r.change_bp)}</td>
+      <td><span class="prob"><span>${pt.text}</span><span class="pbar"><i style="width:${pt.p * 100}%;background:${color}"></i></span></span></td>
+      <td class="num">${bp(r.cumulative_bp)}</td>
+    </tr>`;
+  }).join("");
+  const beyond = latest.meetings_beyond_futures.length
+    ? `<tr><td colspan="5" class="muted" style="text-align:left">Later meetings (${latest.meetings_beyond_futures.map((d) => fmtDate(d, { month: "short", year: "numeric" })).join(", ")}) are beyond the futures strip.</td></tr>` : "";
+  $("#meetingTable").innerHTML = `<thead><tr><th>Decision</th><th>Implied rate</th><th>Change at meeting</th><th>Probability</th><th>Cumulative</th></tr></thead><tbody>${rows}${beyond}</tbody>`;
+}
+
+function renderPath() {
+  const target = latest.cash_rate_target;
+  const start = latest.as_at;
+  const path = [{ x: start, y: target }];
+  latest.meetings.forEach((r) => {
+    path.push({ x: r.effective_date, y: r.implied_rate, meeting: r });
+  });
+  const lastMonth = latest.futures[latest.futures.length - 1].month;
+  const endD = new Date(lastMonth + "T00:00:00"); endD.setMonth(endD.getMonth() + 1);
+  const end = endD.toISOString().slice(0, 10);
+  path.push({ x: end, y: path[path.length - 1].y });
+
+  const monthly = latest.futures.map((f) => {
+    const mid = new Date(f.month + "T00:00:00"); mid.setDate(15);
+    return { x: mid.toISOString().slice(0, 10), y: f.target_equivalent, month: f.month, raw: f.implied_yield };
+  });
+
+  const opts = baseOptions();
+  opts.plugins.tooltip.callbacks = {
+    title: (items) => {
+      const p = items[0].raw;
+      if (p.meeting) return "After " + fmtDate(p.meeting.decision_date) + " meeting";
+      if (p.month) return fmtDate(p.month, { month: "long", year: "numeric" }) + " futures";
+      return fmtDate(items[0].raw.x);
+    },
+    label: (item) => {
+      const p = item.raw;
+      if (p.meeting) return [` Implied ${pct(p.y, 3)}`, ` ${probText(p.meeting.move_fraction).text} · ${bp(p.meeting.change_bp)}`];
+      if (p.month) return [` Target terms ${pct(p.y, 3)}`, ` Price ${(100 - p.raw).toFixed(3)}`];
+      if (item.dataset.label === "Current target") return ` Current target ${pct(p.y)}`;
+      return ` ${pct(p.y, 3)}`;
+    },
+  };
+  opts.scales.x.min = start; opts.scales.x.max = end;
+  opts.scales.x.time = { unit: "month", displayFormats: { month: "MMM yy" } };
+
+  if (pathChart) pathChart.destroy();
+  pathChart = new Chart($("#pathChart"), {
+    type: "line",
+    data: { datasets: [
+      { label: "Implied target", data: path, stepped: "before", borderColor: css("--series-1"), borderWidth: 2,
+        pointRadius: (c) => (c.raw && c.raw.meeting ? 4 : 0), pointHoverRadius: 6,
+        pointBackgroundColor: css("--series-1"), pointBorderColor: css("--surface"), pointBorderWidth: 2, order: 1 },
+      { label: "Futures monthly average", data: monthly, showLine: false, pointRadius: 4, pointHoverRadius: 6,
+        pointBackgroundColor: css("--series-2"), pointBorderColor: css("--surface"), pointBorderWidth: 2, order: 2 },
+      { label: "Current target", data: [{ x: start, y: target }, { x: end, y: target }], borderColor: css("--ref"),
+        borderWidth: 1.5, borderDash: [4, 3], pointRadius: 0, pointHoverRadius: 0, order: 3 },
+    ] },
+    options: opts,
+  });
+}
+
+function renderHistory() {
+  const upcoming = latest.meetings.slice(0, 3).map((m) => m.decision_date);
+  const colors = [css("--series-1"), css("--series-2"), css("--series-3")];
+  const cutoff = histDays ? new Date(new Date(latest.as_at + "T00:00:00") - histDays * 864e5).toISOString().slice(0, 10) : "0000";
+  const datasets = upcoming.map((d, i) => ({
+    label: fmtDate(d),
+    data: history.filter((r) => r.decision_date === d && r.as_at >= cutoff)
+                 .map((r) => ({ x: r.as_at, y: +r.implied_rate })),
+    borderColor: colors[i], backgroundColor: colors[i], borderWidth: 2,
+    pointRadius: 0, pointHoverRadius: 5, pointHoverBorderColor: css("--surface"), pointHoverBorderWidth: 2, tension: 0,
+  }));
+  $("#histLegend").innerHTML = datasets.map((d, i) =>
+    `<span><i class="sw" style="background:${colors[i]}"></i>${d.label} meeting</span>`).join("") +
+    `<span><i class="sw dash"></i>Current target</span>`;
+  const xs = datasets.flatMap((d) => d.data.map((p) => p.x)).sort();
+  if (xs.length) datasets.push({ label: "Current target", data: [{ x: xs[0], y: latest.cash_rate_target }, { x: xs[xs.length - 1], y: latest.cash_rate_target }],
+    borderColor: css("--ref"), borderWidth: 1.5, borderDash: [4, 3], pointRadius: 0, pointHoverRadius: 0 });
+
+  const opts = baseOptions();
+  opts.interaction = { mode: "index", intersect: false };
+  opts.plugins.tooltip.filter = (i) => i.dataset.label !== "Current target";
+  opts.plugins.tooltip.callbacks = {
+    title: (items) => "Close " + fmtDate(items[0].raw.x),
+    label: (item) => ` ${item.dataset.label}: ${pct(item.raw.y, 3)}`,
+  };
+  opts.scales.x.time = { tooltipFormat: "d MMM yyyy" };
+  if (histChart) histChart.destroy();
+  histChart = new Chart($("#histChart"), { type: "line", data: { datasets }, options: opts });
+}
+
+function renderAll() {
+  $("#asat").innerHTML = `Futures close ${fmtDate(latest.as_at)}<br>Updated ${latest.generated_utc} UTC`;
+  $("#spreadNote").textContent = bp(latest.ibocr_spread_bp);
+  if (latest.notes && latest.notes.length) { $("#banner").style.display = "block"; $("#banner").textContent = latest.notes.join(" "); }
+  $("#footer").textContent = `Data source today: ${latest.source}.`;
+  renderTiles(); renderTable(); renderPath(); renderHistory();
+}
+
+$("#rangeSeg").addEventListener("click", (e) => {
+  const b = e.target.closest("button"); if (!b) return;
+  histDays = +b.dataset.days;
+  document.querySelectorAll("#rangeSeg button").forEach((x) => x.setAttribute("aria-pressed", x === b));
+  renderHistory();
+});
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => latest && renderAll());
+
+Promise.all([
+  fetch("data/latest.json", { cache: "no-store" }).then((r) => r.json()),
+  fetch("data/meeting_history.csv", { cache: "no-store" }).then((r) => (r.ok ? r.text() : "as_at")).then(parseCSV),
+]).then(([l, h]) => { latest = l; history = h; renderAll(); })
+  .catch((err) => { $("#asat").textContent = "No data yet. Run the update workflow once."; console.error(err); });
+</script>
+</body>
+</html>
