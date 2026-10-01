@@ -82,8 +82,7 @@ def test_parse_asx_table_picks_monthly_contracts():
 RBA_SAMPLE = "\n".join([
     "F1  INTEREST RATES AND YIELDS - MONEY MARKET,,,,",
     "Title,Cash Rate Target,Interbank Overnight Cash Rate,"
-    "Bank Accepted Bills/Negotiable Certificates of Deposit-1 month,"
-    "Bank Accepted Bills/Negotiable Certificates of Deposit-6 months",
+    "EOD 1-month BABs/NCDs,EOD 6-month BABs/NCDs",
     "Description,x,x,x,x", "Frequency,Daily,Daily,Daily,Daily",
     "Series ID,A,B,C,D",
     "26/09/2026,4.35,4.34,4.30,4.80",
@@ -99,8 +98,14 @@ def test_parse_rba_table_and_pick():
     assert len(target) == 3 and target.last_date == date(2026, 9, 30)
     t, t_asof, spread = rate_inputs(target, ibocr, date(2026, 9, 30))
     assert t == 4.60 and spread == pytest.approx(-0.01)
-    assert pick(cols, "bank accepted", "6 month").on_or_before(date(2026, 9, 30))[1] == 4.95
-    assert not pick(cols, "bank accepted", "3 month")
+    assert pick(cols, "6-month", "bab").on_or_before(date(2026, 9, 30))[1] == 4.95
+    assert not pick(cols, "3-month", "bab")
+
+
+def test_parse_treasury():
+    from sources import parse_treasury
+    text = 'Date,"1 Mo","2 Yr","10 Yr"\n09/30/2026,4.10,3.95,4.20\n09/29/2026,4.11,,4.21\n'
+    assert parse_treasury(text) == {date(2026, 9, 30): 3.95}
 
 
 def test_parse_fred_skips_missing():

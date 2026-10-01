@@ -62,11 +62,11 @@ class Series:
         return self.dates[-1] if self.dates else None
 
 
-def http_get(url: str, tries: int = 3) -> str:
+def http_get(url: str, tries: int = 3, ua: str = UA) -> str:
     last = None
     for i in range(tries):
         try:
-            r = requests.get(url, headers={"User-Agent": UA}, timeout=90)
+            r = requests.get(url, headers={"User-Agent": ua, "Accept": "*/*"}, timeout=90)
             r.raise_for_status()
             for enc in ("utf-8-sig", "cp1252"):
                 try:
@@ -257,6 +257,58 @@ def parse_fred(text: str) -> dict[date, float]:
 
 
 def fetch_fred(sid: str) -> Series:
-    s = Series(parse_fred(http_get(FRED_CSV.format(sid=sid))))
-    print(f"FRED {sid}: {len(s)} obs to {s.last_date}")
+    last = None
+    # FRED sometimes refuses browser-like clients from cloud servers; try a
+    # plain client first.
+    for ua in ("curl/8.5.0", UA):
+        try:
+            s = Series(parse_fred(http_get(FRED_CSV.format(sid=sid), tries=2, ua=ua)))
+            print(f"FRED {sid}: {len(s)} obs to {s.last_date}")
+            return s
+        except Exception as e:
+            last = e
+    raise last
+
+
+# --------------------------------------------------------------------------
+# Fallbacks when FRED is unreachable
+# --------------------------------------------------------------------------
+
+TREASURY_CSV = ("https://home.treasury.gov/resource-center/data-chart-center/"
+                "interest-rates/daily-treasury-rates.csv/{year}/all"
+                "?type=daily_treasury_yield_curve&field_tdr_date_value={year}&page&_format=csv")
+
+
+def parse_treasury(text: str, column: str = "2 Yr") -> dict[date, float]:
+    out = {}
+    reader = csv.DictReader(io.StringIO(text))
+    for r in reader:
+        d, v = (r.get("Date") or "").strip(), (r.get(column) or "").strip()
+        if not d or not v:
+            continue
+        try:
+            out[datetime.strptime(d, "%m/%d/%Y").date()] = float(v)
+        except ValueError:
+            continue
+    return out
+
+
+def fetch_treasury_2y(start_year: int) -> Series:
+    """US 2-year Treasury par yield from the US Treasury's yearly CSV files."""
+    data: dict[date, float] = {}
+    for y in range(start_year, date.today().year + 1):
+        data.update(parse_treasury(http_get(TREASURY_CSV.format(year=y), tries=2)))
+    s = Series(data)
+    if not s:
+        raise ValueError("No US Treasury 2-year data parsed")
+    print(f"US Treasury 2y: {len(s)} obs to {s.last_date}")
+    return s
+
+
+def fetch_rba_audusd() -> Series:
+    """AUD/USD from RBA table F11.1 (daily exchange rates; recent years only)."""
+    cols = fetch_rba("f11.1")
+    s = pick(cols, "usd")
+    if not s:
+        raise ValueError("No USD column in RBA F11.1")
     return s

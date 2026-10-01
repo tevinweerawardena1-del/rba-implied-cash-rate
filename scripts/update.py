@@ -122,7 +122,8 @@ def run(backfill: bool):
         notes.append("Daily RBA data unavailable; used the monthly table.")
     if not target:
         raise RuntimeError("No cash rate target available from the RBA")
-    bab = {k: src.pick(f1, "bank accepted", f"{k} month") or src.pick(f1, "bab", f"{k} month")
+    bab = {k: (src.pick(f1, f"{k}-month", "bab") or src.pick(f1, "bank accepted", f"{k} month")
+               or src.pick(f1, f"{k} month", "bab"))
            for k in (1, 3, 6)}
 
     f2 = try_step("RBA F2", status, lambda: src.fetch_rba("f2")) or {}
@@ -135,8 +136,17 @@ def run(backfill: bool):
         return src.Series()
     acgb2, acgb10 = acgb("2 year"), acgb("10 year")
 
-    audusd = try_step("FRED AUD/USD", status, lambda: src.fetch_fred("DEXUSAL")) or src.Series()
-    ust2 = try_step("FRED US 2y", status, lambda: src.fetch_fred("DGS2")) or src.Series()
+    audusd = try_step("FRED AUD/USD", status, lambda: src.fetch_fred("DEXUSAL"))
+    if not audusd:
+        audusd = try_step("RBA AUD/USD", status, src.fetch_rba_audusd)
+        if audusd:
+            status.pop("FRED AUD/USD", None)
+    ust2 = try_step("FRED US 2y", status, lambda: src.fetch_fred("DGS2"))
+    if not ust2:
+        ust2 = try_step("US Treasury 2y", status, lambda: src.fetch_treasury_2y(FX_FROM.year))
+        if ust2:
+            status.pop("FRED US 2y", None)
+    audusd, ust2 = audusd or src.Series(), ust2 or src.Series()
 
     # ---- 3. Analytics ----------------------------------------------------
     meeting_rows, horizon_rows = daily_analytics(fh, target, ibocr, meetings)
