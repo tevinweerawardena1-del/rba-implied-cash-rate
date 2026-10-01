@@ -79,6 +79,7 @@
   .tile { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; }
   .tile .label { font-size: 13px; color: var(--text-secondary); }
   .tile .value { font: 500 30px/1.2 "IBM Plex Mono", monospace; margin: 6px 0 2px; }
+  .tile .value .outcome { font: 500 15px "IBM Plex Sans", sans-serif; color: var(--text-secondary); white-space: nowrap; }
   .tile .detail { font-size: 13px; color: var(--text-secondary); }
   .tag { display: inline-block; font-size: 12px; font-weight: 500; padding: 1px 7px;
          border-radius: 999px; border: 1px solid var(--border); color: var(--text-secondary); }
@@ -536,7 +537,10 @@ function renderTiles() {
     detail: `Overnight rate ${bp(latest.ibocr_spread_bp)} vs target` }];
   if (next) {
     const pt = probText(next.move_fraction);
-    tiles.push({ label: `Next meeting · ${fmtDate(next.decision_date)}`, value: pct(next.implied_rate, 3),
+    // Most likely outcome: a move only if futures price more than half of 25bp.
+    const outcome = next.change_bp > 12.5 ? "increase" : next.change_bp < -12.5 ? "decrease" : "no change";
+    tiles.push({ label: `Next meeting · ${fmtDate(next.decision_date)}`,
+      value: `${pct(next.implied_rate, 3)} <span class="outcome">(${outcome})</span>`,
       detail: `<span class="tag ${pt.dir > 0 ? "up" : pt.dir < 0 ? "down" : ""}">${pt.text}</span> ${bp(next.change_bp)} priced` });
   }
   // Next expected move: the first meeting by which futures price more than half
