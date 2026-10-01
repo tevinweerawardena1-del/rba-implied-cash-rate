@@ -1,4 +1,4 @@
-# AUD Rates Monitor
+# AUS Rates Monitor
 
 A self-updating web page tracking Australian rates markets, rebuilt every weekday from free public data:
 
