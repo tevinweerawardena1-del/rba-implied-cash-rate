@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RBA Implied Cash Rate</title>
-<meta name="description" content="Market-implied path of the RBA cash rate target, calculated daily from ASX 30 Day Interbank Cash Rate Futures.">
+<title>AUD Rates Monitor</title>
+<meta name="description" content="Market-implied RBA cash rate path, money market spreads, government bond yields and the AUD/USD rate differential, updated every weekday.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -13,38 +13,22 @@
 <style>
   :root {
     color-scheme: light;
-    --bg: #f6f5f2;
-    --surface: #fcfcfb;
-    --border: #e4e2dc;
-    --grid: #ecebe7;
-    --text-primary: #0b0b0b;
-    --text-secondary: #52514e;
-    --text-muted: #7a7974;
-    --series-1: #2a78d6;
-    --series-2: #eb6834;
-    --series-3: #1baf7a;
-    --ref: #9a9993;
-    --up: #b8322f;
-    --down: #1c5cab;
-    --bar-track: #ecebe7;
+    --bg: #f6f5f2; --surface: #fcfcfb; --border: #e4e2dc; --grid: #ecebe7;
+    --text-primary: #0b0b0b; --text-secondary: #52514e; --text-muted: #7a7974;
+    --series-1: #2a78d6; --series-2: #eb6834; --series-3: #1baf7a;
+    --ref: #9a9993; --up: #c0392f; --down: #1c5cab; --bar-track: #ecebe7;
+    --bar-soft: #9ec5f4;
+    --seq-1: #86b6ef; --seq-2: #5598e7; --seq-3: #2a78d6; --seq-4: #1c5cab; --seq-5: #0d366b;
   }
   @media (prefers-color-scheme: dark) {
     :root:where(:not([data-theme="light"])) {
       color-scheme: dark;
-      --bg: #121211;
-      --surface: #1a1a19;
-      --border: #2e2e2b;
-      --grid: #262624;
-      --text-primary: #ffffff;
-      --text-secondary: #c3c2b7;
-      --text-muted: #8f8e86;
-      --series-1: #3987e5;
-      --series-2: #d95926;
-      --series-3: #199e70;
-      --ref: #6f6e68;
-      --up: #e66767;
-      --down: #5598e7;
-      --bar-track: #2a2a27;
+      --bg: #121211; --surface: #1a1a19; --border: #2e2e2b; --grid: #262624;
+      --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #8f8e86;
+      --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
+      --ref: #6f6e68; --up: #e66767; --down: #5598e7; --bar-track: #2a2a27;
+      --bar-soft: #184f95;
+      --seq-1: #184f95; --seq-2: #256abf; --seq-3: #3987e5; --seq-4: #6da7ec; --seq-5: #b7d3f6;
     }
   }
   :root[data-theme="dark"] {
@@ -53,27 +37,37 @@
     --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #8f8e86;
     --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
     --ref: #6f6e68; --up: #e66767; --down: #5598e7; --bar-track: #2a2a27;
+    --bar-soft: #184f95;
+    --seq-1: #184f95; --seq-2: #256abf; --seq-3: #3987e5; --seq-4: #6da7ec; --seq-5: #b7d3f6;
   }
 
   * { box-sizing: border-box; }
-  body {
-    margin: 0; background: var(--bg); color: var(--text-primary);
-    font: 15px/1.55 "IBM Plex Sans", system-ui, sans-serif;
-  }
+  body { margin: 0; background: var(--bg); color: var(--text-primary);
+         font: 15px/1.55 "IBM Plex Sans", system-ui, sans-serif; }
   .wrap { max-width: 1040px; margin: 0 auto; padding: 32px 16px 64px; }
   header { display: flex; justify-content: space-between; align-items: flex-end;
-           gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+           gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
   h1 { font-size: 26px; font-weight: 600; margin: 0 0 4px; letter-spacing: -0.01em; }
   h2 { font-size: 17px; font-weight: 600; margin: 0 0 2px; }
+  h3.section { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+               color: var(--text-muted); margin: 36px 0 12px; scroll-margin-top: 64px; }
   .sub { color: var(--text-secondary); margin: 0; }
   .asat { font: 13px "IBM Plex Mono", monospace; color: var(--text-secondary); text-align: right; }
   .num { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; }
 
-  .card { background: var(--surface); border: 1px solid var(--border);
-          border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+  nav.toc { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 10px 0;
+            display: flex; gap: 8px; flex-wrap: wrap; border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+  nav.toc a { font-size: 13px; font-weight: 500; color: var(--text-secondary); text-decoration: none;
+              padding: 4px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); }
+  nav.toc a:hover { color: var(--text-primary); border-color: var(--text-muted); }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+          padding: 20px; margin-bottom: 16px; }
   .card-head { display: flex; justify-content: space-between; align-items: flex-start;
-               gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+               gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
   .card-head p { margin: 0; color: var(--text-secondary); font-size: 14px; }
+  .card .empty { color: var(--text-muted); font-size: 14px; padding: 40px 0; text-align: center; }
+  .src { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
 
   .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 16px; }
   .tile { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; }
@@ -86,15 +80,18 @@
   .tag.down::before { content: "▼ "; color: var(--down); }
 
   .chart-box { position: relative; height: 340px; }
-  .legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--text-secondary); }
+  .chart-box.short { height: 220px; }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; }
   .legend span { display: inline-flex; align-items: center; gap: 6px; }
   .sw { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
   .sw.dot { width: 8px; height: 8px; border-radius: 50%; }
+  .sw.box { width: 10px; height: 10px; border-radius: 2px; }
   .sw.dash { background: repeating-linear-gradient(90deg, var(--ref) 0 4px, transparent 4px 7px); height: 2px; }
+  .sw.vline { width: 2px; height: 12px; border-radius: 0; }
 
-  .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; flex-shrink: 0; }
   .seg button { font: 500 13px "IBM Plex Sans", sans-serif; background: none; border: 0;
-                padding: 5px 12px; color: var(--text-secondary); cursor: pointer; }
+                padding: 5px 11px; color: var(--text-secondary); cursor: pointer; }
   .seg button + button { border-left: 1px solid var(--border); }
   .seg button[aria-pressed="true"] { background: var(--text-primary); color: var(--surface); }
 
@@ -109,9 +106,10 @@
   .pbar { width: 64px; height: 6px; background: var(--bar-track); border-radius: 3px; overflow: hidden; }
   .pbar i { display: block; height: 100%; border-radius: 3px; }
   .muted { color: var(--text-muted); }
+  .panel-label { font-size: 13px; font-weight: 500; color: var(--text-secondary); margin: 12px 0 4px; }
 
   .notes { font-size: 14px; color: var(--text-secondary); }
-  .notes h3 { font-size: 14px; color: var(--text-primary); margin: 18px 0 4px; font-weight: 600; }
+  .notes h4 { font-size: 14px; color: var(--text-primary); margin: 18px 0 4px; font-weight: 600; }
   .notes p { margin: 0 0 8px; }
   .formula { font: 13px "IBM Plex Mono", monospace; background: var(--bg); border: 1px solid var(--border);
              border-radius: 6px; padding: 10px 12px; color: var(--text-primary); overflow-x: auto; }
@@ -123,6 +121,7 @@
   @media (max-width: 720px) {
     .tiles { grid-template-columns: 1fr; }
     .chart-box { height: 280px; }
+    .chart-box.short { height: 200px; }
     .asat { text-align: left; }
     h1 { font-size: 22px; }
   }
@@ -132,74 +131,177 @@
 <div class="wrap">
   <header>
     <div>
-      <h1>RBA Implied Cash Rate</h1>
-      <p class="sub">The market's expected cash rate target after each RBA meeting, from ASX 30 Day Interbank Cash Rate Futures.</p>
+      <h1>AUD Rates Monitor</h1>
+      <p class="sub">RBA cash rate expectations, money markets, government bonds and the AUD, updated every weekday.</p>
     </div>
     <div class="asat" id="asat">Loading…</div>
   </header>
 
+  <nav class="toc">
+    <a href="#expectations">Cash rate expectations</a>
+    <a href="#money">Money markets</a>
+    <a href="#bonds">Government bonds</a>
+    <a href="#fx">AUD/USD</a>
+    <a href="#method">Method &amp; data</a>
+  </nav>
+
   <div class="banner" id="banner"></div>
 
+  <!-- ===================== Cash rate expectations ===================== -->
+  <h3 class="section" id="expectations">Cash rate expectations</h3>
   <section class="tiles" id="tiles"></section>
 
   <section class="card">
     <div class="card-head">
-      <div>
-        <h2>Implied path</h2>
-        <p>Expected cash rate target after each meeting, and each futures month's implied average</p>
-      </div>
-      <div class="legend">
-        <span><i class="sw" style="background:var(--series-1)"></i>Implied target</span>
-        <span><i class="sw dot" style="background:var(--series-2)"></i>Futures monthly average</span>
-        <span><i class="sw dash"></i>Current target</span>
-      </div>
+      <div><h2>Implied path</h2><p>Expected cash rate target after each RBA meeting, and each futures month's implied average</p></div>
     </div>
-    <div class="chart-box"><canvas id="pathChart" aria-label="Implied cash rate path chart" role="img"></canvas></div>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--series-1)"></i>Implied target</span>
+      <span><i class="sw dot" style="background:var(--series-2)"></i>Futures monthly average</span>
+      <span><i class="sw dash"></i>Current target</span>
+    </div>
+    <div class="chart-box"><canvas id="pathChart" role="img" aria-label="Implied cash rate path"></canvas></div>
   </section>
 
   <section class="card">
     <div class="card-head">
-      <div>
-        <h2>Meeting by meeting</h2>
-        <p>Probability assumes 25bp moves: a 10bp priced change reads as a 40% chance of one move</p>
-      </div>
+      <div><h2>Meeting by meeting</h2><p>Probability assumes 25bp moves: a 10bp priced change reads as a 40% chance of one move</p></div>
     </div>
     <div class="table-scroll"><table id="meetingTable"></table></div>
   </section>
 
-  <section class="card">
+  <section class="card" data-card="outcomes">
     <div class="card-head">
-      <div>
-        <h2>How pricing has moved</h2>
-        <p>Implied rate for the next three meetings, each day's close</p>
-      </div>
-      <div class="seg" id="rangeSeg" role="group" aria-label="Time range">
-        <button data-days="30">1M</button>
-        <button data-days="90" aria-pressed="true">3M</button>
-        <button data-days="180">6M</button>
-        <button data-days="365">1Y</button>
-        <button data-days="0">All</button>
-      </div>
+      <div><h2>Target rate probabilities</h2><p>Market-implied cash rate target after each meeting, split into 25bp outcomes</p></div>
+      <div class="seg" id="outcomeSeg" role="group" aria-label="Meeting"></div>
     </div>
-    <div class="legend" id="histLegend" style="margin-bottom:10px"></div>
-    <div class="chart-box"><canvas id="histChart" aria-label="History of implied rates for upcoming meetings" role="img"></canvas></div>
+    <div class="chart-box short"><canvas id="outcomeChart" role="img" aria-label="Target rate probabilities"></canvas></div>
   </section>
 
-  <section class="card notes">
+  <section class="card" data-card="horizons">
+    <div class="card-head">
+      <div><h2>Implied change by forward horizon</h2><p>Futures-implied cash rate vs the target at the time, for contracts 6 and 12 months out and at the end of the strip</p></div>
+      <div class="seg" data-range="horizons"></div>
+    </div>
+    <div class="legend" id="horizonLegend"></div>
+    <div class="chart-box"><canvas id="horizonChart" role="img" aria-label="Implied change by forward horizon"></canvas></div>
+  </section>
+
+  <section class="card" data-card="nextmeeting">
+    <div class="card-head">
+      <div><h2>Next-meeting implied change</h2><p>Basis points priced for the next RBA decision, each day's close. Darker bars: meeting within 14 days</p></div>
+      <div class="seg" data-range="nextmeeting"></div>
+    </div>
+    <div class="legend">
+      <span><i class="sw box" style="background:var(--series-1)"></i>Meeting ≤ 14 days away</span>
+      <span><i class="sw box" style="background:var(--bar-soft)"></i>Further out</span>
+      <span><i class="sw vline" style="background:var(--up)"></i>Hike</span>
+      <span><i class="sw vline" style="background:var(--down)"></i>Cut</span>
+    </div>
+    <div class="chart-box"><canvas id="nextChart" role="img" aria-label="Next-meeting implied change"></canvas></div>
+  </section>
+
+  <section class="card" data-card="curves">
+    <div class="card-head">
+      <div><h2>Futures implied curves</h2><p>The 30-day interbank futures strip at each month end, and today. The most recent curve is the boldest</p></div>
+    </div>
+    <div class="legend" id="curveLegend"></div>
+    <div class="chart-box"><canvas id="curveChart" role="img" aria-label="Futures implied curves by month"></canvas></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div><h2>How pricing has moved</h2><p>Implied rate for the next three meetings, each day's close</p></div>
+      <div class="seg" data-range="history"></div>
+    </div>
+    <div class="legend" id="histLegend"></div>
+    <div class="chart-box"><canvas id="histChart" role="img" aria-label="History of implied rates for upcoming meetings"></canvas></div>
+  </section>
+
+  <!-- ===================== Money markets ===================== -->
+  <h3 class="section" id="money">Money markets</h3>
+
+  <section class="card" data-card="babspread">
+    <div class="card-head">
+      <div><h2>6-month vs 1-month bank bill spread</h2><p>Bank accepted bills / NCDs, 6-month minus 1-month yield. A wider spread means more term premium</p></div>
+      <div class="seg" data-range="babspread"></div>
+    </div>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--series-1)"></i>6m − 1m spread</span>
+      <span><i class="sw vline" style="background:var(--up)"></i>Hike</span>
+      <span><i class="sw vline" style="background:var(--down)"></i>Cut</span>
+    </div>
+    <div class="chart-box"><canvas id="babSpreadChart" role="img" aria-label="Bank bill term spread"></canvas></div>
+    <div class="src">Source: RBA table F1 (bank bill rates are ASX BBSW).</div>
+  </section>
+
+  <section class="card" data-card="bbsw">
+    <div class="card-head">
+      <div><h2>Bank bill swap rates</h2><p>Daily 1-month, 3-month and 6-month BBSW</p></div>
+      <div class="seg" data-range="bbsw"></div>
+    </div>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--series-1)"></i>1-month</span>
+      <span><i class="sw" style="background:var(--series-2)"></i>3-month</span>
+      <span><i class="sw" style="background:var(--series-3)"></i>6-month</span>
+    </div>
+    <div class="chart-box"><canvas id="bbswChart" role="img" aria-label="Bank bill swap rates"></canvas></div>
+    <div class="src">Source: RBA table F1.</div>
+  </section>
+
+  <!-- ===================== Bonds ===================== -->
+  <h3 class="section" id="bonds">Government bonds</h3>
+
+  <section class="card" data-card="acgb2">
+    <div class="card-head">
+      <div><h2>2-year ACGB yield</h2><p>Australian Commonwealth Government Bond, 2-year benchmark</p></div>
+      <div class="seg" data-range="acgb2"></div>
+    </div>
+    <div class="chart-box"><canvas id="acgb2Chart" role="img" aria-label="2-year ACGB yield"></canvas></div>
+    <div class="src">Source: RBA table F2.</div>
+  </section>
+
+  <section class="card" data-card="slope">
+    <div class="card-head">
+      <div><h2>2s10s ACGB curve</h2><p>10-year minus 2-year yield. Below zero means an inverted curve</p></div>
+      <div class="seg" data-range="slope"></div>
+    </div>
+    <div class="chart-box"><canvas id="slopeChart" role="img" aria-label="2s10s ACGB spread"></canvas></div>
+    <div class="src">Source: RBA table F2.</div>
+  </section>
+
+  <!-- ===================== FX ===================== -->
+  <h3 class="section" id="fx">AUD/USD</h3>
+
+  <section class="card" data-card="fx">
+    <div class="card-head">
+      <div><h2>AUD/USD and the 2-year rate differential</h2><p>Top: US dollars per Australian dollar. Bottom: US 2-year Treasury minus 2-year ACGB yield</p></div>
+      <div class="seg" data-range="fx"></div>
+    </div>
+    <div class="panel-label">AUD/USD</div>
+    <div class="chart-box short"><canvas id="fxChart" role="img" aria-label="AUD/USD exchange rate"></canvas></div>
+    <div class="panel-label">UST 2y − ACGB 2y (percentage points)</div>
+    <div class="chart-box short"><canvas id="diffChart" role="img" aria-label="US minus Australian 2-year yield differential"></canvas></div>
+    <div class="src">Sources: FRED (AUD/USD from Federal Reserve H.10, US 2-year Treasury), RBA table F2.</div>
+  </section>
+
+  <!-- ===================== Method ===================== -->
+  <section class="card notes" id="method" style="margin-top:36px">
     <h2>How it's calculated</h2>
-    <h3>1. Futures give monthly averages</h3>
-    <p>Each ASX 30 Day Interbank Cash Rate Futures contract settles on the <em>average</em> interbank overnight cash rate over its calendar month, so 100 minus the price is the market's expected average rate for that month.</p>
-    <h3>2. Convert to cash rate target terms</h3>
-    <p>The overnight rate trades a few basis points away from the RBA's target. Today's gap (<span class="num" id="spreadNote">–</span>) is subtracted from every contract.</p>
-    <h3>3. Back out the rate after each meeting</h3>
-    <p>A new target applies from the day after the decision. If the month after the meeting has no meeting of its own, its contract gives the post-meeting rate directly. Otherwise, with <span class="num">D</span> days in the month and <span class="num">d₁</span> days before the change:</p>
+    <h4>Implied cash rate</h4>
+    <p>Each ASX 30 Day Interbank Cash Rate Futures contract settles on the <em>average</em> interbank overnight cash rate over its month, so 100 minus the price is that month's expected average. Today's gap between the overnight rate and the target (<span class="num" id="spreadNote">–</span>) is removed so results are in target terms. A new target applies from the day after each decision. Where the month after a meeting has no meeting, its contract gives the post-meeting rate directly; otherwise:</p>
     <div class="formula">r_after = (monthly average × D − r_before × d₁) ÷ (D − d₁)</div>
-    <p>Each meeting's result becomes the next meeting's <span class="num">r_before</span>. The futures run about 17 months out, so the path stops there.</p>
-    <h3>Data</h3>
-    <p>Futures: <a href="https://www.asx.com.au/markets/trade-our-derivatives-market/derivatives-market-prices/short-term-derivatives">ASX</a> (previous settlement). Cash rate target and overnight rate: <a href="https://www.rba.gov.au/statistics/tables/">RBA table F1.1</a>. Download the data for Excel:
-      <a href="data/meeting_history.csv">meeting history (CSV)</a> ·
-      <a href="data/futures_history.csv">futures history (CSV)</a> ·
-      <a href="data/latest.json">latest (JSON)</a>.</p>
+    <p>with D days in the month and d₁ days before the change. Probabilities assume 25bp steps.</p>
+    <h4>Forward horizons</h4>
+    <p>The 6- and 12-month lines use the contract that many months ahead of each pricing date. The strip never reaches a full 18 months, so the third line uses the furthest listed contract (usually 16–17 months out).</p>
+    <h4>Data</h4>
+    <p>Futures: <a href="https://www.asx.com.au/markets/trade-our-derivatives-market/derivatives-market-prices/short-term-derivatives">ASX</a> (previous settlement), with history from 2025 via a public daily scrape. Cash rate, overnight rate and bank bills: <a href="https://www.rba.gov.au/statistics/tables/">RBA table F1</a>. Bond yields: RBA table F2. AUD/USD and US 2-year yield: <a href="https://fred.stlouisfed.org/">FRED</a>. Download for Excel:
+      <a href="data/meeting_history.csv">meeting history</a> ·
+      <a href="data/implied_horizons.csv">forward horizons</a> ·
+      <a href="data/futures_history.csv">futures</a> ·
+      <a href="data/money_market.csv">bank bills</a> ·
+      <a href="data/bonds.csv">bonds</a> ·
+      <a href="data/fx_differential.csv">AUD/USD &amp; differential</a> (CSV).</p>
     <p>Indicative only and not financial advice.</p>
   </section>
 
@@ -207,18 +309,20 @@
 </div>
 
 <script>
+// ------------------------------------------------------------------ helpers
 const $ = (s) => document.querySelector(s);
 const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const DAY = 864e5;
+const ts = (iso) => Date.parse(iso + "T00:00:00");
 const fmtDate = (iso, opts = { day: "numeric", month: "short", year: "numeric" }) =>
-  new Date(iso + "T00:00:00").toLocaleDateString("en-AU", opts);
+  new Date(typeof iso === "number" ? iso : iso + "T00:00:00").toLocaleDateString("en-AU", opts);
 const pct = (x, dp = 2) => x.toFixed(dp) + "%";
-const bp = (x) => (x > 0 ? "+" : x < 0 ? "−" : "") + Math.abs(x).toFixed(1) + "bp";
+const bp = (x, dp = 1) => (x > 0 ? "+" : x < 0 ? "−" : "") + Math.abs(x).toFixed(dp) + "bp";
+const signed = (x, dp = 2) => (x > 0 ? "+" : x < 0 ? "−" : "") + Math.abs(x).toFixed(dp);
 
 function probText(frac) {
-  // frac = change / 25bp. >1 means more than one move priced.
   if (Math.abs(frac) < 0.02) return { text: "No change", dir: 0, p: 0 };
-  const dir = Math.sign(frac), a = Math.abs(frac);
-  const word = dir > 0 ? "hike" : "cut";
+  const dir = Math.sign(frac), a = Math.abs(frac), word = dir > 0 ? "hike" : "cut";
   if (a <= 1) return { text: `${Math.round(a * 100)}% ${word}`, dir, p: a };
   const n = Math.floor(a), rem = Math.round((a - n) * 100);
   return { text: `${n}× ${word}` + (rem ? ` + ${rem}%` : ""), dir, p: 1 };
@@ -230,15 +334,50 @@ function parseCSV(text) {
   return rows.map((r) => Object.fromEntries(r.split(",").map((v, i) => [keys[i], v])));
 }
 
-let latest, history, pathChart, histChart, histDays = 90;
+let latest, charts, history;
+const instances = {};
+const ranges = {};   // card key -> days (0 = all)
 
-function baseOptions() {
+function draw(id, config) {
+  if (instances[id]) instances[id].destroy();
+  instances[id] = new Chart(document.getElementById(id), config);
+  return instances[id];
+}
+
+// Vertical lines at RBA decisions (hikes and cuts).
+const decisionLines = {
+  id: "decisionLines",
+  afterDatasetsDraw(chart, _args, opts) {
+    if (!opts || !opts.items || !opts.items.length) return;
+    const { ctx, chartArea: a, scales: { x } } = chart;
+    ctx.save();
+    ctx.font = "500 11px 'IBM Plex Mono', monospace";
+    let lastLabelX = -Infinity;
+    for (const d of opts.items) {
+      const px = x.getPixelForValue(ts(d.date));
+      if (px < a.left || px > a.right) continue;
+      const col = d.change_bp > 0 ? css("--up") : css("--down");
+      ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
+      ctx.beginPath(); ctx.moveTo(px, a.top); ctx.lineTo(px, a.bottom); ctx.stroke();
+      if (px - lastLabelX > 30) {
+        ctx.fillStyle = col; ctx.textAlign = "left";
+        ctx.fillText((d.change_bp > 0 ? "+" : "−") + Math.abs(d.change_bp), px + 3, a.top + 11);
+        lastLabelX = px;
+      }
+    }
+    ctx.restore();
+  },
+};
+Chart.register(decisionLines);
+
+function baseOptions({ yFmt = (v) => v.toFixed(2) + "%", time = true } = {}) {
   const grid = css("--grid"), muted = css("--text-muted");
   return {
     responsive: true, maintainAspectRatio: false, animation: false,
-    interaction: { mode: "nearest", intersect: false, axis: "x" },
+    interaction: { mode: "index", intersect: false },
     plugins: {
       legend: { display: false },
+      decisionLines: { items: [] },
       tooltip: {
         backgroundColor: css("--surface"), borderColor: css("--border"), borderWidth: 1,
         titleColor: css("--text-primary"), bodyColor: css("--text-secondary"),
@@ -247,30 +386,77 @@ function baseOptions() {
       },
     },
     scales: {
-      x: { type: "time", grid: { display: false }, border: { color: grid },
-           ticks: { color: muted, font: { family: "IBM Plex Sans", size: 12 }, maxRotation: 0, autoSkipPadding: 16 } },
+      x: time
+        ? { type: "time", grid: { display: false }, border: { color: grid },
+            ticks: { color: muted, font: { family: "IBM Plex Sans", size: 12 }, maxRotation: 0, autoSkipPadding: 18 } }
+        : { grid: { display: false }, border: { color: grid },
+            ticks: { color: muted, font: { family: "IBM Plex Mono", size: 12 } } },
       y: { grid: { color: grid }, border: { display: false },
-           ticks: { color: muted, font: { family: "IBM Plex Mono", size: 12 }, callback: (v) => v.toFixed(2) + "%" } },
+           ticks: { color: muted, font: { family: "IBM Plex Mono", size: 12 }, callback: yFmt } },
     },
   };
 }
 
+function lineDS(label, data, color, extra = {}) {
+  return { label, data, borderColor: color, backgroundColor: color, borderWidth: 2, pointRadius: 0,
+           pointHoverRadius: 5, pointHoverBorderColor: css("--surface"), pointHoverBorderWidth: 2,
+           spanGaps: true, tension: 0, ...extra };
+}
+
+function refDS(label, x0, x1, y) {
+  return { label, data: [{ x: x0, y }, { x: x1, y }], borderColor: css("--ref"), borderWidth: 1.5,
+           borderDash: [4, 3], pointRadius: 0, pointHoverRadius: 0 };
+}
+
+// Range buttons shared by the time-series cards.
+const RANGE_SETS = {
+  short: [["3M", 91], ["6M", 182], ["1Y", 365], ["All", 0]],
+  long: [["1Y", 365], ["3Y", 1096], ["5Y", 1826], ["All", 0]],
+};
+const CARD_RANGE = { horizons: ["short", 0], nextmeeting: ["short", 0], history: ["short", 91],
+  babspread: ["long", 1096], bbsw: ["long", 1096], acgb2: ["long", 0], slope: ["long", 0], fx: ["long", 0] };
+
+function setupRanges() {
+  document.querySelectorAll("[data-range]").forEach((seg) => {
+    const key = seg.dataset.range, [set, def] = CARD_RANGE[key];
+    ranges[key] = def;
+    seg.innerHTML = RANGE_SETS[set].map(([l, d]) =>
+      `<button data-days="${d}" aria-pressed="${d === def}">${l}</button>`).join("");
+    seg.addEventListener("click", (e) => {
+      const b = e.target.closest("button"); if (!b) return;
+      ranges[key] = +b.dataset.days;
+      seg.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", x === b));
+      RENDER[key]();
+    });
+  });
+}
+const cutoff = (key, lastIso) => (ranges[key] ? ts(lastIso) - ranges[key] * DAY : -Infinity);
+
+function emptyCard(key, msg) {
+  const card = document.querySelector(`[data-card="${key}"]`);
+  if (!card) return;
+  card.querySelectorAll(".chart-box, .legend, .panel-label").forEach((el) => (el.style.display = "none"));
+  if (!card.querySelector(".empty")) card.insertAdjacentHTML("beforeend", `<div class="empty">${msg}</div>`);
+}
+
+// Time series rows -> {x, y} points for one field, optionally trimmed to a range.
+function pts(rows, field, from = -Infinity, dateKey = "date") {
+  return rows.filter((r) => ts(r[dateKey]) >= from).map((r) => ({ x: ts(r[dateKey]), y: r[field] }));
+}
+
+// ------------------------------------------------------------------ cards
 function renderTiles() {
-  const m = latest.meetings;
-  const next = m[0], last = m[m.length - 1];
-  const tiles = [
-    { label: "Cash rate target", value: pct(latest.cash_rate_target),
-      detail: `Overnight rate ${bp(latest.ibocr_spread_bp)} vs target` },
-  ];
+  const m = latest.meetings, next = m[0], last = m[m.length - 1];
+  const tiles = [{ label: "Cash rate target", value: pct(latest.cash_rate_target),
+    detail: `Overnight rate ${bp(latest.ibocr_spread_bp)} vs target` }];
   if (next) {
     const pt = probText(next.move_fraction);
     tiles.push({ label: `Next meeting · ${fmtDate(next.decision_date)}`, value: pct(next.implied_rate, 3),
       detail: `<span class="tag ${pt.dir > 0 ? "up" : pt.dir < 0 ? "down" : ""}">${pt.text}</span> ${bp(next.change_bp)} priced` });
   }
-  if (last) {
-    tiles.push({ label: `By ${fmtDate(last.decision_date, { month: "short", year: "numeric" })}`, value: pct(last.implied_rate, 3),
-      detail: `${bp(last.cumulative_bp)} vs today · ${(last.cumulative_bp / 25).toFixed(1)} moves of 25bp` });
-  }
+  if (last) tiles.push({ label: `By ${fmtDate(last.decision_date, { month: "short", year: "numeric" })}`,
+    value: pct(last.implied_rate, 3),
+    detail: `${bp(last.cumulative_bp)} vs today · ${(last.cumulative_bp / 25).toFixed(1)} moves of 25bp` });
   $("#tiles").innerHTML = tiles.map((t) =>
     `<div class="tile"><div class="label">${t.label}</div><div class="value">${t.value}</div><div class="detail">${t.detail}</div></div>`).join("");
 }
@@ -279,14 +465,10 @@ function renderTable() {
   const up = css("--up"), down = css("--down");
   const rows = latest.meetings.map((r) => {
     const pt = probText(r.move_fraction);
-    const color = pt.dir > 0 ? up : down;
-    return `<tr>
-      <td>${fmtDate(r.decision_date, { weekday: "short", day: "numeric", month: "short", year: "numeric" })}</td>
-      <td class="num">${pct(r.implied_rate, 3)}</td>
-      <td class="num">${bp(r.change_bp)}</td>
-      <td><span class="prob"><span>${pt.text}</span><span class="pbar"><i style="width:${pt.p * 100}%;background:${color}"></i></span></span></td>
-      <td class="num">${bp(r.cumulative_bp)}</td>
-    </tr>`;
+    return `<tr><td>${fmtDate(r.decision_date, { weekday: "short", day: "numeric", month: "short", year: "numeric" })}</td>
+      <td class="num">${pct(r.implied_rate, 3)}</td><td class="num">${bp(r.change_bp)}</td>
+      <td><span class="prob"><span>${pt.text}</span><span class="pbar"><i style="width:${pt.p * 100}%;background:${pt.dir > 0 ? up : down}"></i></span></span></td>
+      <td class="num">${bp(r.cumulative_bp)}</td></tr>`;
   }).join("");
   const beyond = latest.meetings_beyond_futures.length
     ? `<tr><td colspan="5" class="muted" style="text-align:left">Later meetings (${latest.meetings_beyond_futures.map((d) => fmtDate(d, { month: "short", year: "numeric" })).join(", ")}) are beyond the futures strip.</td></tr>` : "";
@@ -294,107 +476,235 @@ function renderTable() {
 }
 
 function renderPath() {
-  const target = latest.cash_rate_target;
-  const start = latest.as_at;
+  const target = latest.cash_rate_target, start = ts(latest.as_at);
   const path = [{ x: start, y: target }];
-  latest.meetings.forEach((r) => {
-    path.push({ x: r.effective_date, y: r.implied_rate, meeting: r });
-  });
-  const lastMonth = latest.futures[latest.futures.length - 1].month;
-  const endD = new Date(lastMonth + "T00:00:00"); endD.setMonth(endD.getMonth() + 1);
-  const end = endD.toISOString().slice(0, 10);
+  latest.meetings.forEach((r) => path.push({ x: ts(r.effective_date), y: r.implied_rate, meeting: r }));
+  const endD = new Date(latest.futures[latest.futures.length - 1].month + "T00:00:00");
+  endD.setMonth(endD.getMonth() + 1);
+  const end = endD.getTime();
   path.push({ x: end, y: path[path.length - 1].y });
+  const monthly = latest.futures.map((f) => ({ x: ts(f.month) + 14 * DAY, y: f.target_equivalent, month: f.month, raw: f.implied_yield }));
 
-  const monthly = latest.futures.map((f) => {
-    const mid = new Date(f.month + "T00:00:00"); mid.setDate(15);
-    return { x: mid.toISOString().slice(0, 10), y: f.target_equivalent, month: f.month, raw: f.implied_yield };
-  });
-
-  const opts = baseOptions();
-  opts.plugins.tooltip.callbacks = {
+  const o = baseOptions();
+  o.interaction = { mode: "nearest", intersect: false, axis: "x" };
+  o.plugins.tooltip.callbacks = {
     title: (items) => {
       const p = items[0].raw;
       if (p.meeting) return "After " + fmtDate(p.meeting.decision_date) + " meeting";
       if (p.month) return fmtDate(p.month, { month: "long", year: "numeric" }) + " futures";
-      return fmtDate(items[0].raw.x);
+      return fmtDate(p.x);
     },
     label: (item) => {
       const p = item.raw;
       if (p.meeting) return [` Implied ${pct(p.y, 3)}`, ` ${probText(p.meeting.move_fraction).text} · ${bp(p.meeting.change_bp)}`];
       if (p.month) return [` Target terms ${pct(p.y, 3)}`, ` Price ${(100 - p.raw).toFixed(3)}`];
-      if (item.dataset.label === "Current target") return ` Current target ${pct(p.y)}`;
-      return ` ${pct(p.y, 3)}`;
+      return ` ${item.dataset.label} ${pct(p.y)}`;
     },
   };
-  opts.scales.x.min = start; opts.scales.x.max = end;
-  opts.scales.x.time = { unit: "month", displayFormats: { month: "MMM yy" } };
+  Object.assign(o.scales.x, { min: start, max: end, time: { unit: "month", displayFormats: { month: "MMM yy" } } });
+  draw("pathChart", { type: "line", options: o, data: { datasets: [
+    lineDS("Implied target", path, css("--series-1"), { stepped: "before",
+      pointRadius: (c) => (c.raw && c.raw.meeting ? 4 : 0), pointBackgroundColor: css("--series-1"),
+      pointBorderColor: css("--surface"), pointBorderWidth: 2, order: 1 }),
+    { label: "Futures monthly average", data: monthly, showLine: false, pointRadius: 4, pointHoverRadius: 6,
+      pointBackgroundColor: css("--series-2"), pointBorderColor: css("--surface"), pointBorderWidth: 2, order: 2 },
+    { ...refDS("Current target", start, end, target), order: 3 },
+  ] } });
+}
 
-  if (pathChart) pathChart.destroy();
-  pathChart = new Chart($("#pathChart"), {
-    type: "line",
-    data: { datasets: [
-      { label: "Implied target", data: path, stepped: "before", borderColor: css("--series-1"), borderWidth: 2,
-        pointRadius: (c) => (c.raw && c.raw.meeting ? 4 : 0), pointHoverRadius: 6,
-        pointBackgroundColor: css("--series-1"), pointBorderColor: css("--surface"), pointBorderWidth: 2, order: 1 },
-      { label: "Futures monthly average", data: monthly, showLine: false, pointRadius: 4, pointHoverRadius: 6,
-        pointBackgroundColor: css("--series-2"), pointBorderColor: css("--surface"), pointBorderWidth: 2, order: 2 },
-      { label: "Current target", data: [{ x: start, y: target }, { x: end, y: target }], borderColor: css("--ref"),
-        borderWidth: 1.5, borderDash: [4, 3], pointRadius: 0, pointHoverRadius: 0, order: 3 },
-    ] },
-    options: opts,
-  });
+let outcomeIdx = 0;
+function renderOutcomes() {
+  const list = charts.outcomes || [];
+  if (!list.length) return emptyCard("outcomes", "No meetings on the futures strip.");
+  $("#outcomeSeg").innerHTML = list.map((m, i) =>
+    `<button data-i="${i}" aria-pressed="${i === outcomeIdx}">${fmtDate(m.decision_date, { day: "numeric", month: "short", year: "2-digit" })}</button>`).join("");
+  $("#outcomeSeg").onclick = (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    outcomeIdx = +b.dataset.i; renderOutcomes();
+  };
+  const m = list[outcomeIdx], tgt = latest.cash_rate_target;
+  const labels = m.outcomes.map((o) => pct(o.rate) + (Math.abs(o.rate - tgt) < 1e-6 ? " (current)" : ""));
+  const colors = m.outcomes.map((o) => Math.abs(o.rate - tgt) < 1e-6 ? css("--ref") : o.rate > tgt ? css("--up") : css("--down"));
+  const o = baseOptions({ time: false, yFmt: (v) => v + "%" });
+  o.indexAxis = "y";
+  o.scales = {
+    y: { grid: { display: false }, border: { display: false }, ticks: { color: css("--text-secondary"), font: { family: "IBM Plex Mono", size: 13 } } },
+    x: { min: 0, max: 100, grid: { color: css("--grid") }, border: { display: false },
+         ticks: { color: css("--text-muted"), font: { family: "IBM Plex Mono", size: 12 }, callback: (v) => v + "%" } },
+  };
+  o.plugins.tooltip.callbacks = { title: (i) => `Target after ${fmtDate(m.decision_date)}: ${i[0].label}`, label: (i) => ` Probability ${i.raw.toFixed(1)}%` };
+  o.interaction = { mode: "nearest", intersect: true };
+  draw("outcomeChart", { type: "bar", options: o, plugins: [{
+    id: "barLabels", afterDatasetsDraw(c) {
+      const { ctx } = c; ctx.save(); ctx.font = "500 12px 'IBM Plex Mono', monospace"; ctx.fillStyle = css("--text-primary"); ctx.textBaseline = "middle";
+      c.getDatasetMeta(0).data.forEach((bar, i) => ctx.fillText(c.data.datasets[0].data[i].toFixed(1) + "%", bar.x + 6, bar.y));
+      ctx.restore();
+    } }],
+    data: { labels, datasets: [{ data: m.outcomes.map((x) => x.prob * 100), backgroundColor: colors, borderRadius: 4, barThickness: 28 }] } });
+}
+
+function renderHorizons() {
+  const rows = charts.horizons || [];
+  if (!rows.length) return emptyCard("horizons", "No futures history yet.");
+  const from = cutoff("horizons", rows[rows.length - 1].as_at);
+  const endM = rows[rows.length - 1].hend_months;
+  const series = [["h6_bp", "+6 months", "--series-1"], ["h12_bp", "+12 months", "--series-2"], ["hend_bp", `End of strip (~${endM} months)`, "--series-3"]];
+  $("#horizonLegend").innerHTML = series.map(([, l, c]) => `<span><i class="sw" style="background:var(${c})"></i>${l}</span>`).join("") +
+    `<span><i class="sw vline" style="background:var(--up)"></i>Hike</span><span><i class="sw vline" style="background:var(--down)"></i>Cut</span>`;
+  const o = baseOptions({ yFmt: (v) => (v > 0 ? "+" : "") + v + "bp" });
+  o.plugins.decisionLines.items = charts.decisions;
+  o.plugins.tooltip.callbacks = {
+    title: (i) => "Priced " + fmtDate(i[0].raw.x),
+    label: (i) => i.raw.y == null ? null : ` ${i.dataset.label}: ${bp(i.raw.y)} (${signed(i.raw.y / 25, 1)} moves)`,
+  };
+  o.scales.x.min = Math.max(from, ts(rows[0].as_at));
+  o.scales.y.grid.color = (c) => (c.tick.value === 0 ? css("--ref") : css("--grid"));
+  draw("horizonChart", { type: "line", options: o, data: { datasets: series.map(([k, l, c]) =>
+    lineDS(l, pts(rows, k, from, "as_at"), css(c))) } });
+}
+
+function renderNextMeeting() {
+  const rows = (charts.horizons || []).filter((r) => r.next_meeting_bp !== undefined && r.next_meeting_bp !== "" && r.next_meeting_bp !== null);
+  if (!rows.length) return emptyCard("nextmeeting", "No futures history yet.");
+  const from = cutoff("nextmeeting", rows[rows.length - 1].as_at);
+  const data = rows.filter((r) => ts(r.as_at) >= from).map((r) => ({ x: ts(r.as_at), y: r.next_meeting_bp, m: r.next_meeting, d: r.days_to_meeting }));
+  const o = baseOptions({ yFmt: (v) => (v > 0 ? "+" : "") + v + "bp" });
+  o.plugins.decisionLines.items = charts.decisions;
+  o.interaction = { mode: "nearest", intersect: false, axis: "x" };
+  o.plugins.tooltip.callbacks = {
+    title: (i) => "Priced " + fmtDate(i[0].raw.x),
+    label: (i) => [` ${bp(i.raw.y)} for ${fmtDate(i.raw.m)}`, ` ${probText(i.raw.y / 25).text} · ${i.raw.d} days away`],
+  };
+  o.scales.x.offset = false;
+  o.scales.y.grid.color = (c) => (c.tick.value === 0 ? css("--ref") : css("--grid"));
+  const strong = css("--series-1"), soft = css("--bar-soft");
+  draw("nextChart", { type: "bar", options: o, data: { datasets: [{ label: "Next meeting", data,
+    backgroundColor: data.map((p) => (p.d <= 14 ? strong : soft)), barPercentage: 1, categoryPercentage: 0.9, borderRadius: 1 }] } });
+}
+
+function renderCurves() {
+  const list = charts.curves || [];
+  if (!list.length) return emptyCard("curves", "No futures history yet.");
+  const steps = ["--seq-1", "--seq-2", "--seq-3", "--seq-4", "--seq-5"].slice(-list.length);
+  const label = (c) => c.latest ? `${fmtDate(c.as_at)} (latest)` : fmtDate(c.as_at, { month: "long", year: "numeric" });
+  $("#curveLegend").innerHTML = list.map((c, i) => `<span><i class="sw" style="background:var(${steps[i]});${c.latest ? "height:4px" : ""}"></i>${label(c)}</span>`).join("");
+  const o = baseOptions();
+  o.interaction = { mode: "nearest", intersect: false, axis: "x" };
+  o.plugins.tooltip.callbacks = {
+    title: (i) => fmtDate(i[0].raw.x, { month: "long", year: "numeric" }) + " contract",
+    label: (i) => ` ${i.dataset.label}: ${pct(i.raw.y, 3)}`,
+  };
+  Object.assign(o.scales.x, { time: { unit: "month", displayFormats: { month: "MMM yy" } } });
+  draw("curveChart", { type: "line", options: o, data: { datasets: list.map((c, i) =>
+    lineDS(label(c), c.points.map((p) => ({ x: ts(p.month), y: p.yield })), css(steps[i]),
+      { borderWidth: c.latest ? 3 : 2, order: list.length - i })) } });
 }
 
 function renderHistory() {
+  if (!history.length) return;
   const upcoming = latest.meetings.slice(0, 3).map((m) => m.decision_date);
-  const colors = [css("--series-1"), css("--series-2"), css("--series-3")];
-  const cutoff = histDays ? new Date(new Date(latest.as_at + "T00:00:00") - histDays * 864e5).toISOString().slice(0, 10) : "0000";
-  const datasets = upcoming.map((d, i) => ({
-    label: fmtDate(d),
-    data: history.filter((r) => r.decision_date === d && r.as_at >= cutoff)
-                 .map((r) => ({ x: r.as_at, y: +r.implied_rate })),
-    borderColor: colors[i], backgroundColor: colors[i], borderWidth: 2,
-    pointRadius: 0, pointHoverRadius: 5, pointHoverBorderColor: css("--surface"), pointHoverBorderWidth: 2, tension: 0,
-  }));
-  $("#histLegend").innerHTML = datasets.map((d, i) =>
-    `<span><i class="sw" style="background:${colors[i]}"></i>${d.label} meeting</span>`).join("") +
+  const cols = ["--series-1", "--series-2", "--series-3"];
+  const lastIso = history.reduce((a, r) => (r.as_at > a ? r.as_at : a), "");
+  const from = cutoff("history", lastIso);
+  $("#histLegend").innerHTML = upcoming.map((d, i) => `<span><i class="sw" style="background:var(${cols[i]})"></i>${fmtDate(d)} meeting</span>`).join("") +
     `<span><i class="sw dash"></i>Current target</span>`;
-  const xs = datasets.flatMap((d) => d.data.map((p) => p.x)).sort();
-  if (xs.length) datasets.push({ label: "Current target", data: [{ x: xs[0], y: latest.cash_rate_target }, { x: xs[xs.length - 1], y: latest.cash_rate_target }],
-    borderColor: css("--ref"), borderWidth: 1.5, borderDash: [4, 3], pointRadius: 0, pointHoverRadius: 0 });
-
-  const opts = baseOptions();
-  opts.interaction = { mode: "index", intersect: false };
-  opts.plugins.tooltip.filter = (i) => i.dataset.label !== "Current target";
-  opts.plugins.tooltip.callbacks = {
-    title: (items) => "Close " + fmtDate(items[0].raw.x),
-    label: (item) => ` ${item.dataset.label}: ${pct(item.raw.y, 3)}`,
-  };
-  opts.scales.x.time = { tooltipFormat: "d MMM yyyy" };
-  if (histChart) histChart.destroy();
-  histChart = new Chart($("#histChart"), { type: "line", data: { datasets }, options: opts });
+  const datasets = upcoming.map((d, i) => lineDS(fmtDate(d),
+    history.filter((r) => r.decision_date === d && ts(r.as_at) >= from).map((r) => ({ x: ts(r.as_at), y: +r.implied_rate })), css(cols[i])));
+  const xs = datasets.flatMap((d) => d.data.map((p) => p.x));
+  if (xs.length) datasets.push(refDS("Current target", Math.min(...xs), Math.max(...xs), latest.cash_rate_target));
+  const o = baseOptions();
+  o.interaction = { mode: "nearest", intersect: false, axis: "x" };
+  o.plugins.tooltip.mode = "x";
+  o.plugins.tooltip.filter = (i) => i.dataset.label !== "Current target";
+  o.plugins.tooltip.callbacks = { title: (i) => "Close " + fmtDate(i[0].raw.x), label: (i) => ` ${i.dataset.label}: ${pct(i.raw.y, 3)}` };
+  draw("histChart", { type: "line", data: { datasets }, options: o });
 }
+
+function renderBabSpread() {
+  const rows = (charts.money_market || []).filter((r) => r.spread_bp !== null);
+  if (!rows.length) return emptyCard("babspread", "Bank bill data unavailable today.");
+  const from = cutoff("babspread", rows[rows.length - 1].date);
+  const o = baseOptions({ yFmt: (v) => v + "bp" });
+  o.plugins.decisionLines.items = charts.decisions;
+  o.plugins.tooltip.callbacks = { title: (i) => fmtDate(i[0].raw.x), label: (i) => ` 6m − 1m: ${i.raw.y.toFixed(1)}bp` };
+  o.scales.y.grid.color = (c) => (c.tick.value === 0 ? css("--ref") : css("--grid"));
+  draw("babSpreadChart", { type: "line", options: o, data: { datasets: [lineDS("6m − 1m", pts(rows, "spread_bp", from), css("--series-1"))] } });
+}
+
+function renderBbsw() {
+  const rows = charts.money_market || [];
+  if (!rows.length) return emptyCard("bbsw", "Bank bill data unavailable today.");
+  const from = cutoff("bbsw", rows[rows.length - 1].date);
+  const o = baseOptions();
+  o.plugins.tooltip.callbacks = { title: (i) => fmtDate(i[0].raw.x), label: (i) => i.raw.y == null ? null : ` ${i.dataset.label}: ${pct(i.raw.y, 3)}` };
+  draw("bbswChart", { type: "line", options: o, data: { datasets: [
+    lineDS("1-month", pts(rows, "bab1", from), css("--series-1")),
+    lineDS("3-month", pts(rows, "bab3", from), css("--series-2")),
+    lineDS("6-month", pts(rows, "bab6", from), css("--series-3")),
+  ] } });
+}
+
+function singleSeries(id, key, rows, field, color, { yFmt, tip, zero = false } = {}) {
+  const data = rows.filter((r) => r[field] !== null);
+  const from = cutoff(key, data[data.length - 1].date);
+  const o = baseOptions(yFmt ? { yFmt } : {});
+  o.interaction = { mode: "nearest", intersect: false, axis: "x" };
+  o.plugins.tooltip.callbacks = { title: (i) => fmtDate(i[0].raw.x), label: tip };
+  o.plugins.decimation = { enabled: true, algorithm: "lttb", samples: 700 };
+  if (zero) o.scales.y.grid.color = (c) => (c.tick.value === 0 ? css("--ref") : css("--grid"));
+  return draw(id, { type: "line", options: { ...o, parsing: false, normalized: true },
+    data: { datasets: [lineDS(field, pts(data, field, from), color, { spanGaps: false })] } });
+}
+
+function renderAcgb2() {
+  const rows = charts.bonds || [];
+  if (!rows.some((r) => r.acgb2 !== null)) return emptyCard("acgb2", "Bond data unavailable today.");
+  singleSeries("acgb2Chart", "acgb2", rows, "acgb2", css("--series-1"), { tip: (i) => ` 2-year ACGB: ${pct(i.raw.y, 3)}` });
+}
+
+function renderSlope() {
+  const rows = (charts.bonds || []).filter((r) => r.spread !== null);
+  if (!rows.length) return emptyCard("slope", "Bond data unavailable today.");
+  singleSeries("slopeChart", "slope", rows, "spread", css("--series-1"),
+    { yFmt: (v) => v.toFixed(2), zero: true, tip: (i) => ` 10y − 2y: ${signed(i.raw.y)} pp (${bp(i.raw.y * 100, 0)})` });
+}
+
+function renderFx() {
+  const rows = charts.fx || [];
+  if (!rows.some((r) => r.audusd !== null)) return emptyCard("fx", "FX data unavailable today.");
+  singleSeries("fxChart", "fx", rows, "audusd", css("--series-1"), { yFmt: (v) => v.toFixed(2), tip: (i) => ` AUD/USD: ${i.raw.y.toFixed(4)}` });
+  const diffRows = rows.filter((r) => r.diff !== null);
+  if (diffRows.length) {
+    const c = singleSeries("diffChart", "fx", diffRows, "diff", css("--series-2"),
+      { yFmt: (v) => v.toFixed(1), zero: true, tip: (i) => ` UST − ACGB: ${signed(i.raw.y)} pp` });
+    // Keep both panels on the same time window.
+    const fxC = instances.fxChart;
+    c.options.scales.x.min = fxC.scales.x.min; c.options.scales.x.max = fxC.scales.x.max; c.update();
+  }
+}
+
+const RENDER = { horizons: renderHorizons, nextmeeting: renderNextMeeting, history: renderHistory,
+  babspread: renderBabSpread, bbsw: renderBbsw, acgb2: renderAcgb2, slope: renderSlope, fx: renderFx };
 
 function renderAll() {
   $("#asat").innerHTML = `Futures close ${fmtDate(latest.as_at)}<br>Updated ${latest.generated_utc} UTC`;
   $("#spreadNote").textContent = bp(latest.ibocr_spread_bp);
-  if (latest.notes && latest.notes.length) { $("#banner").style.display = "block"; $("#banner").textContent = latest.notes.join(" "); }
-  $("#footer").textContent = `Data source today: ${latest.source}.`;
-  renderTiles(); renderTable(); renderPath(); renderHistory();
+  const failed = Object.entries(charts.status || {}).filter(([k, v]) => v !== "ok" && !/backfill|backup/.test(k)).map(([k]) => k);
+  const notes = [...(latest.notes || [])];
+  if (failed.length && !(failed.length === 1 && failed[0] === "ASX futures" && notes.length)) notes.push(`Some sources didn't update today (${failed.join(", ")}); their charts show the last available data.`);
+  if (notes.length) { $("#banner").style.display = "block"; $("#banner").textContent = notes.join(" "); }
+  $("#footer").textContent = `Futures source today: ${latest.source}.`;
+  const steps = [renderTiles, renderTable, renderPath, renderOutcomes, renderCurves, ...Object.values(RENDER)];
+  for (const fn of steps) { try { fn(); } catch (e) { console.error(fn.name, e); } }
 }
 
-$("#rangeSeg").addEventListener("click", (e) => {
-  const b = e.target.closest("button"); if (!b) return;
-  histDays = +b.dataset.days;
-  document.querySelectorAll("#rangeSeg button").forEach((x) => x.setAttribute("aria-pressed", x === b));
-  renderHistory();
-});
+setupRanges();
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => latest && renderAll());
 
-Promise.all([
-  fetch("data/latest.json", { cache: "no-store" }).then((r) => r.json()),
-  fetch("data/meeting_history.csv", { cache: "no-store" }).then((r) => (r.ok ? r.text() : "as_at")).then(parseCSV),
-]).then(([l, h]) => { latest = l; history = h; renderAll(); })
+const get = (p, as = "json") => fetch(p, { cache: "no-store" }).then((r) => (r.ok ? r[as]() : Promise.reject(p)));
+Promise.all([get("data/latest.json"), get("data/charts.json").catch(() => ({})),
+             get("data/meeting_history.csv", "text").then(parseCSV).catch(() => [])])
+  .then(([l, c, h]) => { latest = l; charts = c; history = h; renderAll(); })
   .catch((err) => { $("#asat").textContent = "No data yet. Run the update workflow once."; console.error(err); });
 </script>
 </body>

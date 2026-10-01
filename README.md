@@ -1,53 +1,65 @@
-# RBA Implied Cash Rate
+# AUD Rates Monitor
 
-A self-updating web page showing the market-implied path of the RBA cash rate target, calculated every weekday from ASX 30 Day Interbank Cash Rate Futures.
+A self-updating web page tracking Australian rates markets, rebuilt every weekday from free public data:
 
-**Live page:** `https://<your-username>.github.io/rba-implied-cash-rate/`
+- **Cash rate expectations** (ASX 30 Day Interbank Cash Rate Futures): the implied RBA path meeting by meeting, target-rate probabilities, implied change at 6 and 12 months and at the end of the strip, next-meeting pricing, futures curves at each month end, and how pricing has moved.
+- **Money markets** (RBA table F1): the 6-month minus 1-month bank bill spread, and 1/3/6-month BBSW.
+- **Government bonds** (RBA table F2): the 2-year ACGB yield and the 2s10s curve.
+- **AUD/USD** (FRED + RBA F2): the exchange rate alongside the US 2-year Treasury minus 2-year ACGB differential.
 
-## What it shows
+**Live page:** https://tevinweerawardena1-del.github.io/rba-implied-cash-rate/
 
-- The expected cash rate target after each RBA meeting covered by the futures strip (about 17 months).
-- The priced change and probability of a 25bp move at each meeting.
-- How pricing for the next three meetings has moved day by day.
-- Downloadable CSVs (open straight in Excel): `docs/data/meeting_history.csv` and `docs/data/futures_history.csv`.
+Every chart's data can be downloaded as CSV (it opens straight in Excel) from `docs/data/`.
 
-## How the calculation works
+## How the implied cash rate is calculated
 
 1. **Futures give monthly averages.** Each IB contract settles on the average interbank overnight cash rate (IBOCR) for its month, so `100 − price` is the expected monthly average.
-2. **Convert to target terms.** The IBOCR trades a few bp away from the cash rate target. Today's spread (IBOCR − target, from RBA table F1.1) is subtracted from every contract.
+2. **Convert to target terms.** The IBOCR trades a few bp away from the cash rate target. The spread (IBOCR − target, RBA table F1) is subtracted from every contract.
 3. **Back out each meeting.** A new target applies from the day after the decision.
    - If the month after the meeting has no meeting, that month's contract *is* the post-meeting rate ("clean-month").
    - Otherwise: `r_after = (average × D − r_before × d1) / (D − d1)`, where `D` is days in the month and `d1` the days before the change ("formula").
    - If fewer than 7 days of the month fall after the change and there's no clean month to use, the path stops (the division would magnify rounding noise).
 4. **Chain forward.** Each meeting's result is the next meeting's `r_before`.
 
-Probability of a move = priced change ÷ 25bp.
+Probability of a move = priced change ÷ 25bp. Target-rate probabilities split each implied rate between the two nearest 25bp outcomes.
+
+The forward-horizon chart uses the contract 6 and 12 months ahead of each pricing date, plus the furthest listed contract. The strip never reaches a full 18 months.
 
 ## Data sources
 
 | Data | Source |
 |---|---|
-| IB futures prices (previous settlement) | [ASX short-term derivatives prices](https://www.asx.com.au/markets/trade-our-derivatives-market/derivatives-market-prices/short-term-derivatives), read with headless Chrome |
-| Cash rate target and IBOCR | [RBA statistical table F1.1](https://www.rba.gov.au/statistics/tables/) (`f1.1-data.csv`) |
-| RBA meeting dates | `config/rba_meetings.json` (from the RBA's published schedule) |
-| Backup and pre-launch history (from 2025) | [aaronw22/ois-curve-tracker](https://github.com/aaronw22/ois-curve-tracker) (MIT licence), a public daily scrape of the same ASX page, rounded to 2dp |
+| IB futures (previous settlement) | [ASX short-term derivatives prices](https://www.asx.com.au/markets/trade-our-derivatives-market/derivatives-market-prices/short-term-derivatives), read with headless Chrome |
+| Cash rate target, IBOCR, bank bills (BBSW) | [RBA table F1](https://www.rba.gov.au/statistics/tables/) (`f1-data.csv`, daily) |
+| 2- and 10-year ACGB yields | RBA table F2 (`f2-data.csv`, daily) |
+| AUD/USD, US 2-year Treasury | [FRED](https://fred.stlouisfed.org/) series `DEXUSAL` and `DGS2` |
+| RBA meeting dates | `config/rba_meetings.json` |
+| Futures history from 2025, and backup | [aaronw22/ois-curve-tracker](https://github.com/aaronw22/ois-curve-tracker) (MIT licence), a public daily scrape of the same ASX page, rounded to 2dp |
+
+## How it updates
+
+Every run adds that day's futures strip to `docs/data/futures_history.csv`, re-downloads the full RBA and FRED series, then rebuilds every chart from scratch. A source that fails one day doesn't stop the others: its charts keep the last good data and the page shows a notice. Each run's log is saved to `docs/data/run_log.txt`.
+
+The job runs weekdays at 9pm Sydney (with a 7am retry), and whenever code in `scripts/`, `config/` or the workflow changes.
 
 ## Repo layout
 
 ```
-scripts/calc.py        the maths (no network; unit-tested)
-scripts/update.py      fetches data, runs calc, writes docs/data/
+scripts/calc.py      implied path maths (no network; unit-tested)
+scripts/build.py     chart series from raw history (no network; unit-tested)
+scripts/sources.py   ASX / RBA / FRED fetchers and parsers
+scripts/update.py    runs a daily update and writes docs/data/
 config/rba_meetings.json
-docs/index.html        the web page (GitHub Pages serves /docs)
-docs/data/             generated data: latest.json + history CSVs
+docs/index.html      the web page (GitHub Pages serves /docs)
+docs/data/           generated data (JSON + CSV)
 tests/test_calc.py
-.github/workflows/update.yml   runs weekdays 9pm Sydney (and 7am retry)
+.github/workflows/update.yml
 ```
 
 ## Maintenance
 
-- **Add each new year's RBA meeting dates** to `config/rba_meetings.json` when the RBA publishes them (usually in the second half of the year). Without them the path stops at the last listed meeting.
-- If a run fails, check the **Actions** tab. The ASX page layout can change; the parser is `parse_asx_table()` in `scripts/update.py`. When the ASX scrape fails, the job falls back to the backup source and shows a notice on the page.
+- **Add each new year's RBA meeting dates** to `config/rba_meetings.json` when the RBA publishes them. Without them the path stops at the last listed meeting.
+- If a run fails, read `docs/data/run_log.txt`. Page layout changes at the ASX are the most likely cause; the parser is `parse_asx_table()` in `scripts/sources.py`.
 - GitHub disables scheduled workflows in repos with no activity for 60 days. The daily data commits should keep it active, but if the schedule stops, re-enable it from the Actions tab.
 
 ## Run locally

@@ -7,6 +7,13 @@ on:
     # Second pass at 7am/8am Sydney next morning, in case the evening run failed.
     - cron: "0 21 * * 1-5"
   workflow_dispatch: {}
+  # Re-run whenever the code changes, so the page always reflects the latest logic.
+  push:
+    branches: [main]
+    paths:
+      - "scripts/**"
+      - "config/**"
+      - ".github/workflows/**"
 
 permissions:
   contents: write
