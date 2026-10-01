@@ -539,9 +539,21 @@ function renderTiles() {
     tiles.push({ label: `Next meeting · ${fmtDate(next.decision_date)}`, value: pct(next.implied_rate, 3),
       detail: `<span class="tag ${pt.dir > 0 ? "up" : pt.dir < 0 ? "down" : ""}">${pt.text}</span> ${bp(next.change_bp)} priced` });
   }
-  if (last) tiles.push({ label: `By ${fmtDate(last.decision_date, { month: "short", year: "numeric" })}`,
-    value: pct(last.implied_rate, 3),
-    detail: `${bp(last.cumulative_bp)} vs today · ${(last.cumulative_bp / 25).toFixed(1)} moves of 25bp` });
+  // Next expected move: the first meeting by which futures price more than half
+  // of a 25bp move (cumulative vs today's target), i.e. a move is more likely than not.
+  const nextMove = m.find((r) => Math.abs(r.cumulative_bp) > 12.5);
+  if (nextMove) {
+    const dir = Math.sign(nextMove.cumulative_bp);
+    const word = dir > 0 ? "increase" : "decrease";
+    const pctPriced = Math.min(100, Math.round(Math.abs(nextMove.cumulative_bp) / 25 * 100));
+    tiles.push({ label: "Next expected cash rate change",
+      value: fmtDate(nextMove.decision_date, { month: "short", year: "numeric" }),
+      detail: `<span class="tag ${dir > 0 ? "up" : "down"}">25bp ${word}</span> ${pctPriced}% priced by the ${fmtDate(nextMove.decision_date, { day: "numeric", month: "short" })} meeting` });
+  } else if (last) {
+    tiles.push({ label: "Next expected cash rate change",
+      value: "None priced",
+      detail: `No 25bp move more likely than not before ${fmtDate(last.decision_date, { month: "short", year: "numeric" })}` });
+  }
   $("#tiles").innerHTML = tiles.map((t) =>
     `<div class="tile"><div class="label">${t.label}</div><div class="value">${t.value}</div><div class="detail">${t.detail}</div></div>`).join("");
 }
