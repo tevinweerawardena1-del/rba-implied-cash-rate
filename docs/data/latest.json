@@ -1,0 +1,98 @@
+{
+  "as_at": "2026-09-30",
+  "generated_utc": "2026-10-01 01:15",
+  "source": "ASX website",
+  "cash_rate_target": 4.35,
+  "target_as_of": "2026-08-31",
+  "ibocr_spread_bp": 0.0,
+  "futures": [
+    {
+      "month": "2026-10-01",
+      "implied_yield": 4.595,
+      "target_equivalent": 4.595
+    },
+    {
+      "month": "2026-11-01",
+      "implied_yield": 4.65,
+      "target_equivalent": 4.65
+    },
+    {
+      "month": "2026-12-01",
+      "implied_yield": 4.685,
+      "target_equivalent": 4.685
+    },
+    {
+      "month": "2027-01-01",
+      "implied_yield": 4.7,
+      "target_equivalent": 4.7
+    },
+    {
+      "month": "2027-02-01",
+      "implied_yield": 4.765,
+      "target_equivalent": 4.765
+    },
+    {
+      "month": "2027-03-01",
+      "implied_yield": 4.81,
+      "target_equivalent": 4.81
+    },
+    {
+      "month": "2027-04-01",
+      "implied_yield": 4.85,
+      "target_equivalent": 4.85
+    },
+    {
+      "month": "2027-05-01",
+      "implied_yield": 4.9,
+      "target_equivalent": 4.9
+    },
+    {
+      "month": "2027-06-01",
+      "implied_yield": 4.91,
+      "target_equivalent": 4.91
+    },
+    {
+      "month": "2027-07-01",
+      "implied_yield": 4.92,
+      "target_equivalent": 4.92
+    },
+    {
+      "month": "2027-08-01",
+      "implied_yield": 4.915,
+      "target_equivalent": 4.915
+    },
+    {
+      "month": "2027-09-01",
+      "implied_yield": 4.91,
+      "target_equivalent": 4.91
+    },
+    {
+      "month": "2027-10-01",
+      "implied_yield": 4.905,
+      "target_equivalent": 4.905
+    },
+    {
+      "month": "2027-11-01",
+      "implied_yield": 4.895,
+      "target_equivalent": 4.895
+    },
+    {
+      "month": "2027-12-01",
+      "implied_yield": 4.88,
+      "target_equivalent": 4.88
+    },
+    {
+      "month": "2028-01-01",
+      "implied_yield": 4.87,
+      "target_equivalent": 4.87
+    },
+    {
+      "month": "2028-02-01",
+      "implied_yield": 4.84,
+      "target_equivalent": 4.84
+    }
+  ],
+  "meetings": [],
+  "meetings_beyond_futures": [],
+  "notes": []
+}
