@@ -653,8 +653,18 @@ function renderOutcomes() {
     outcomeIdx = +b.dataset.i; renderOutcomes();
   };
   const m = list[outcomeIdx], tgt = latest.cash_rate_target;
-  const labels = m.outcomes.map((o) => pct(o.rate) + (Math.abs(o.rate - tgt) < 1e-6 ? " (current)" : ""));
-  const colors = m.outcomes.map((o) => Math.abs(o.rate - tgt) < 1e-6 ? css("--ref") : o.rate > tgt ? css("--up") : css("--down"));
+  // Compare each outcome with the most likely rate going into this meeting:
+  // today's target for the next meeting, otherwise the previous meeting's
+  // implied rate rounded to the nearest 25bp step.
+  const idx = latest.meetings.findIndex((x) => x.decision_date === m.decision_date);
+  const prevImplied = idx > 0 ? latest.meetings[idx - 1].implied_rate : tgt;
+  // Round to the nearest 25bp step; an exact 50/50 counts as no move (hold is the default).
+  const k = (prevImplied - tgt) / 0.25;
+  const steps = Math.sign(k) * Math.ceil(Math.abs(k) - 0.5 - 1e-9);
+  const base = +(tgt + 0.25 * steps).toFixed(4);
+  const rel = (r) => Math.round((r - base) * 100);
+  const labels = m.outcomes.map((o) => pct(o.rate) + (rel(o.rate) === 0 ? " (no change)" : ` (${rel(o.rate) > 0 ? "+" : "−"}${Math.abs(rel(o.rate))}bp)`));
+  const colors = m.outcomes.map((o) => rel(o.rate) === 0 ? css("--ref") : rel(o.rate) > 0 ? css("--up") : css("--down"));
   const o = baseOptions({ time: false, yFmt: (v) => v + "%" });
   o.indexAxis = "y";
   o.scales = {
