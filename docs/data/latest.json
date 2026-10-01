@@ -1,9 +1,9 @@
 {
   "as_at": "2026-09-30",
-  "generated_utc": "2026-10-01 01:15",
+  "generated_utc": "2026-10-01 02:28",
   "source": "ASX website",
-  "cash_rate_target": 4.35,
-  "target_as_of": "2026-08-31",
+  "cash_rate_target": 4.6,
+  "target_as_of": "2026-09-30",
   "ibocr_spread_bp": 0.0,
   "futures": [
     {
@@ -92,7 +92,108 @@
       "target_equivalent": 4.84
     }
   ],
-  "meetings": [],
+  "meetings": [
+    {
+      "decision_date": "2026-11-03",
+      "effective_date": "2026-11-04",
+      "implied_rate": 4.6556,
+      "rate_before": 4.6,
+      "change_bp": 5.56,
+      "cumulative_bp": 5.56,
+      "move_fraction": 0.2222,
+      "method": "formula"
+    },
+    {
+      "decision_date": "2026-12-08",
+      "effective_date": "2026-12-09",
+      "implied_rate": 4.7,
+      "rate_before": 4.6556,
+      "change_bp": 4.44,
+      "cumulative_bp": 10.0,
+      "move_fraction": 0.1778,
+      "method": "clean-month"
+    },
+    {
+      "decision_date": "2027-02-09",
+      "effective_date": "2027-02-10",
+      "implied_rate": 4.7958,
+      "rate_before": 4.7,
+      "change_bp": 9.58,
+      "cumulative_bp": 19.58,
+      "move_fraction": 0.3832,
+      "method": "formula"
+    },
+    {
+      "decision_date": "2027-03-23",
+      "effective_date": "2027-03-24",
+      "implied_rate": 4.85,
+      "rate_before": 4.7958,
+      "change_bp": 5.42,
+      "cumulative_bp": 25.0,
+      "move_fraction": 0.2168,
+      "method": "clean-month"
+    },
+    {
+      "decision_date": "2027-05-04",
+      "effective_date": "2027-05-05",
+      "implied_rate": 4.9074,
+      "rate_before": 4.85,
+      "change_bp": 5.74,
+      "cumulative_bp": 30.74,
+      "move_fraction": 0.2296,
+      "method": "formula"
+    },
+    {
+      "decision_date": "2027-06-22",
+      "effective_date": "2027-06-23",
+      "implied_rate": 4.92,
+      "rate_before": 4.9074,
+      "change_bp": 1.26,
+      "cumulative_bp": 32.0,
+      "move_fraction": 0.0504,
+      "method": "clean-month"
+    },
+    {
+      "decision_date": "2027-08-10",
+      "effective_date": "2027-08-11",
+      "implied_rate": 4.9126,
+      "rate_before": 4.92,
+      "change_bp": -0.74,
+      "cumulative_bp": 31.26,
+      "move_fraction": -0.0295,
+      "method": "formula"
+    },
+    {
+      "decision_date": "2027-09-28",
+      "effective_date": "2027-09-29",
+      "implied_rate": 4.905,
+      "rate_before": 4.9126,
+      "change_bp": -0.76,
+      "cumulative_bp": 30.5,
+      "move_fraction": -0.0305,
+      "method": "clean-month"
+    },
+    {
+      "decision_date": "2027-11-02",
+      "effective_date": "2027-11-03",
+      "implied_rate": 4.8943,
+      "rate_before": 4.905,
+      "change_bp": -1.07,
+      "cumulative_bp": 29.43,
+      "move_fraction": -0.0429,
+      "method": "formula"
+    },
+    {
+      "decision_date": "2027-12-14",
+      "effective_date": "2027-12-15",
+      "implied_rate": 4.87,
+      "rate_before": 4.8943,
+      "change_bp": -2.43,
+      "cumulative_bp": 27.0,
+      "move_fraction": -0.0971,
+      "method": "clean-month"
+    }
+  ],
   "meetings_beyond_futures": [],
   "notes": []
 }
