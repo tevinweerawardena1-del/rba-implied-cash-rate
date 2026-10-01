@@ -96,7 +96,7 @@
   .sw.vline { width: 2px; height: 12px; border-radius: 0; }
 
   .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; flex-shrink: 0; }
-  .seg button { font: 500 13px "IBM Plex Sans", sans-serif; background: none; border: 0;
+  .seg button { white-space: nowrap; font: 500 13px "IBM Plex Sans", sans-serif; background: none; border: 0;
                 padding: 5px 11px; color: var(--text-secondary); cursor: pointer; }
   .seg button + button { border-left: 1px solid var(--border); }
   .seg button[aria-pressed="true"] { background: var(--text-primary); color: var(--surface); }
@@ -481,12 +481,14 @@ function refDS(label, x0, x1, y) {
 const RANGE_SETS = {
   short: [["3M", 91], ["6M", 182], ["1Y", 365], ["2Y", 730], ["All", 0]],
   long: [["1Y", 365], ["3Y", 1096], ["5Y", 1826], ["10Y", 3653], ["All", 0]],
+  // Daily market series: adds 3M and 6M to zoom into recent moves.
+  daily: [["3M", 91], ["6M", 182], ["1Y", 365], ["3Y", 1096], ["5Y", 1826], ["10Y", 3653], ["All", 0]],
 };
 // Default windows roll forward with the data (e.g. always the last 2 years), so
 // charts stay readable as history accumulates. "All" is still one click away.
 const CARD_RANGE = { horizons: ["short", 730], nextmeeting: ["short", 730], history: ["short", 91],
-  babspread: ["long", 1096], bbsw: ["long", 1096], acgb2: ["long", 3653], slope: ["long", 3653], fx: ["long", 3653],
-  real: ["long", 3653], forwards: ["long", 3653], fly: ["long", 3653], us: ["long", 3653] };
+  babspread: ["daily", 1096], bbsw: ["daily", 1096], acgb2: ["daily", 3653], slope: ["daily", 3653], fx: ["daily", 3653],
+  real: ["long", 3653], forwards: ["daily", 3653], fly: ["daily", 3653], us: ["daily", 3653] };
 
 function setupRanges() {
   document.querySelectorAll("[data-range]").forEach((seg) => {
