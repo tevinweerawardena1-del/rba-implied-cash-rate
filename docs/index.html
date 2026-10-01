@@ -390,13 +390,12 @@
     </div>
     <div class="legend">
       <span><i class="sw" style="background:var(--series-1)"></i>10-year yield</span>
-      <span><i class="sw" style="background:var(--series-3)"></i>Expected average short rate</span>
-      <span><i class="sw" style="background:var(--series-2)"></i>Term premium (Kim–Wright)</span>
-      <span><i class="sw" style="background:repeating-linear-gradient(90deg, var(--series-2) 0 4px, transparent 4px 8px)"></i>Term premium (ACM)</span>
+      <span><i class="sw" style="background:var(--series-3)"></i>Expected short-term rates over 10 years (yield − term premium)</span>
+      <span><i class="sw" style="background:var(--series-2)"></i>Term premium</span>
     </div>
     <div class="chart-box" style="height:380px"><canvas id="tpChart" role="img" aria-label="US 10-year yield decomposed into expected short rates and term premium"></canvas></div>
     <div class="taylor-read" id="tpRead"></div>
-    <div class="src">Sources: Federal Reserve Board Kim–Wright model via FRED (THREEFY10, THREEFYTP10; 10-year zero-coupon yield); NY Fed ACM model (Adrian–Crump–Moench). Both are model estimates. <span data-asof="tp"></span></div>
+    <div class="src">Source: Federal Reserve Board Kim–Wright model via FRED (THREEFY10: 10-year zero-coupon yield; THREEFYTP10: term premium). Expected short-term rates = yield − term premium. The term premium is a model estimate. <span data-asof="tp"></span></div>
   </section>
 
 
@@ -951,21 +950,19 @@ function renderTP() {
   const w = { borderWidth: 1.5, spanGaps: false };
   draw("tpChart", { type: "line", options: { ...o, parsing: false, normalized: true }, data: { datasets: [
     lineDS("10-year yield", pts(rows, "yield10", from), css("--series-1"), w),
-    lineDS("Expected short rate", pts(rows, "expected", from), css("--series-3"), w),
-    lineDS("Term premium (Kim–Wright)", pts(rows, "tp_kw", from), css("--series-2"), w),
-    lineDS("Term premium (ACM)", pts(rows.filter((r) => r.tp_acm != null), "tp_acm", from), css("--series-2"), { ...w, borderDash: [4, 4] }),
+    lineDS("Expected short-term rates", pts(rows, "expected", from), css("--series-3"), w),
+    lineDS("Term premium", pts(rows, "tp_kw", from), css("--series-2"), w),
   ] } });
   const last = rows[rows.length - 1];
   const yearAgo = [...rows].reverse().find((r) => ts(r.date) <= ts(last.date) - 365 * DAY);
   const share = Math.round(last.tp_kw / last.yield10 * 100);
-  const acm = [...rows].reverse().find((r) => r.tp_acm != null);
   $("#tpRead").innerHTML = `
     <div><div class="k">10-year yield (${fmtDate(last.date, { day: "numeric", month: "short" })})</div><div class="v">${pct(last.yield10)}</div>
       <div class="d">${yearAgo ? bp((last.yield10 - yearAgo.yield10) * 100, 0) + " over the year" : ""}</div></div>
-    <div><div class="k">Expected average short rate</div><div class="v">${pct(last.expected)}</div>
+    <div><div class="k">Expected short-term rates over 10 years</div><div class="v">${pct(last.expected)}</div>
       <div class="d">${yearAgo ? bp((last.expected - yearAgo.expected) * 100, 0) + " over the year" : ""}</div></div>
-    <div><div class="k">Term premium (Kim–Wright)</div><div class="v">${pct(last.tp_kw)}</div>
-      <div class="d">${share}% of the yield${yearAgo ? " · " + bp((last.tp_kw - yearAgo.tp_kw) * 100, 0) + " over the year" : ""}${acm ? " · ACM " + pct(acm.tp_acm) : ""}</div></div>`;
+    <div><div class="k">Term premium</div><div class="v">${pct(last.tp_kw)}</div>
+      <div class="d">${share}% of the yield${yearAgo ? " · " + bp((last.tp_kw - yearAgo.tp_kw) * 100, 0) + " over the year" : ""}</div></div>`;
 }
 
 function renderScorecard() {

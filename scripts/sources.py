@@ -471,27 +471,3 @@ def fetch_unemployment() -> Series:
     print(f"RBA H5 unemployment: using {best['title']!r} [{best['type']}]")
     return Series(best["data"])
 
-
-ACM_URL = ("https://www.newyorkfed.org/medialibrary/media/research/"
-           "data_indicators/ACMTermPremium.xls")
-
-
-def fetch_acm_tp10() -> Series:
-    """NY Fed ACM 10-year term premium (daily sheet, column ACMTP10)."""
-    r = requests.get(ACM_URL, headers={"User-Agent": UA}, timeout=90)
-    r.raise_for_status()
-    sheets = pd.read_excel(io.BytesIO(r.content), sheet_name=None)
-    for name, df in sheets.items():
-        cols = {str(c).strip().upper(): c for c in df.columns}
-        if "ACMTP10" in cols and "DATE" in cols:
-            data = {}
-            for d, v in zip(df[cols["DATE"]], df[cols["ACMTP10"]]):
-                try:
-                    data[pd.Timestamp(d).date()] = float(v)
-                except (ValueError, TypeError):
-                    continue
-            s = Series(data)
-            print(f"NY Fed ACM ({name}): {len(s)} obs to {s.last_date}")
-            if len(s) > 1000:          # prefer the daily sheet
-                return s
-    raise ValueError("ACMTP10 not found in the NY Fed file")

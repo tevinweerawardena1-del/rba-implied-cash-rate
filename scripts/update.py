@@ -171,7 +171,6 @@ def run(backfill: bool):
     ust10 = ust10 or src.Series()
     kw_y10 = try_step("FRED Kim-Wright 10y yield", status, lambda: src.fetch_fred("THREEFY10")) or src.Series()
     kw_tp10 = try_step("FRED Kim-Wright term premium", status, lambda: src.fetch_fred("THREEFYTP10")) or src.Series()
-    acm_tp10 = try_step("NY Fed ACM term premium", status, src.fetch_acm_tp10) or src.Series()
 
     g1 = try_step("RBA G1 (CPI)", status, lambda: src.fetch_rba("g1")) or {}
     cpi_headline = (src.pick_exact(g1, "Year-ended inflation")
@@ -235,7 +234,7 @@ def run(backfill: bool):
     us = [{"date": row["date"], "ust2": r(row["base"]), "ust10": r(row["y10"])}
           for row in align(ust2, {"y10": ust10}, US_FROM)]
     scorecard = pricing_scorecard(meeting_rows, target, meetings)
-    tp = term_premium_series(kw_y10, kw_tp10, acm_tp10, TP_FROM)
+    tp = term_premium_series(kw_y10, kw_tp10, TP_FROM)
     pd.DataFrame(tp).to_csv(DATA / "us_term_premium.csv", index=False)
     print("Term premium:", tp[-1] if tp else None)
     taylor_params = json.loads((ROOT / "config" / "taylor.json").read_text())

@@ -333,6 +333,5 @@ def test_term_premium_series():
     from build import term_premium_series
     y = Series({date(2026, 9, 24): 4.9, date(2026, 9, 25): 5.0})
     tp = Series({date(2026, 9, 25): 1.02})
-    acm = Series({date(2026, 9, 24): 0.8})
-    rows = term_premium_series(y, tp, acm, date(2026, 1, 1))
-    assert rows == [{"date": "2026-09-25", "yield10": 5.0, "expected": 3.98, "tp_kw": 1.02, "tp_acm": 0.8}]
+    rows = term_premium_series(y, tp, date(2026, 1, 1))
+    assert rows == [{"date": "2026-09-25", "yield10": 5.0, "expected": 3.98, "tp_kw": 1.02}]

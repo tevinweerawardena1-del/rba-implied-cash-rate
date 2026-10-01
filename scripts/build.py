@@ -383,17 +383,14 @@ def taylor_projection(rows: list[dict], target_now: float, p: dict) -> dict | No
 # US 10-year term premium decomposition
 # --------------------------------------------------------------------------
 
-def term_premium_series(kw_yield: Series, kw_tp: Series, acm_tp: Series, start: date) -> list[dict]:
-    """10-year zero-coupon yield = expected average short rate + term premium
-    (Kim-Wright model, Federal Reserve Board). ACM (NY Fed) term premium added
-    as a second estimate where available."""
+def term_premium_series(kw_yield: Series, kw_tp: Series, start: date) -> list[dict]:
+    """10-year zero-coupon yield = expected short-term rates over 10 years +
+    term premium (Kim-Wright model, Federal Reserve Board)."""
     rows = []
     for d, y in kw_yield.items(start):
         tp = kw_tp.on_or_before(d)
         if not tp or tp[0] != d:
             continue
-        acm = acm_tp.on_or_before(d) if acm_tp else None
         rows.append({"date": d.isoformat(), "yield10": round(y, 4),
-                     "expected": round(y - tp[1], 4), "tp_kw": round(tp[1], 4),
-                     "tp_acm": round(acm[1], 4) if acm and (d - acm[0]).days <= 7 else None})
+                     "expected": round(y - tp[1], 4), "tp_kw": round(tp[1], 4)})
     return rows
