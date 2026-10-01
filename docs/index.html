@@ -656,7 +656,15 @@ function renderOutcomes() {
   // Colour by distance from today's official cash rate target:
   // grey = no change, red = +25bp, dark red = +50bp or more, blue/dark blue for cuts.
   const rel = (r) => Math.round((r - tgt) * 100);
-  const labels = m.outcomes.map((o) => pct(o.rate) + (rel(o.rate) === 0 ? " (no change from current)" : ` (${rel(o.rate) > 0 ? "+" : "−"}${Math.abs(rel(o.rate))}bp from current)`));
+  // Labels: change at this meeting vs the most likely rate going into it (today's
+  // target for the next meeting, otherwise the previous meeting's implied rate
+  // rounded to 25bp; an exact 50/50 counts as a hold). Colours stay vs today's rate.
+  const idx = latest.meetings.findIndex((x) => x.decision_date === m.decision_date);
+  const prevImplied = idx > 0 ? latest.meetings[idx - 1].implied_rate : tgt;
+  const k = (prevImplied - tgt) / 0.25;
+  const base = +(tgt + 0.25 * Math.sign(k) * Math.ceil(Math.abs(k) - 0.5 - 1e-9)).toFixed(4);
+  const atMeeting = (r) => Math.round((r - base) * 100);
+  const labels = m.outcomes.map((o) => pct(o.rate) + (atMeeting(o.rate) === 0 ? " (no change)" : ` (${atMeeting(o.rate) > 0 ? "+" : "−"}${Math.abs(atMeeting(o.rate))}bp)`));
   const colors = m.outcomes.map((o) => {
     const d = rel(o.rate);
     return d === 0 ? css("--ref") : d >= 50 ? css("--up-2") : d > 0 ? css("--up") : d <= -50 ? css("--down-2") : css("--down");
