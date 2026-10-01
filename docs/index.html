@@ -52,7 +52,13 @@
   h3.section { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
                color: var(--text-muted); margin: 36px 0 12px; scroll-margin-top: 64px; }
   .sub { color: var(--text-secondary); margin: 0; }
-  .asat { font: 13px "IBM Plex Mono", monospace; color: var(--text-secondary); text-align: right; }
+  .asat { font: 13px "IBM Plex Mono", monospace; color: var(--text-secondary); margin-top: 10px; }
+  .byline { color: var(--text-primary); font-weight: 500; margin-bottom: 2px; }
+  .byline a { font-weight: 500; text-decoration: none; }
+  .byline a:hover { text-decoration: underline; }
+  header { align-items: flex-start; flex-wrap: nowrap; }
+  .avatar { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; flex-shrink: 0;
+            border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--border); }
   .num { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; }
 
   nav.toc { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 10px 0;
@@ -124,17 +130,20 @@
     .chart-box.short { height: 200px; }
     .asat { text-align: left; }
     h1 { font-size: 22px; }
+    .avatar { width: 64px; height: 64px; }
   }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <div>
+    <div class="head-text">
       <h1>AUD Rates Monitor</h1>
-      <p class="sub">By <a href="https://www.linkedin.com/in/tevin-weerawardena/" target="_blank" rel="noopener">Tevin Weerawardena</a> · RBA cash rate expectations, money markets, government bonds and the AUD, updated every weekday.</p>
+      <p class="sub byline">By Tevin Weerawardena · <a href="https://www.linkedin.com/in/tevin-weerawardena/" target="_blank" rel="noopener">LinkedIn ↗</a></p>
+      <p class="sub">RBA cash rate expectations, money markets, government bonds and the AUD, updated every weekday.</p>
+      <div class="asat" id="asat">Loading…</div>
     </div>
-    <div class="asat" id="asat">Loading…</div>
+    <img class="avatar" src="assets/tevin.jpg" alt="Tevin Weerawardena" width="96" height="96">
   </header>
 
   <nav class="toc">
