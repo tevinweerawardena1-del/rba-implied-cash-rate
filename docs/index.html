@@ -511,6 +511,17 @@ function emptyCard(key, msg) {
   if (!card.querySelector(".empty")) card.insertAdjacentHTML("beforeend", `<div class="empty">${msg}</div>`);
 }
 
+// Insert a break where consecutive points are more than maxDays apart, so
+// missing data shows as a gap instead of a straight line.
+function withGaps(points, maxDays = 10) {
+  const out = [];
+  points.forEach((p, i) => {
+    if (i && p.x - points[i - 1].x > maxDays * DAY) out.push({ x: points[i - 1].x + DAY, y: null });
+    out.push(p);
+  });
+  return out;
+}
+
 // Time series rows -> {x, y} points for one field, optionally trimmed to a range.
 function pts(rows, field, from = -Infinity, dateKey = "date") {
   return rows.filter((r) => ts(r[dateKey]) >= from).map((r) => ({ x: ts(r[dateKey]), y: r[field] }));
@@ -849,12 +860,12 @@ function renderForwards() {
   o.interaction = { mode: "nearest", intersect: false, axis: "x" };
   o.plugins.tooltip.mode = "x";
   o.plugins.tooltip.callbacks = { title: (i) => fmtDate(i[0].raw.x), label: (i) => i.raw.y == null ? null : ` ${i.dataset.label}: ${pct(i.raw.y, 2)}` };
-  o.plugins.decimation = { enabled: true, algorithm: "lttb", samples: 600 };
   const cash = (charts.cash_daily || []).filter((r) => ts(r.date) >= from).map((r) => ({ x: ts(r.date), y: r.rate }));
+  const gap = { borderWidth: 1.5, spanGaps: false };
   draw("forwardsChart", { type: "line", options: { ...o, parsing: false, normalized: true }, data: { datasets: [
-    lineDS("1y1y", pts(rows, "f1y1y", from), css("--series-1"), { borderWidth: 1.5 }),
-    lineDS("2y1y", pts(rows, "f2y1y", from), css("--series-2"), { borderWidth: 1.5 }),
-    lineDS("5y5y", pts(rows, "f5y5y", from), css("--series-3"), { borderWidth: 1.5 }),
+    lineDS("1y1y", withGaps(pts(rows, "f1y1y", from)), css("--series-1"), gap),
+    lineDS("2y1y", withGaps(pts(rows, "f2y1y", from)), css("--series-2"), gap),
+    lineDS("5y5y", withGaps(pts(rows, "f5y5y", from)), css("--series-3"), gap),
     lineDS("Cash rate target", cash, css("--ref"), { stepped: "before", borderWidth: 1.5 }),
   ] } });
 }
