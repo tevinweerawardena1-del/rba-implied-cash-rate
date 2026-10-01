@@ -27,7 +27,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import sources as src  # noqa: E402
 from build import (daily_analytics, decisions, month_end_curves,  # noqa: E402
                    outcome_probabilities, rate_inputs, align, yield_curves,
-                   add_front_end, merge_meetings, health_check)
+                   merge_meetings, health_check)
 from calc import implied_path, results_as_dicts, month_start  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -203,14 +203,9 @@ def run(backfill: bool):
     for name, rows in (("money_market", money), ("bonds", bonds), ("fx_differential", fx)):
         pd.DataFrame(rows).to_csv(DATA / f"{name}.csv", index=False)
 
-    def spread_on(d):
-        ri = rate_inputs(target, ibocr, d)
-        return ri[2] if ri else 0.0
-    curves_by_maturity = add_front_end(yield_curves(bond_list), fh, spread_on)
-    pd.DataFrame([{"curve": c["label"], "as_at": c["as_at"], "source": "ACGB", **p}
-                  for c in curves_by_maturity for p in c["points"]]
-                 + [{"curve": c["label"], "as_at": c["as_at"], **p}
-                    for c in curves_by_maturity for p in c.get("front_end", [])]) \
+    curves_by_maturity = yield_curves(bond_list)
+    pd.DataFrame([{"curve": c["label"], "as_at": c["as_at"], **p}
+                  for c in curves_by_maturity for p in c["points"]]) \
         .to_csv(DATA / "yield_curve.csv", index=False)
 
     # ---- 4. Health ---------------------------------------------------------

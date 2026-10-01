@@ -198,29 +198,6 @@ def test_bond_table_and_yield_curves():
     assert latest[-1]["years"] == pytest.approx(24.72, abs=0.01) and latest[-1]["yield"] == 5.40
 
 
-def test_futures_front_end():
-    from build import futures_front_end
-    fut = {date(2026, 9, 1): 4.40, date(2026, 10, 1): 4.59, date(2026, 11, 1): 4.65}
-    pts = futures_front_end({date(2026, 9, 22): fut}, date(2026, 9, 23), spread=-0.01)
-    # Sep contract (mid-Sep) is before the curve date; Oct and Nov follow.
-    assert [p["name"] for p in pts] == ["Oct 2026 implied cash rate", "Nov 2026 implied cash rate"]
-    assert pts[1]["yield"] == pytest.approx(4.66)                 # target terms
-    assert pts[1]["years"] == pytest.approx(53 / 365.25, abs=1e-3)
-    assert futures_front_end({date(2026, 8, 1): fut}, date(2026, 9, 23)) == []   # too stale
-
-
-def test_front_end_only_fills_gap_before_shortest_bond():
-    from build import add_front_end
-    fut = {add_months(date(2026, 8, 1), k): 4.5 for k in range(10)}
-    curves = [{"as_at": "2026-08-24", "points": [{"years": 0.03, "yield": 4.4}]},
-              {"as_at": "2026-08-24", "points": [{"years": 0.45, "yield": 4.8}]}]
-    add_front_end(curves, {date(2026, 8, 24): fut})
-    assert curves[0]["front_end"] == []
-    fe = curves[1]["front_end"]
-    assert fe and all(p["years"] < 0.45 for p in fe)
-    assert [p["name"][:3] for p in fe] == ["Sep", "Oct", "Nov", "Dec", "Jan"]
-
-
 SCHEDULE_HTML = """
 <h2>Monetary Policy Board Meeting Dates</h2>
 <h3>2027</h3><ul><li>8&ndash;9 February</li><li>22–23 March</li><li>3–4 May</li><li>21–22 June</li>

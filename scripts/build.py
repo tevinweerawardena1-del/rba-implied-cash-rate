@@ -165,41 +165,6 @@ def yield_curves(bonds: list[dict], lookbacks=((0, "Latest"), (30, "1 month earl
     return curves
 
 
-def futures_front_end(futures_hist: dict[date, dict[date, float]], ref: date,
-                      spread: float = 0.0, min_years: float = 0.04) -> list[dict]:
-    """Front of the yield curve from the implied cash rate path: each futures
-    month's implied rate in cash rate target terms (implied yield minus the
-    IBOCR-target spread), placed mid-month at its distance from `ref`. This is
-    the same series as the Implied path chart."""
-    days = [d for d in futures_hist if d <= ref]
-    if not days:
-        return []
-    asof = max(days)
-    if (ref - asof).days > MAX_STALE_DAYS:
-        return []
-    pts = []
-    for m, y in sorted(futures_hist[asof].items()):
-        mid = m + timedelta(days=14)
-        years = (mid - ref).days / 365.25
-        if years < min_years:
-            continue
-        pts.append({"years": round(years, 4), "yield": round(y - spread, 4),
-                    "name": f"{m:%b %Y} implied cash rate", "maturity": None,
-                    "source": "futures"})
-    return pts
-
-
-def add_front_end(curves: list[dict], futures_hist, spread_on=lambda d: 0.0) -> list[dict]:
-    """Attach the implied-cash-rate front end to each curve, up to (not past)
-    the curve's shortest bond, so it runs into the bond yields."""
-    for c in curves:
-        ref = date.fromisoformat(c["as_at"])
-        shortest = c["points"][0]["years"] if c["points"] else float("inf")
-        c["front_end"] = [p for p in futures_front_end(futures_hist, ref, spread_on(ref))
-                          if p["years"] < shortest]
-    return curves
-
-
 # --------------------------------------------------------------------------
 # Long-run upkeep: meeting schedule and data health
 # --------------------------------------------------------------------------

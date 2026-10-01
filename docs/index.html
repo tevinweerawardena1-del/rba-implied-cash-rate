@@ -288,7 +288,6 @@
     <div class="legend" id="ycurveLegend"></div>
     <div class="chart-box" style="height:380px"><canvas id="ycurveChart" role="img" aria-label="Australian Government bond yield curve"></canvas></div>
     <div class="src">Source: RBA table F16 (indicative mid yields). Inflation-indexed bonds and Treasury notes excluded. <span data-asof="ycurve"></span></div>
-    <div class="src">Note on the front end: few government bonds mature within the next several months, so the dotted section is the implied cash rate from the Implied path chart above: each ASX 30 Day Interbank Cash Rate Futures month's implied rate in cash rate target terms, plotted mid-month at its distance from the curve date. It runs until the shortest government bond and then joins the bond yields.</div>
   </section>
 
   <!-- ===================== FX ===================== -->
@@ -707,15 +706,18 @@ function renderYieldCurve() {
   const label = (c) => `${c.label} (${fmtDate(c.as_at)})`;
   $("#ycurveLegend").innerHTML = ordered.map((c, i) =>
     `<span><i class="sw" style="background:var(${steps[i]});${c.latest ? "height:4px" : ""}"></i>${label(c)}</span>`).join("") +
-    `<span><i class="sw dash"></i>Cash rate target (${pct(latest.cash_rate_target)})</span>` +
-    `<span><i class="sw" style="background:repeating-linear-gradient(90deg, var(--seq-5) 0 4px, transparent 4px 8px)"></i>Front end: implied cash rate (see note)</span>`;
+    `<span><i class="sw dash"></i>Cash rate target (${pct(latest.cash_rate_target)})</span>`;
   const o = baseOptions({ time: false, yFmt: (v) => v.toFixed(2) + "%" });
   o.interaction = { mode: "nearest", intersect: false };
-  // Log scale: opens up the front end and compresses 10-30 years.
-  const TENORS = [[0.04, "2W"], [1 / 12, "1M"], [0.25, "3M"], [0.5, "6M"], [1, "1Y"], [2, "2Y"], [3, "3Y"], [5, "5Y"],
-                  [7, "7Y"], [10, "10Y"], [20, "20Y"], [30, "30Y"]];
+  // Log scale from the shortest bond on today's curve out to 30 years:
+  // gives the front end more room and compresses the long end.
+  const latestCurve = list.find((c) => c.latest) || list[0];
+  const xMin = latestCurve.points[0].years * 0.92;
+  const TENORS = [[1 / 12, "1M"], [0.25, "3M"], [0.5, "6M"], [0.75, "9M"], [1, "1Y"], [1.5, "18M"], [2, "2Y"],
+                  [3, "3Y"], [4, "4Y"], [5, "5Y"], [7, "7Y"], [10, "10Y"], [15, "15Y"], [20, "20Y"], [30, "30Y"]]
+    .filter(([v]) => v >= xMin);
   Object.assign(o.scales.x, {
-    type: "logarithmic", min: 0.04, max: 30,
+    type: "logarithmic", min: xMin, max: 30,
     afterBuildTicks: (axis) => { axis.ticks = TENORS.map(([v]) => ({ value: v })); },
     ticks: { ...o.scales.x.ticks, autoSkip: false, callback: (v) => (TENORS.find(([t]) => Math.abs(t - v) < 1e-6) || [, ""])[1] },
     grid: { display: true, color: css("--grid") },
@@ -723,11 +725,11 @@ function renderYieldCurve() {
   });
   o.plugins.tooltip.filter = (i) => i.dataset.label !== "Current target";
   o.plugins.tooltip.callbacks = {
-    title: (i) => i[0].raw.maturity ? `${i[0].raw.name} · matures ${fmtDate(i[0].raw.maturity)}` : i[0].raw.name,
+    title: (i) => `${i[0].raw.name} · matures ${fmtDate(i[0].raw.maturity)}`,
     label: (i) => {
       const y = i.raw.x;
       const t = y < 1 ? `${Math.round(y * 12)} months` : `${y.toFixed(1)} years`;
-      return ` ${i.dataset.label.replace(" front end", "")}: ${pct(i.raw.y, 3)} at ${t}`;
+      return ` ${i.dataset.label}: ${pct(i.raw.y, 3)} at ${t}`;
     },
   };
   const toPt = (p) => ({ x: p.years, y: p.yield, name: p.name, maturity: p.maturity });
@@ -735,17 +737,7 @@ function renderYieldCurve() {
     lineDS(label(c), c.points.map(toPt), css(steps[i]), {
       cubicInterpolationMode: "monotone", borderWidth: c.latest ? 3 : 1.5,
       pointRadius: c.latest ? 3 : 0, pointBackgroundColor: css(steps[i]), order: ordered.length - i }));
-  // Front end: futures-implied 1M/3M/6M rates, dotted, joined to the first bond.
-  ordered.forEach((c, i) => {
-    const fe = c.front_end || [];
-    if (!fe.length || !c.points.length) return;
-    datasets.push(lineDS(label(c) + " front end", [...fe.map(toPt), toPt(c.points[0])], css(steps[i]), {
-      borderDash: [4, 4], borderWidth: c.latest ? 2 : 1.25,
-      pointRadius: (ctx) => (c.latest && ctx.dataIndex < fe.length ? 3.5 : 0),
-      pointStyle: "circle", pointBackgroundColor: css("--surface"), pointBorderColor: css(steps[i]), pointBorderWidth: 1.5,
-      order: ordered.length - i }));
-  });
-  datasets.push({ ...refDS("Current target", 0.04, 30, latest.cash_rate_target), order: ordered.length + 1 });
+  datasets.push({ ...refDS("Current target", xMin, 30, latest.cash_rate_target), order: ordered.length + 1 });
   draw("ycurveChart", { type: "line", options: o, data: { datasets } });
 }
 
