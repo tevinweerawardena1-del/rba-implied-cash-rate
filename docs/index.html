@@ -709,10 +709,10 @@ function renderYieldCurve() {
     `<span><i class="sw dash"></i>Cash rate target (${pct(latest.cash_rate_target)})</span>`;
   const o = baseOptions({ time: false, yFmt: (v) => v.toFixed(2) + "%" });
   o.interaction = { mode: "nearest", intersect: false };
-  // Log scale from the shortest bond on today's curve out to 30 years:
-  // gives the front end more room and compresses the long end.
-  const latestCurve = list.find((c) => c.latest) || list[0];
-  const xMin = latestCurve.points[0].years * 0.92;
+  // Log scale out to 30 years: gives the front end more room and compresses
+  // the long end. Start where every curve has a bond, so all of them reach
+  // the left edge.
+  const xMin = Math.max(...list.map((c) => c.points[0].years));
   const TENORS = [[0.1, "0.1Y"], [0.25, "0.25Y"], [0.5, "0.5Y"], [0.75, "0.75Y"], [1, "1Y"], [1.5, "1.5Y"], [2, "2Y"],
                   [3, "3Y"], [4, "4Y"], [5, "5Y"], [7, "7Y"], [10, "10Y"], [15, "15Y"], [20, "20Y"], [30, "30Y"]]
     .filter(([v]) => v >= xMin);
