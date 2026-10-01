@@ -87,8 +87,8 @@ def test_parse_rba_f11_and_spread():
         "Description,x,x,x", "Frequency,Daily,Daily,Daily",
         "Series ID,FIRMMCRTD,FIRMMCCRT,FIRMMCRID",
         "26-Sep-2026,4.35,0,4.34",
-        "29-Sep-2026,4.35,0,4.34",
-        "30-Sep-2026,4.60,0.25,",
+        "29/09/2026,4.35,0,4.34",
+        "2026-09-30,4.60,0.25,",
     ])
     target, ibocr = parse_rba_f11(csv_text)
     t, t_asof, spread = rate_inputs(target, ibocr, date(2026, 9, 30))

@@ -143,6 +143,17 @@ def http_get(url: str) -> str:
     return r.text
 
 
+def parse_rba_date(s: str) -> date | None:
+    s = s.strip()
+    for fmt in ("%d-%b-%Y", "%d/%m/%Y", "%Y-%m-%d", "%d-%b-%y", "%d/%m/%y",
+                "%d %b %Y", "%Y/%m/%d"):
+        try:
+            return datetime.strptime(s, fmt).date()
+        except ValueError:
+            continue
+    return None
+
+
 def parse_rba_f11(text: str) -> tuple[dict[date, float], dict[date, float]]:
     rows = list(csv.reader(io.StringIO(text)))
     title = next(r for r in rows if r and r[0].strip().lower() == "title")
@@ -159,12 +170,11 @@ def parse_rba_f11(text: str) -> tuple[dict[date, float], dict[date, float]]:
         raise ValueError("Cash Rate Target column not found in RBA F1.1")
 
     target, ibocr = {}, {}
-    for r in rows[sid_i + 1:]:
-        if not r or not r[0].strip():
-            continue
-        try:
-            d = datetime.strptime(r[0].strip(), "%d-%b-%Y").date()
-        except ValueError:
+    data_rows = [r for r in rows[sid_i + 1:] if r and r[0].strip()]
+    print(f"RBA F1.1 sample rows: {data_rows[:1]} ... {data_rows[-1:]}")
+    for r in data_rows:
+        d = parse_rba_date(r[0])
+        if d is None:
             continue
         for c, store in ((t_col, target), (i_col, ibocr)):
             if c is not None and c < len(r) and r[c].strip():
