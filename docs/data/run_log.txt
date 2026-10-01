@@ -24,6 +24,18 @@ RBA F2: 5 columns
    - 'Australian Government 5 year bond': 2013-09-02 to 2026-09-23
    - 'Australian Government 10 year bond': 2013-05-20 to 2026-09-23
    - 'Australian Government Indexed Bond': 2014-11-20 to 2026-09-23
+   F16 header: ['F16 INDICATIVE MID RATES OF SELECTED AUSTRALIAN GOVERNMENT SECURITIES']
+   F16 header: ['Title', 'Treasury Bond', 'Treasury Bond', 'Treasury Bond']
+   F16 header: ['Description', 'Treasury Bond 119 6.25% 15-Apr-2015', 'Treasury Bond 134 4.75% 21-Oct-2015', 'Treasury Bond 130 4.75% 15-Jun-2016']
+   F16 header: ['Frequency', 'Daily', 'Daily', 'Daily']
+   F16 header: ['Type', 'Original', 'Original', 'Original']
+   F16 header: ['Units', 'Per cent annum', 'Per cent annum', 'Per cent annum']
+   F16 header: []
+   F16 header: []
+   F16 header: ['Source', 'RBA', 'RBA', 'RBA']
+   F16 header: ['Publication date', '25-Sep-2026', '25-Sep-2026', '25-Sep-2026']
+   F16 header: ['Series ID', 'FCMYAPR15D', 'FCMYOCT15D', 'FCMYJUN16D']
+RBA F16: 52 nominal bonds, maturities 2026-09-25 to 2054-06-21
 FRED DEXUSAL: 13969 obs to 2026-09-25
 FRED DGS2: 12579 obs to 2026-09-29
   2026-11-03: 4.656%  (+5.6bp, formula)
@@ -36,5 +48,5 @@ FRED DGS2: 12579 obs to 2026-09-29
   2027-09-28: 4.905%  (-0.8bp, clean-month)
   2027-11-02: 4.894%  (-1.1bp, formula)
   2027-12-14: 4.870%  (-2.4bp, clean-month)
-Status: {"ASX futures": "ok", "RBA F1": "ok", "RBA F2": "ok", "FRED AUD/USD": "ok", "FRED US 2y": "ok"}
+Status: {"ASX futures": "ok", "RBA F1": "ok", "RBA F2": "ok", "RBA F16": "ok", "FRED AUD/USD": "ok", "FRED US 2y": "ok"}
 Wrote charts: horizons=455 money=942 bonds=2701 fx=2182
