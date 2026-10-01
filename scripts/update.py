@@ -25,7 +25,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import sources as src  # noqa: E402
 from build import (daily_analytics, decisions, month_end_curves,  # noqa: E402
-                   outcome_probabilities, rate_inputs, align)
+                   outcome_probabilities, rate_inputs, align, yield_curves)
 from calc import implied_path, results_as_dicts, month_start  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -136,6 +136,8 @@ def run(backfill: bool):
         return src.Series()
     acgb2, acgb10 = acgb("2 year"), acgb("10 year")
 
+    bond_list = try_step("RBA F16", status, src.fetch_bonds) or []
+
     audusd = try_step("FRED AUD/USD", status, lambda: src.fetch_fred("DEXUSAL"))
     if not audusd:
         audusd = try_step("RBA AUD/USD", status, src.fetch_rba_audusd)
@@ -192,6 +194,11 @@ def run(backfill: bool):
     for name, rows in (("money_market", money), ("bonds", bonds), ("fx_differential", fx)):
         pd.DataFrame(rows).to_csv(DATA / f"{name}.csv", index=False)
 
+    curves_by_maturity = yield_curves(bond_list)
+    pd.DataFrame([{"curve": c["label"], "as_at": c["as_at"], **p}
+                  for c in curves_by_maturity for p in c["points"]]) \
+        .to_csv(DATA / "yield_curve.csv", index=False)
+
     charts = {
         "as_at": as_at.isoformat(),
         "generated_utc": latest["generated_utc"],
@@ -202,6 +209,7 @@ def run(backfill: bool):
         "outcomes": outcome_probabilities(results, tgt),
         "money_market": money,
         "bonds": bonds,
+        "yield_curves": curves_by_maturity,
         "fx": fx,
     }
     (DATA / "charts.json").write_text(json.dumps(charts, separators=(",", ":")))

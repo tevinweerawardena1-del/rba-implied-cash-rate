@@ -135,3 +135,31 @@ def align(base: Series, others: dict[str, Series], start: date) -> list[dict]:
             row[k] = hit[1] if hit and (d - hit[0]).days <= MAX_STALE_DAYS else None
         rows.append(row)
     return rows
+
+
+def yield_curves(bonds: list[dict], lookbacks=((0, "Latest"), (30, "1 month earlier"),
+                                               (365, "1 year earlier")),
+                 min_years: float = 0.25) -> list[dict]:
+    """Government bond yield curves by years to maturity, at the latest bond
+    date and at earlier dates. Each point is one bond's yield on that day."""
+    last = max((b["series"].last_date for b in bonds if b["series"]), default=None)
+    if last is None:
+        return []
+    curves = []
+    for days_back, label in lookbacks:
+        ref = last - timedelta(days=days_back)
+        pts = []
+        for b in bonds:
+            hit = b["series"].on_or_before(ref)
+            if not hit or (ref - hit[0]).days > MAX_STALE_DAYS:
+                continue
+            years = (b["maturity"] - ref).days / 365.25
+            if years < min_years:
+                continue
+            pts.append({"years": round(years, 3), "yield": hit[1], "name": b["name"],
+                        "maturity": b["maturity"].isoformat()})
+        if len(pts) >= 3:
+            curves.append({"label": label, "as_at": ref.isoformat(),
+                           "latest": days_back == 0,
+                           "points": sorted(pts, key=lambda p: p["years"])})
+    return curves

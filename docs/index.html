@@ -270,6 +270,15 @@
     <div class="src">Source: RBA table F2.</div>
   </section>
 
+  <section class="card" data-card="ycurve">
+    <div class="card-head">
+      <div><h2>ACGB yield curve</h2><p>Yield of each nominal Australian Government bond by years to maturity. Each dot is one bond</p></div>
+    </div>
+    <div class="legend" id="ycurveLegend"></div>
+    <div class="chart-box" style="height:380px"><canvas id="ycurveChart" role="img" aria-label="Australian Government bond yield curve"></canvas></div>
+    <div class="src">Source: RBA table F16 (indicative mid yields). Inflation-indexed bonds and Treasury notes excluded.</div>
+  </section>
+
   <!-- ===================== FX ===================== -->
   <h3 class="section" id="fx">AUD/USD</h3>
 
@@ -303,6 +312,7 @@
       <a href="data/futures_history.csv">futures</a> ·
       <a href="data/money_market.csv">bank bills</a> ·
       <a href="data/bonds.csv">bonds</a> ·
+      <a href="data/yield_curve.csv">yield curve</a> ·
       <a href="data/fx_differential.csv">AUD/USD &amp; differential</a> (CSV).</p>
     <p>Indicative only and not financial advice.</p>
   </section>
@@ -685,6 +695,32 @@ function renderFx() {
   ] } });
 }
 
+function renderYieldCurve() {
+  const list = charts.yield_curves || [];
+  if (!list.length) return emptyCard("ycurve", "Bond yield curve data unavailable today.");
+  // Oldest first so the latest draws on top; sequential shades by recency.
+  const ordered = [...list].reverse();
+  const steps = ["--seq-2", "--seq-3", "--seq-5"].slice(-ordered.length);
+  const label = (c) => `${c.label} (${fmtDate(c.as_at)})`;
+  $("#ycurveLegend").innerHTML = ordered.map((c, i) =>
+    `<span><i class="sw" style="background:var(${steps[i]});${c.latest ? "height:4px" : ""}"></i>${label(c)}</span>`).join("");
+  const o = baseOptions({ time: false, yFmt: (v) => v.toFixed(2) + "%" });
+  o.interaction = { mode: "nearest", intersect: false };
+  Object.assign(o.scales.x, {
+    type: "linear", min: 0, max: 30,
+    ticks: { ...o.scales.x.ticks, stepSize: 5, callback: (v) => v + "y" },
+    title: { display: true, text: "Years to maturity", color: css("--text-secondary"), font: { family: "IBM Plex Sans", size: 12 } },
+  });
+  o.plugins.tooltip.callbacks = {
+    title: (i) => `${i[0].raw.name} · matures ${fmtDate(i[0].raw.maturity)}`,
+    label: (i) => ` ${i.dataset.label}: ${pct(i.raw.y, 3)} at ${i.raw.x.toFixed(1)} years`,
+  };
+  draw("ycurveChart", { type: "line", options: o, data: { datasets: ordered.map((c, i) =>
+    lineDS(label(c), c.points.map((p) => ({ x: p.years, y: p.yield, name: p.name, maturity: p.maturity })), css(steps[i]), {
+      cubicInterpolationMode: "monotone", borderWidth: c.latest ? 3 : 1.5,
+      pointRadius: c.latest ? 3 : 0, pointBackgroundColor: css(steps[i]), order: ordered.length - i })) } });
+}
+
 const RENDER = { horizons: renderHorizons, nextmeeting: renderNextMeeting, history: renderHistory,
   babspread: renderBabSpread, bbsw: renderBbsw, acgb2: renderAcgb2, slope: renderSlope, fx: renderFx };
 
@@ -696,7 +732,7 @@ function renderAll() {
   if (failed.length && !(failed.length === 1 && failed[0] === "ASX futures" && notes.length)) notes.push(`Some sources didn't update today (${failed.join(", ")}); their charts show the last available data.`);
   if (notes.length) { $("#banner").style.display = "block"; $("#banner").textContent = notes.join(" "); }
   $("#footer").textContent = `Futures source today: ${latest.source}.`;
-  const steps = [renderTiles, renderPath, renderCurves, renderTable, renderOutcomes, ...Object.values(RENDER)];
+  const steps = [renderTiles, renderPath, renderCurves, renderTable, renderOutcomes, renderYieldCurve, ...Object.values(RENDER)];
   for (const fn of steps) { try { fn(); } catch (e) { console.error(fn.name, e); } }
 }
 

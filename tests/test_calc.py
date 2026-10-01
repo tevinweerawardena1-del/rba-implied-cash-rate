@@ -168,3 +168,30 @@ def test_align_respects_staleness():
     other = Series({date(2026, 8, 1): 5.0, date(2026, 9, 29): 6.0})
     rows = align(base, {"o": other}, date(2026, 1, 1))
     assert rows[0]["o"] is None and rows[1]["o"] == 6.0
+
+
+BOND_SAMPLE = "\n".join([
+    "F16  INDICATIVE MID RATES OF AUSTRALIAN GOVERNMENT SECURITIES,,,,",
+    "Title,Treasury Bond 167,Treasury Bond 150,Treasury Indexed Bond 20,Treasury Bond 168",
+    "Description,Treasury Bond 4.25% 21-Apr-2027,Treasury Bond 1.75% 21-Jun-2051,"
+    "Treasury Indexed Bond 2.5% 20-Sep-2030,Treasury Bond 3.25% 21-Jun-2039",
+    "Issue date,10/01/2015,12/06/2020,20/09/2009,01/01/2018",
+    "Series ID,A,B,C,D",
+    "30/09/2025,3.40,4.90,1.9,4.70",
+    "30/08/2026,4.40,5.30,2.0,5.10",
+    "30/09/2026,4.50,5.40,2.1,5.20",
+])
+
+
+def test_bond_table_and_yield_curves():
+    from sources import parse_bond_table
+    from build import yield_curves
+    bonds = parse_bond_table(BOND_SAMPLE)
+    assert {b["name"] for b in bonds} == {"Treasury Bond 167", "Treasury Bond 150", "Treasury Bond 168"}
+    mats = {b["name"]: b["maturity"] for b in bonds}
+    assert mats["Treasury Bond 150"] == date(2051, 6, 21)
+    curves = yield_curves(bonds)
+    assert [c["label"] for c in curves] == ["Latest", "1 month earlier", "1 year earlier"]
+    latest = curves[0]["points"]
+    assert [p["name"] for p in latest] == ["Treasury Bond 167", "Treasury Bond 168", "Treasury Bond 150"]
+    assert latest[-1]["years"] == pytest.approx(24.72, abs=0.01) and latest[-1]["yield"] == 5.40

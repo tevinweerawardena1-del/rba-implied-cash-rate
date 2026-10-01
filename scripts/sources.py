@@ -222,6 +222,58 @@ def fetch_rba(code: str) -> dict[str, dict[date, float]]:
     return cols
 
 
+_DATE_RE = re.compile(r"\b(\d{1,2}[-/ ](?:[A-Za-z]{3}|\d{1,2})[-/ ]\d{2,4})\b")
+
+
+def parse_bond_table(text: str, verbose: bool = False) -> list[dict]:
+    """RBA table F16 (indicative mid yields of each Commonwealth Government
+    bond). Returns [{name, maturity, series}] for nominal Treasury Bonds,
+    reading each bond's maturity from the header rows."""
+    rows = list(csv.reader(io.StringIO(text)))
+    sid_i = next(i for i, r in enumerate(rows)
+                 if r and r[0].strip().lower() == "series id")
+    head = rows[:sid_i + 1]
+    title = next(r for r in head if r and r[0].strip().lower() == "title")
+    if verbose:
+        for r in head:
+            print("   F16 header:", r[:4])
+    ncols = max(len(r) for r in rows)
+    bonds = []
+    for c in range(1, ncols):
+        name = title[c].strip() if c < len(title) else ""
+        text_c = " ".join(r[c] for r in head if c < len(r) and r[c].strip())
+        low = text_c.lower()
+        if not name or "index" in low or "note" in low:
+            continue
+        dates = [d for d in (parse_rba_date(m) for m in _DATE_RE.findall(text_c)) if d]
+        if not dates:
+            continue
+        bonds.append({"name": name, "maturity": max(dates), "col": c, "data": {}})
+    for r in rows[sid_i + 1:]:
+        if not r or not r[0].strip():
+            continue
+        d = parse_rba_date(r[0])
+        if d is None:
+            continue
+        for b in bonds:
+            c = b["col"]
+            if c < len(r) and r[c].strip():
+                try:
+                    b["data"][d] = float(r[c])
+                except ValueError:
+                    pass
+    out = [{"name": b["name"], "maturity": b["maturity"], "series": Series(b["data"])}
+           for b in bonds if b["data"]]
+    print(f"RBA F16: {len(out)} nominal bonds, maturities "
+          f"{min((b['maturity'] for b in out), default=None)} to "
+          f"{max((b['maturity'] for b in out), default=None)}")
+    return out
+
+
+def fetch_bonds() -> list[dict]:
+    return parse_bond_table(http_get(RBA_CSV.format(code="f16")), verbose=True)
+
+
 def pick(cols: dict[str, dict], *must: str, exclude: tuple[str, ...] = ()) -> Series:
     """Find a column whose title contains every word in `must` (case-insensitive)."""
     for t, s in cols.items():
