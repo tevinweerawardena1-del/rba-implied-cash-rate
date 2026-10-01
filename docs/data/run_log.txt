@@ -1,0 +1,23 @@
+RBA F1.1 columns: target=1, ibocr=2
+Backfill failed; continuing with today's update only:
+Traceback (most recent call last):
+  File "/Users/runner/work/rba-implied-cash-rate/rba-implied-cash-rate/scripts/update.py", line 346, in <module>
+    run_backfill()
+  File "/Users/runner/work/rba-implied-cash-rate/rba-implied-cash-rate/scripts/update.py", line 325, in run_backfill
+    target, target_as_of, spread = rate_inputs(target_s, ibocr_s, as_at)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/runner/work/rba-implied-cash-rate/rba-implied-cash-rate/scripts/update.py", line 191, in rate_inputs
+    raise ValueError(f"No cash rate target on or before {as_at}")
+ValueError: No cash rate target on or before 2025-01-02
+ASX scrape attempt 1
+Futures as at 2026-09-30: 17 contracts
+RBA F1.1 columns: target=1, ibocr=2
+Traceback (most recent call last):
+  File "/Users/runner/work/rba-implied-cash-rate/rba-implied-cash-rate/scripts/update.py", line 351, in <module>
+    run_daily()
+  File "/Users/runner/work/rba-implied-cash-rate/rba-implied-cash-rate/scripts/update.py", line 282, in run_daily
+    target, target_as_of, spread = rate_inputs(target_s, ibocr_s, as_at)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/runner/work/rba-implied-cash-rate/rba-implied-cash-rate/scripts/update.py", line 191, in rate_inputs
+    raise ValueError(f"No cash rate target on or before {as_at}")
+ValueError: No cash rate target on or before 2026-09-30
