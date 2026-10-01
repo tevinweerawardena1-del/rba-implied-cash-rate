@@ -246,11 +246,13 @@ def parse_bond_table(text: str, verbose: bool = False) -> list[dict]:
         # e.g. "Treasury Bond 168 3.25% 21-Jun-2039".
         if c < len(desc) and desc[c].strip():
             name = desc[c].strip()
-        text_c = " ".join(r[c] for r in head if c < len(r) and r[c].strip())
-        low = text_c.lower()
+        # Read the maturity only from the bond's own title/description: other
+        # header rows hold dates too (e.g. the file's publication date).
+        ident = " ".join(x[c] for x in (title, desc) if c < len(x) and x[c].strip())
+        low = ident.lower()
         if not name or "index" in low or "note" in low:
             continue
-        dates = [d for d in (parse_rba_date(m) for m in _DATE_RE.findall(text_c)) if d]
+        dates = [d for d in (parse_rba_date(m) for m in _DATE_RE.findall(ident)) if d]
         if not dates:
             continue
         bonds.append({"name": name, "maturity": max(dates), "col": c, "data": {}})

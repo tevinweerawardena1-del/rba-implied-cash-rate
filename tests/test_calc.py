@@ -176,6 +176,7 @@ BOND_SAMPLE = "\n".join([
     "Description,Treasury Bond 4.25% 21-Apr-2027,Treasury Bond 1.75% 21-Jun-2051,"
     "Treasury Indexed Bond 2.5% 20-Sep-2030,Treasury Bond 3.25% 21-Jun-2039",
     "Issue date,10/01/2015,12/06/2020,20/09/2009,01/01/2018",
+    "Publication date,25-Sep-2052,25-Sep-2052,25-Sep-2052,25-Sep-2052",
     "Series ID,A,B,C,D",
     "30/09/2025,3.40,4.90,1.9,4.70",
     "30/08/2026,4.40,5.30,2.0,5.10",

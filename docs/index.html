@@ -713,7 +713,7 @@ function renderYieldCurve() {
   // gives the front end more room and compresses the long end.
   const latestCurve = list.find((c) => c.latest) || list[0];
   const xMin = latestCurve.points[0].years * 0.92;
-  const TENORS = [[1 / 12, "1M"], [0.25, "3M"], [0.5, "6M"], [0.75, "9M"], [1, "1Y"], [1.5, "18M"], [2, "2Y"],
+  const TENORS = [[0.1, "0.1Y"], [0.25, "0.25Y"], [0.5, "0.5Y"], [0.75, "0.75Y"], [1, "1Y"], [1.5, "1.5Y"], [2, "2Y"],
                   [3, "3Y"], [4, "4Y"], [5, "5Y"], [7, "7Y"], [10, "10Y"], [15, "15Y"], [20, "20Y"], [30, "30Y"]]
     .filter(([v]) => v >= xMin);
   Object.assign(o.scales.x, {
@@ -728,7 +728,7 @@ function renderYieldCurve() {
     title: (i) => `${i[0].raw.name} · matures ${fmtDate(i[0].raw.maturity)}`,
     label: (i) => {
       const y = i.raw.x;
-      const t = y < 1 ? `${Math.round(y * 12)} months` : `${y.toFixed(1)} years`;
+      const t = `${y.toFixed(2)} years`;
       return ` ${i.dataset.label}: ${pct(i.raw.y, 3)} at ${t}`;
     },
   };
