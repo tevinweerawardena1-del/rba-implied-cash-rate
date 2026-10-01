@@ -14,6 +14,7 @@
     "US 2-year Treasury": "2026-09-29",
     "US 10-year Treasury": "2026-09-29",
     "RBA CPI (G1)": "2026-06-30",
-    "RBA unemployment (H5)": "2026-08-31"
+    "RBA unemployment (H5)": "2026-08-31",
+    "US term premium (Kim-Wright)": "2026-09-25"
   }
 }
