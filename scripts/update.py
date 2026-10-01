@@ -28,7 +28,7 @@ import sources as src  # noqa: E402
 from build import (daily_analytics, decisions, month_end_curves,  # noqa: E402
                    outcome_probabilities, rate_inputs, align, yield_curves,
                    merge_meetings, health_check, forwards_series, real_cash_rate,
-                   pricing_scorecard, taylor_series, taylor_projection, ois_curves)
+                   pricing_scorecard, taylor_series, taylor_projection)
 from calc import implied_path, results_as_dicts, month_start  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -229,9 +229,6 @@ def run(backfill: bool):
     us = [{"date": row["date"], "ust2": r(row["base"]), "ust10": r(row["y10"])}
           for row in align(ust2, {"y10": ust10}, US_FROM)]
     scorecard = pricing_scorecard(meeting_rows, target, meetings)
-    ois = ois_curves(fh)
-    pd.DataFrame([{"curve": c["label"], "as_at": c["as_at"], **p} for c in ois for p in c["points"]]) \
-        .to_csv(DATA / "ois_curve.csv", index=False)
     taylor_params = json.loads((ROOT / "config" / "taylor.json").read_text())
     taylor = taylor_series(target, cpi_trimmed, unemp, taylor_params)
     taylor_proj = taylor_projection(taylor, target.on_or_before(as_at)[1], taylor_params)
@@ -299,7 +296,6 @@ def run(backfill: bool):
         "real_cash": real,
         "us_yields": us,
         "scorecard": scorecard,
-        "ois": ois,
         "taylor": taylor,
         "taylor_projection": taylor_proj,
         "taylor_params": {k: v for k, v in taylor_params.items() if not k.startswith("_")},
