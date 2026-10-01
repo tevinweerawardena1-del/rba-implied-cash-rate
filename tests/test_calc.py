@@ -187,11 +187,12 @@ def test_bond_table_and_yield_curves():
     from sources import parse_bond_table
     from build import yield_curves
     bonds = parse_bond_table(BOND_SAMPLE)
-    assert {b["name"] for b in bonds} == {"Treasury Bond 167", "Treasury Bond 150", "Treasury Bond 168"}
-    mats = {b["name"]: b["maturity"] for b in bonds}
-    assert mats["Treasury Bond 150"] == date(2051, 6, 21)
+    assert {b["name"] for b in bonds} == {"Treasury Bond 4.25% 21-Apr-2027", "Treasury Bond 1.75% 21-Jun-2051",
+                                         "Treasury Bond 3.25% 21-Jun-2039"}
+    mats = {b["maturity"]: b["name"] for b in bonds}
+    assert date(2051, 6, 21) in mats
     curves = yield_curves(bonds)
     assert [c["label"] for c in curves] == ["Latest", "1 month earlier", "1 year earlier"]
     latest = curves[0]["points"]
-    assert [p["name"] for p in latest] == ["Treasury Bond 167", "Treasury Bond 168", "Treasury Bond 150"]
+    assert [p["maturity"] for p in latest] == ["2027-04-21", "2039-06-21", "2051-06-21"]
     assert latest[-1]["years"] == pytest.approx(24.72, abs=0.01) and latest[-1]["yield"] == 5.40

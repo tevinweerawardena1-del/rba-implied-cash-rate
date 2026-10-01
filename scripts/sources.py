@@ -234,6 +234,7 @@ def parse_bond_table(text: str, verbose: bool = False) -> list[dict]:
                  if r and r[0].strip().lower() == "series id")
     head = rows[:sid_i + 1]
     title = next(r for r in head if r and r[0].strip().lower() == "title")
+    desc = next((r for r in head if r and r[0].strip().lower() == "description"), [])
     if verbose:
         for r in head:
             print("   F16 header:", r[:4])
@@ -241,6 +242,10 @@ def parse_bond_table(text: str, verbose: bool = False) -> list[dict]:
     bonds = []
     for c in range(1, ncols):
         name = title[c].strip() if c < len(title) else ""
+        # Titles are often just "Treasury Bond"; the description names the line,
+        # e.g. "Treasury Bond 168 3.25% 21-Jun-2039".
+        if c < len(desc) and desc[c].strip():
+            name = desc[c].strip()
         text_c = " ".join(r[c] for r in head if c < len(r) and r[c].strip())
         low = text_c.lower()
         if not name or "index" in low or "note" in low:
