@@ -151,6 +151,17 @@
   <h3 class="section" id="expectations">Cash rate expectations</h3>
   <section class="tiles" id="tiles"></section>
 
+  <section class="card" data-card="path">
+    <div class="card-head">
+      <div><h2>Implied path</h2><p>Market-implied cash rate for each month ahead, from the 30-day interbank futures strip</p></div>
+    </div>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--series-1)"></i>Implied future cash rate</span>
+      <span><i class="sw dash"></i>Current target</span>
+    </div>
+    <div class="chart-box"><canvas id="pathChart" role="img" aria-label="Implied future cash rate"></canvas></div>
+  </section>
+
   <section class="card" data-card="curves">
     <div class="card-head">
       <div><h2>Futures implied curves</h2><p>The 30-day interbank futures strip today and at the previous three month ends. The most recent curve is the boldest</p></div>
@@ -466,6 +477,27 @@ function renderTable() {
   $("#meetingTable").innerHTML = `<thead><tr><th>Decision</th><th>Implied rate</th><th>Change at meeting</th><th>Probability</th><th>Cumulative</th></tr></thead><tbody>${rows}${beyond}</tbody>`;
 }
 
+function renderPath() {
+  const fut = latest.futures || [];
+  if (!fut.length) return emptyCard("path", "No futures data yet.");
+  const target = latest.cash_rate_target;
+  // Plot each contract mid-month, in cash rate target terms.
+  const data = fut.map((f) => ({ x: ts(f.month) + 14 * DAY, y: f.target_equivalent, month: f.month, raw: f.implied_yield }));
+  const x0 = data[0].x, x1 = data[data.length - 1].x;
+  const o = baseOptions();
+  o.interaction = { mode: "nearest", intersect: false, axis: "x" };
+  o.plugins.tooltip.filter = (i) => i.dataset.label !== "Current target";
+  o.plugins.tooltip.callbacks = {
+    title: (i) => fmtDate(i[0].raw.month, { month: "long", year: "numeric" }),
+    label: (i) => [` Implied cash rate ${pct(i.raw.y, 3)}`, ` ${bp((i.raw.y - target) * 100)} vs today · futures price ${(100 - i.raw.raw).toFixed(3)}`],
+  };
+  Object.assign(o.scales.x, { min: x0, max: x1, time: { unit: "month", displayFormats: { month: "MMM yy" } } });
+  draw("pathChart", { type: "line", options: o, data: { datasets: [
+    lineDS("Implied future cash rate", data, css("--series-1"), { cubicInterpolationMode: "monotone", borderWidth: 2.5 }),
+    refDS("Current target", x0, x1, target),
+  ] } });
+}
+
 let outcomeIdx = 0;
 function renderOutcomes() {
   const list = charts.outcomes || [];
@@ -664,7 +696,7 @@ function renderAll() {
   if (failed.length && !(failed.length === 1 && failed[0] === "ASX futures" && notes.length)) notes.push(`Some sources didn't update today (${failed.join(", ")}); their charts show the last available data.`);
   if (notes.length) { $("#banner").style.display = "block"; $("#banner").textContent = notes.join(" "); }
   $("#footer").textContent = `Futures source today: ${latest.source}.`;
-  const steps = [renderTiles, renderCurves, renderTable, renderOutcomes, ...Object.values(RENDER)];
+  const steps = [renderTiles, renderPath, renderCurves, renderTable, renderOutcomes, ...Object.values(RENDER)];
   for (const fn of steps) { try { fn(); } catch (e) { console.error(fn.name, e); } }
 }
 
