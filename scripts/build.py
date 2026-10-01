@@ -180,7 +180,9 @@ def merge_meetings(config_dates: list[date], scraped: dict[int, list[date]] | No
 # Calendar days a source may lag today before it's flagged as stale.
 STALE_AFTER = {"ASX futures": 6, "RBA cash rate & bank bills (F1)": 8,
                "RBA bond yields (F2)": 28, "RBA bond lines (F16)": 28, "AUD/USD": 10,
-               "US 2-year Treasury": 10}
+               "US 2-year Treasury": 10, "US 10-year Treasury": 10,
+               # Quarterly CPI arrives about 4 weeks after each quarter ends.
+               "RBA CPI (G1)": 135}
 
 
 def health_check(today: date, last_dates: dict[str, date | None], meetings: list[date],
@@ -205,3 +207,123 @@ def health_check(today: date, last_dates: dict[str, date | None], meetings: list
         else:
             notes.append(msg + "; later meetings will appear once the RBA publishes them.")
     return {"checked": today.isoformat(), "warnings": warnings, "notes": notes}
+
+
+# --------------------------------------------------------------------------
+# Forward rates from the government bond curve
+# --------------------------------------------------------------------------
+
+def _interp(points: list[tuple[float, float]], t: float) -> float | None:
+    """Linear interpolation of yield on years to maturity (no extrapolation)."""
+    if not points or t < points[0][0] or t > points[-1][0]:
+        return None
+    for (t0, y0), (t1, y1) in zip(points, points[1:]):
+        if t0 <= t <= t1:
+            return y0 if t1 == t0 else y0 + (y1 - y0) * (t - t0) / (t1 - t0)
+    return points[-1][1]
+
+
+def forward_rate(ya: float, ta: float, yb: float, tb: float) -> float:
+    """Annually compounded forward rate (%) between ta and tb years."""
+    return (((1 + yb / 100) ** tb / (1 + ya / 100) ** ta) ** (1 / (tb - ta)) - 1) * 100
+
+
+def forwards_series(bonds: list[dict], start: date, min_years: float = 0.25) -> list[dict]:
+    """Daily 1y1y, 2y1y and 5y5y forwards. Each day, that day's bond yields are
+    interpolated by maturity to get 1, 2, 3, 5 and 10-year rates (treating
+    yields as zero rates, a standard approximation), then forwards follow."""
+    all_dates = sorted({d for b in bonds for d in b["series"].dates if d >= start})
+    rows = []
+    for d in all_dates:
+        pts = []
+        for b in bonds:
+            hit = b["series"].on_or_before(d)
+            if not hit or hit[0] != d:
+                continue
+            t = (b["maturity"] - d).days / 365.25
+            if t >= min_years:
+                pts.append((t, hit[1]))
+        pts.sort()
+        if len(pts) < 6:
+            continue
+        y = {n: _interp(pts, n) for n in (1, 2, 3, 5, 10)}
+        if None in y.values():
+            continue
+        rows.append({"date": d.isoformat(),
+                     "f1y1y": round(forward_rate(y[1], 1, y[2], 2), 4),
+                     "f2y1y": round(forward_rate(y[2], 2, y[3], 3), 4),
+                     "f5y5y": round(forward_rate(y[5], 5, y[10], 10), 4)})
+    return rows
+
+
+# --------------------------------------------------------------------------
+# Real cash rate
+# --------------------------------------------------------------------------
+
+def month_end(d: date) -> date:
+    return add_months(d.replace(day=1), 1) - timedelta(days=1)
+
+
+def real_cash_rate(target: Series, headline: Series, trimmed: Series, start: date) -> list[dict]:
+    """Ex-post real cash rate each quarter: cash rate target at the end of the
+    quarter minus year-ended inflation for that quarter."""
+    rows = []
+    for d, h in headline.items(start):
+        q_end = month_end(d)
+        t = target.on_or_before(q_end)
+        if t is None:
+            continue
+        tm = trimmed.on_or_before(d)
+        tm = tm[1] if tm and tm[0] == d else None
+        rows.append({"date": q_end.isoformat(), "cash_rate": t[1], "cpi_ye": h,
+                     "trimmed_mean_ye": tm,
+                     "real_headline": round(t[1] - h, 3),
+                     "real_trimmed_mean": None if tm is None else round(t[1] - tm, 3)})
+    return rows
+
+
+# --------------------------------------------------------------------------
+# Market pricing scorecard
+# --------------------------------------------------------------------------
+
+SCORE_HORIZONS = ((91, "3 months"), (30, "1 month"), (7, "1 week"), (1, "1 day"))
+
+
+def pricing_scorecard(meeting_rows: list[dict], target: Series, meetings: list[date]) -> dict:
+    """For each RBA decision with a known outcome: the change futures priced
+    for that meeting at several horizons before it, versus the actual change."""
+    by_meeting: dict[str, list[tuple[str, float]]] = {}
+    for r in meeting_rows:
+        by_meeting.setdefault(r["decision_date"], []).append((r["as_at"], r["change_bp"]))
+    for v in by_meeting.values():
+        v.sort()
+    rows = []
+    last_known = target.last_date
+    for d in meetings:
+        if last_known is None or d + timedelta(days=1) > last_known:
+            continue
+        before, after = target.on_or_before(d), target.on_or_before(d + timedelta(days=1))
+        if not before or not after:
+            continue
+        hist = by_meeting.get(d.isoformat(), [])
+        priced = {}
+        for days, label in SCORE_HORIZONS:
+            cutoff = (d - timedelta(days=days)).isoformat()
+            # Latest close on or before the cutoff (and not more than a week earlier).
+            cands = [(a, c) for a, c in hist if a <= cutoff
+                     and (date.fromisoformat(cutoff) - date.fromisoformat(a)).days <= 7]
+            priced[label] = round(cands[-1][1], 1) if cands else None
+        if all(v is None for v in priced.values()):
+            continue
+        actual = round((after[1] - before[1]) * 100)
+        day_before = priced["1 day"]
+        rows.append({"decision_date": d.isoformat(), "actual_bp": actual,
+                     "rate_after": after[1], "priced_bp": priced,
+                     "surprise_bp": None if day_before is None else round(actual - day_before, 1)})
+    summary = {}
+    for _, label in SCORE_HORIZONS:
+        errs = [abs(r["actual_bp"] - r["priced_bp"][label]) for r in rows
+                if r["priced_bp"][label] is not None]
+        summary[label] = {"mean_abs_miss_bp": round(sum(errs) / len(errs), 1) if errs else None,
+                          "n": len(errs)}
+    return {"rows": rows, "summary": summary, "horizons": [l for _, l in SCORE_HORIZONS]}

@@ -27,7 +27,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import sources as src  # noqa: E402
 from build import (daily_analytics, decisions, month_end_curves,  # noqa: E402
                    outcome_probabilities, rate_inputs, align, yield_curves,
-                   merge_meetings, health_check)
+                   merge_meetings, health_check, forwards_series, real_cash_rate,
+                   pricing_scorecard)
 from calc import implied_path, results_as_dicts, month_start  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -40,6 +41,9 @@ DECISIONS_FROM = date(2016, 1, 1)
 MONEY_FROM = date(2023, 1, 1)
 BONDS_FROM = date(2016, 1, 1)
 FX_FROM = date(2018, 1, 1)
+US_FROM = date(2000, 1, 1)
+FORWARDS_FROM = date(2016, 1, 1)
+REAL_FROM = date(2011, 1, 1)
 
 
 def load_meetings() -> list[date]:
@@ -158,6 +162,17 @@ def run(backfill: bool):
         if ust2:
             status.pop("FRED US 2y", None)
     audusd, ust2 = audusd or src.Series(), ust2 or src.Series()
+    ust10 = try_step("FRED US 10y", status, lambda: src.fetch_fred("DGS10"))
+    if not ust10:
+        ust10 = try_step("US Treasury 10y", status, lambda: src.fetch_treasury(US_FROM.year, "10 Yr"))
+        if ust10:
+            status.pop("FRED US 10y", None)
+    ust10 = ust10 or src.Series()
+
+    g1 = try_step("RBA G1 (CPI)", status, lambda: src.fetch_rba("g1")) or {}
+    cpi_headline = (src.pick_exact(g1, "Year-ended inflation")
+                    or src.pick(g1, "year-ended", "inflation", exclude=("trimmed", "weighted", "excluding", "tradable", "non-tradable", "seasonally")))
+    cpi_trimmed = src.pick(g1, "year-ended", "trimmed mean")
 
     # ---- 3. Analytics ----------------------------------------------------
     meeting_rows, horizon_rows = daily_analytics(fh, target, ibocr, meetings)
@@ -203,6 +218,26 @@ def run(backfill: bool):
     for name, rows in (("money_market", money), ("bonds", bonds), ("fx_differential", fx)):
         pd.DataFrame(rows).to_csv(DATA / f"{name}.csv", index=False)
 
+    acgb5 = acgb("5 year")
+    fly = [{"date": row["date"],
+            "fly_bp": None if None in (row["y5"], row["y10"]) else r((2 * row["y5"] - row["base"] - row["y10"]) * 100, 1)}
+           for row in align(acgb2, {"y5": acgb5, "y10": acgb10}, BONDS_FROM)]
+    forwards = forwards_series(bond_list, FORWARDS_FROM)
+    cash_daily = [{"date": d.isoformat(), "rate": v} for d, v in target.items(FORWARDS_FROM)]
+    real = real_cash_rate(target, cpi_headline, cpi_trimmed, REAL_FROM)
+    us = [{"date": row["date"], "ust2": r(row["base"]), "ust10": r(row["y10"])}
+          for row in align(ust2, {"y10": ust10}, US_FROM)]
+    scorecard = pricing_scorecard(meeting_rows, target, meetings)
+    for name, rows in (("butterfly_2s5s10s", fly), ("forward_rates", forwards),
+                       ("real_cash_rate", real), ("us_treasury_yields", us)):
+        pd.DataFrame(rows).to_csv(DATA / f"{name}.csv", index=False)
+    pd.DataFrame([{"decision_date": x["decision_date"], "actual_bp": x["actual_bp"],
+                   **{f"priced_{k.replace(' ', '_')}_before_bp": v for k, v in x["priced_bp"].items()},
+                   "surprise_bp": x["surprise_bp"]} for x in scorecard["rows"]]) \
+        .to_csv(DATA / "pricing_scorecard.csv", index=False)
+    print(f"Forwards {len(forwards)} days, fly {len(fly)}, real {len(real)} quarters, "
+          f"US {len(us)}, scorecard {len(scorecard['rows'])} meetings")
+
     curves_by_maturity = yield_curves(bond_list)
     pd.DataFrame([{"curve": c["label"], "as_at": c["as_at"], **p}
                   for c in curves_by_maturity for p in c["points"]]) \
@@ -215,7 +250,9 @@ def run(backfill: bool):
                   "RBA bond yields (F2)": acgb2.last_date,
                   "RBA bond lines (F16)": bond_last,
                   "AUD/USD": audusd.last_date,
-                  "US 2-year Treasury": ust2.last_date}
+                  "US 2-year Treasury": ust2.last_date,
+                  "US 10-year Treasury": ust10.last_date,
+                  "RBA CPI (G1)": cpi_headline.last_date}
     today = datetime.now(ZoneInfo("Australia/Sydney")).date()
     health = health_check(today, last_dates, meetings, last_month)
     health["failed_steps"] = [k for k, v in status.items() if v != "ok"]
@@ -231,7 +268,11 @@ def run(backfill: bool):
                  "money": money[-1]["date"] if money else None,
                  "bonds": bonds[-1]["date"] if bonds else None,
                  "ycurve": curves_by_maturity[0]["as_at"] if curves_by_maturity else None,
-                 "fx": fx[-1]["date"] if fx else None},
+                 "fx": fx[-1]["date"] if fx else None,
+                 "forwards": forwards[-1]["date"] if forwards else None,
+                 "fly": next((x["date"] for x in reversed(fly) if x["fly_bp"] is not None), None),
+                 "real": real[-1]["date"] if real else None,
+                 "us": us[-1]["date"] if us else None},
         "generated_utc": latest["generated_utc"],
         "status": status,
         "decisions": decisions(target, DECISIONS_FROM),
@@ -241,6 +282,12 @@ def run(backfill: bool):
         "money_market": money,
         "bonds": bonds,
         "yield_curves": curves_by_maturity,
+        "forwards": forwards,
+        "cash_daily": cash_daily,
+        "fly": fly,
+        "real_cash": real,
+        "us_yields": us,
+        "scorecard": scorecard,
         "fx": fx,
     }
     (DATA / "charts.json").write_text(json.dumps(charts, separators=(",", ":")))

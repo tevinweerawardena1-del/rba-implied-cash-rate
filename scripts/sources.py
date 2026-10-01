@@ -352,16 +352,20 @@ def parse_treasury(text: str, column: str = "2 Yr") -> dict[date, float]:
     return out
 
 
-def fetch_treasury_2y(start_year: int) -> Series:
-    """US 2-year Treasury par yield from the US Treasury's yearly CSV files."""
+def fetch_treasury(start_year: int, column: str = "2 Yr") -> Series:
+    """US Treasury par yield (e.g. "2 Yr", "10 Yr") from the US Treasury's yearly CSV files."""
     data: dict[date, float] = {}
     for y in range(start_year, date.today().year + 1):
-        data.update(parse_treasury(http_get(TREASURY_CSV.format(year=y), tries=2)))
+        data.update(parse_treasury(http_get(TREASURY_CSV.format(year=y), tries=2), column))
     s = Series(data)
     if not s:
-        raise ValueError("No US Treasury 2-year data parsed")
-    print(f"US Treasury 2y: {len(s)} obs to {s.last_date}")
+        raise ValueError(f"No US Treasury {column} data parsed")
+    print(f"US Treasury {column}: {len(s)} obs to {s.last_date}")
     return s
+
+
+def fetch_treasury_2y(start_year: int) -> Series:
+    return fetch_treasury(start_year, "2 Yr")
 
 
 def fetch_rba_audusd() -> Series:

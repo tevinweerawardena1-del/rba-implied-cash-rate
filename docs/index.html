@@ -152,7 +152,7 @@
     <a href="#expectations">Cash rate expectations</a>
     <a href="#money">Money markets</a>
     <a href="#bonds">Government bonds</a>
-    <a href="#fx">AUD/USD</a>
+    <a href="#fx">Global &amp; FX</a>
   </nav>
 
   <div class="banner" id="banner"></div>
@@ -229,6 +229,28 @@
     <div class="chart-box"><canvas id="histChart" role="img" aria-label="History of implied rates for upcoming meetings"></canvas></div>
   </section>
 
+
+  <section class="card" data-card="scorecard">
+    <div class="card-head">
+      <div><h2>Market pricing scorecard</h2><p>For each RBA decision: the change futures priced before the meeting, against what the RBA did. Surprise = outcome minus pricing the day before</p></div>
+    </div>
+    <div class="table-scroll"><table id="scoreTable"></table></div>
+    <div class="src" id="scoreSummary"></div>
+  </section>
+
+  <section class="card" data-card="real">
+    <div class="card-head">
+      <div><h2>Real cash rate</h2><p>Cash rate target minus year-ended inflation, each quarter. Above zero means the policy rate is above inflation</p></div>
+      <div class="seg" data-range="real"></div>
+    </div>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--series-1)"></i>Real cash rate (trimmed mean inflation)</span>
+      <span><i class="sw" style="background:var(--series-2)"></i>Real cash rate (headline CPI)</span>
+    </div>
+    <div class="chart-box"><canvas id="realChart" role="img" aria-label="Real cash rate"></canvas></div>
+    <div class="src">Sources: RBA table G1 (consumer price inflation), RBA table F1. Ex-post: uses inflation over the past year. <span data-asof="real"></span></div>
+  </section>
+
   <!-- ===================== Money markets ===================== -->
   <h3 class="section" id="money">Money markets</h3>
 
@@ -290,8 +312,46 @@
     <div class="src">Source: RBA table F16 (indicative mid yields). Inflation-indexed bonds and Treasury notes excluded. <span data-asof="ycurve"></span></div>
   </section>
 
+
+  <section class="card" data-card="forwards">
+    <div class="card-head">
+      <div><h2>Forward rates</h2><p>Rates the government bond curve implies for future periods: 1-year rate in 1 year (1y1y), in 2 years (2y1y), and 5-year rate in 5 years (5y5y)</p></div>
+      <div class="seg" data-range="forwards"></div>
+    </div>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--series-1)"></i>1y1y</span>
+      <span><i class="sw" style="background:var(--series-2)"></i>2y1y</span>
+      <span><i class="sw" style="background:var(--series-3)"></i>5y5y</span>
+      <span><i class="sw" style="background:var(--ref)"></i>Cash rate target</span>
+    </div>
+    <div class="chart-box"><canvas id="forwardsChart" role="img" aria-label="Forward rates"></canvas></div>
+    <div class="src">Calculated from RBA table F16: each day's bond yields are interpolated by maturity to 1, 2, 3, 5 and 10 years (treated as zero rates, a standard approximation), then compounded annually into forwards. <span data-asof="forwards"></span></div>
+  </section>
+
+  <section class="card" data-card="fly">
+    <div class="card-head">
+      <div><h2>2s5s10s butterfly</h2><p>2 × 5-year yield − 2-year − 10-year, in basis points. Positive means the 5-year belly is cheap (high) relative to the wings</p></div>
+      <div class="seg" data-range="fly"></div>
+    </div>
+    <div class="chart-box"><canvas id="flyChart" role="img" aria-label="2s5s10s ACGB butterfly"></canvas></div>
+    <div class="src">Source: RBA table F2. <span data-asof="fly"></span></div>
+  </section>
+
   <!-- ===================== FX ===================== -->
-  <h3 class="section" id="fx">AUD/USD</h3>
+  <h3 class="section" id="fx">Global &amp; FX</h3>
+
+  <section class="card" data-card="us">
+    <div class="card-head">
+      <div><h2>US Treasury yields</h2><p>US 2-year and 10-year Treasury yields</p></div>
+      <div class="seg" data-range="us"></div>
+    </div>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--series-1)"></i>2-year</span>
+      <span><i class="sw" style="background:var(--series-2)"></i>10-year</span>
+    </div>
+    <div class="chart-box"><canvas id="usChart" role="img" aria-label="US 2-year and 10-year Treasury yields"></canvas></div>
+    <div class="src">Source: FRED (US Treasury constant maturity yields). <span data-asof="us"></span></div>
+  </section>
 
   <section class="card" data-card="fx">
     <div class="card-head">
@@ -425,7 +485,8 @@ const RANGE_SETS = {
 // Default windows roll forward with the data (e.g. always the last 2 years), so
 // charts stay readable as history accumulates. "All" is still one click away.
 const CARD_RANGE = { horizons: ["short", 730], nextmeeting: ["short", 730], history: ["short", 91],
-  babspread: ["long", 1096], bbsw: ["long", 1096], acgb2: ["long", 3653], slope: ["long", 3653], fx: ["long", 3653] };
+  babspread: ["long", 1096], bbsw: ["long", 1096], acgb2: ["long", 3653], slope: ["long", 3653], fx: ["long", 3653],
+  real: ["long", 3653], forwards: ["long", 3653], fly: ["long", 3653], us: ["long", 3653] };
 
 function setupRanges() {
   document.querySelectorAll("[data-range]").forEach((seg) => {
@@ -741,8 +802,88 @@ function renderYieldCurve() {
   draw("ycurveChart", { type: "line", options: o, data: { datasets } });
 }
 
+function renderScorecard() {
+  const sc = charts.scorecard;
+  if (!sc || !sc.rows.length) return emptyCard("scorecard", "No completed RBA decisions in the futures history yet.");
+  const up = css("--up"), down = css("--down");
+  const outcome = (bpv) => bpv > 0 ? `<span class="tag up">Hike +${bpv}bp</span>` : bpv < 0 ? `<span class="tag down">Cut −${Math.abs(bpv)}bp</span>` : `<span class="tag">Hold</span>`;
+  const cell = (v, actual) => {
+    if (v === null || v === undefined) return '<td class="num muted">–</td>';
+    const pt = probText(v / 25);
+    const miss = Math.abs(actual - v);
+    const color = miss <= 5 ? "var(--series-3)" : miss <= 12.5 ? "var(--text-secondary)" : "var(--up)";
+    return `<td class="num"><span title="${pt.text}">${bp(v)}</span><br><span style="font-size:12px;color:${color}">${pt.text}</span></td>`;
+  };
+  const rows = [...sc.rows].reverse().map((r) => `<tr>
+      <td>${fmtDate(r.decision_date, { day: "numeric", month: "short", year: "numeric" })}</td>
+      <td>${outcome(r.actual_bp)}</td>
+      ${sc.horizons.map((h) => cell(r.priced_bp[h], r.actual_bp)).join("")}
+      <td class="num">${r.surprise_bp === null ? "–" : bp(r.surprise_bp)}</td></tr>`).join("");
+  $("#scoreTable").innerHTML = `<thead><tr><th>Decision</th><th>Outcome</th>${sc.horizons.map((h) => `<th>${h} before</th>`).join("")}<th>Surprise</th></tr></thead><tbody>${rows}</tbody>`;
+  const parts = sc.horizons.filter((h) => sc.summary[h].n).map((h) => `${h} before: ${sc.summary[h].mean_abs_miss_bp}bp`);
+  $("#scoreSummary").textContent = `Average miss (absolute, outcome vs priced): ${parts.join(" · ")}. Green: within 5bp of the outcome; red: off by more than half a move. Futures history starts January 2025.`;
+}
+
+function renderReal() {
+  const rows = charts.real_cash || [];
+  if (!rows.length) return emptyCard("real", "Inflation data unavailable today.");
+  const from = cutoff("real", rows[rows.length - 1].date);
+  const o = baseOptions();
+  o.scales.y.grid.color = (c) => (c.tick.value === 0 ? css("--ref") : css("--grid"));
+  o.plugins.tooltip.callbacks = {
+    title: (i) => "Quarter to " + fmtDate(i[0].raw.x, { month: "short", year: "numeric" }),
+    label: (i) => i.raw.y == null ? null : ` ${i.dataset.label}: ${signed(i.raw.y)}%`,
+    afterBody: (i) => { const r = rows.find((x) => ts(x.date) === i[0].raw.x); return r ? [` Cash rate ${pct(r.cash_rate)}`, ` CPI ${pct(r.cpi_ye, 1)}` + (r.trimmed_mean_ye != null ? ` · trimmed mean ${pct(r.trimmed_mean_ye, 1)}` : "")] : []; },
+  };
+  draw("realChart", { type: "line", options: o, data: { datasets: [
+    lineDS("Real (trimmed mean)", pts(rows, "real_trimmed_mean", from), css("--series-1"), { pointRadius: 2 }),
+    lineDS("Real (headline)", pts(rows, "real_headline", from), css("--series-2"), { pointRadius: 2 }),
+  ] } });
+}
+
+function renderForwards() {
+  const rows = charts.forwards || [];
+  if (!rows.length) return emptyCard("forwards", "Bond data unavailable today.");
+  const from = cutoff("forwards", rows[rows.length - 1].date);
+  const o = baseOptions();
+  o.interaction = { mode: "nearest", intersect: false, axis: "x" };
+  o.plugins.tooltip.mode = "x";
+  o.plugins.tooltip.callbacks = { title: (i) => fmtDate(i[0].raw.x), label: (i) => i.raw.y == null ? null : ` ${i.dataset.label}: ${pct(i.raw.y, 2)}` };
+  o.plugins.decimation = { enabled: true, algorithm: "lttb", samples: 600 };
+  const cash = (charts.cash_daily || []).filter((r) => ts(r.date) >= from).map((r) => ({ x: ts(r.date), y: r.rate }));
+  draw("forwardsChart", { type: "line", options: { ...o, parsing: false, normalized: true }, data: { datasets: [
+    lineDS("1y1y", pts(rows, "f1y1y", from), css("--series-1"), { borderWidth: 1.5 }),
+    lineDS("2y1y", pts(rows, "f2y1y", from), css("--series-2"), { borderWidth: 1.5 }),
+    lineDS("5y5y", pts(rows, "f5y5y", from), css("--series-3"), { borderWidth: 1.5 }),
+    lineDS("Cash rate target", cash, css("--ref"), { stepped: "before", borderWidth: 1.5 }),
+  ] } });
+}
+
+function renderFly() {
+  const rows = (charts.fly || []).filter((r) => r.fly_bp !== null);
+  if (!rows.length) return emptyCard("fly", "Bond data unavailable today.");
+  singleSeries("flyChart", "fly", rows, "fly_bp", css("--series-1"),
+    { yFmt: (v) => v + "bp", zero: true, tip: (i) => ` 2s5s10s: ${bp(i.raw.y)}` });
+}
+
+function renderUS() {
+  const rows = charts.us_yields || [];
+  if (!rows.length) return emptyCard("us", "US Treasury data unavailable today.");
+  const from = cutoff("us", rows[rows.length - 1].date);
+  const o = baseOptions();
+  o.interaction = { mode: "nearest", intersect: false, axis: "x" };
+  o.plugins.tooltip.mode = "x";
+  o.plugins.tooltip.callbacks = { title: (i) => fmtDate(i[0].raw.x), label: (i) => i.raw.y == null ? null : ` ${i.dataset.label}: ${pct(i.raw.y)}` };
+  o.plugins.decimation = { enabled: true, algorithm: "lttb", samples: 700 };
+  draw("usChart", { type: "line", options: { ...o, parsing: false, normalized: true }, data: { datasets: [
+    lineDS("2-year", pts(rows.filter((r) => r.ust2 !== null), "ust2", from), css("--series-1"), { borderWidth: 1.5, spanGaps: false }),
+    lineDS("10-year", pts(rows.filter((r) => r.ust10 !== null), "ust10", from), css("--series-2"), { borderWidth: 1.5, spanGaps: false }),
+  ] } });
+}
+
 const RENDER = { horizons: renderHorizons, nextmeeting: renderNextMeeting, history: renderHistory,
-  babspread: renderBabSpread, bbsw: renderBbsw, acgb2: renderAcgb2, slope: renderSlope, fx: renderFx };
+  babspread: renderBabSpread, bbsw: renderBbsw, acgb2: renderAcgb2, slope: renderSlope, fx: renderFx,
+  real: renderReal, forwards: renderForwards, fly: renderFly, us: renderUS };
 
 function renderAll() {
   $("#asat").innerHTML = `Futures close ${fmtDate(latest.as_at)}<br>Updated ${latest.generated_utc} UTC`;
@@ -762,7 +903,7 @@ function renderAll() {
   const hnotes = (charts.health && charts.health.notes) || [];
   $("#scheduleNote").textContent = hnotes.join(" ");
   $("#footerSource").textContent = `Futures source today: ${latest.source}.`;
-  const steps = [renderTiles, renderPath, renderCurves, renderTable, renderOutcomes, renderYieldCurve, ...Object.values(RENDER)];
+  const steps = [renderTiles, renderPath, renderCurves, renderTable, renderOutcomes, renderYieldCurve, renderScorecard, ...Object.values(RENDER)];
   for (const fn of steps) { try { fn(); } catch (e) { console.error(fn.name, e); } }
 }
 

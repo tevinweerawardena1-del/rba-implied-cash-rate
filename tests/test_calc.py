@@ -1,6 +1,6 @@
 """Run with:  python -m pytest tests -q"""
 import sys
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 import pandas as pd
@@ -267,3 +267,39 @@ def test_everything_rolls_forward_in_time():
 
 def month_start_of(d):
     return d.replace(day=1)
+
+
+def test_forward_rate_and_series():
+    from build import forward_rate, forwards_series
+    assert forward_rate(4.0, 1, 4.0, 2) == pytest.approx(4.0)
+    assert forward_rate(4.0, 1, 5.0, 2) == pytest.approx(6.0096, abs=1e-3)
+    d = date(2026, 9, 23)
+    bonds = [{"maturity": date(2026 + n, 9, 23) + timedelta(days=round(0.25 * n)),
+              "series": Series({d: 4.0 + 0.1 * n})} for n in (1, 2, 3, 4, 5, 7, 10, 12)]
+    rows = forwards_series(bonds, date(2026, 1, 1))
+    assert len(rows) == 1 and rows[0]["f1y1y"] > 4.1 and rows[0]["f5y5y"] > rows[0]["f1y1y"]
+
+
+def test_real_cash_rate():
+    from build import real_cash_rate
+    target = Series({date(2026, 6, 1): 4.35, date(2026, 9, 30): 4.60})
+    head = Series({date(2026, 6, 1): 3.8})
+    tm = Series({date(2026, 6, 1): 3.2})
+    rows = real_cash_rate(target, head, tm, date(2026, 1, 1))
+    assert rows == [{"date": "2026-06-30", "cash_rate": 4.35, "cpi_ye": 3.8, "trimmed_mean_ye": 3.2,
+                     "real_headline": 0.55, "real_trimmed_mean": 1.15}]
+
+
+def test_pricing_scorecard():
+    from build import pricing_scorecard
+    target = Series({date(2026, 9, 28): 4.35, date(2026, 9, 29): 4.35, date(2026, 9, 30): 4.60})
+    rows = [{"as_at": "2026-06-30", "decision_date": "2026-09-29", "change_bp": 5.0},
+            {"as_at": "2026-08-29", "decision_date": "2026-09-29", "change_bp": 10.0},
+            {"as_at": "2026-09-22", "decision_date": "2026-09-29", "change_bp": 20.0},
+            {"as_at": "2026-09-28", "decision_date": "2026-09-29", "change_bp": 23.0},
+            {"as_at": "2026-09-29", "decision_date": "2026-09-29", "change_bp": 25.0}]   # after the decision
+    sc = pricing_scorecard(rows, target, [date(2026, 9, 29), date(2026, 11, 3)])
+    assert len(sc["rows"]) == 1
+    r = sc["rows"][0]
+    assert r["actual_bp"] == 25 and r["priced_bp"] == {"3 months": 5.0, "1 month": 10.0, "1 week": 20.0, "1 day": 23.0}
+    assert r["surprise_bp"] == 2.0 and sc["summary"]["1 day"]["mean_abs_miss_bp"] == 2.0
