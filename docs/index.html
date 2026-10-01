@@ -80,6 +80,11 @@
   .tile .label { font-size: 13px; color: var(--text-secondary); }
   .tile .value { font: 500 30px/1.2 "IBM Plex Mono", monospace; margin: 6px 0 2px; }
   .taylor-read { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+  .taylor-formula { margin-top: 14px; font-size: 13px; color: var(--text-secondary); }
+  .taylor-formula .eq { font: 500 15px "IBM Plex Mono", monospace; color: var(--text-primary); margin-bottom: 6px; }
+  .taylor-formula dl { display: grid; grid-template-columns: max-content 1fr; gap: 2px 12px; margin: 0; }
+  .taylor-formula dt { font-family: "IBM Plex Mono", monospace; color: var(--text-primary); }
+  .taylor-formula dd { margin: 0; }
   .taylor-read > div { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
   .taylor-read .k { font-size: 12px; color: var(--text-secondary); }
   .taylor-read .v { font: 500 18px "IBM Plex Mono", monospace; margin-top: 2px; }
@@ -260,6 +265,7 @@
     </div>
     <div class="chart-box" style="height:380px"><canvas id="taylorChart" role="img" aria-label="Taylor rule rate versus actual cash rate"></canvas></div>
     <div class="taylor-read" id="taylorRead"></div>
+    <div class="taylor-formula" id="taylorFormula"></div>
   </section>
 
   <section class="card" data-card="real">
@@ -892,6 +898,16 @@ function renderTaylor() {
       pointRadius: (c) => (c.dataIndex === 1 ? 4 : 0), pointBackgroundColor: css("--surface"), pointBorderColor: css("--series-2"), pointBorderWidth: 2 }),
   ] } });
 
+  $("#taylorFormula").innerHTML = `
+    <div class="eq">i* = r* + π + ${P.inflation_gap_weight}(π − π*) − ${P.unemployment_gap_weight}(u − u*)</div>
+    <dl>
+      <dt>i*</dt><dd>Taylor rule cash rate</dd>
+      <dt>r*</dt><dd>Neutral real interest rate (${P.neutral_real_rate}%)</dd>
+      <dt>π</dt><dd>Inflation, year-ended trimmed mean</dd>
+      <dt>π*</dt><dd>Inflation target (${P.inflation_target}%)</dd>
+      <dt>u</dt><dd>Unemployment rate</dd>
+      <dt>u*</dt><dd>NAIRU, unemployment rate consistent with stable inflation (${P.nairu}%)</dd>
+    </dl>`;
   if (pr) {
     const nextMeet = latest.meetings && latest.meetings[0];
     const call = (bpv) => bpv > 12.5 ? "hike" : bpv < -12.5 ? "cut" : "hold";
