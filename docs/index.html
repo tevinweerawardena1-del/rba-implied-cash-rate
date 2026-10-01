@@ -16,7 +16,7 @@
     --bg: #f6f5f2; --surface: #fcfcfb; --border: #e4e2dc; --grid: #ecebe7;
     --text-primary: #0b0b0b; --text-secondary: #52514e; --text-muted: #7a7974;
     --series-1: #2a78d6; --series-2: #eb6834; --series-3: #1baf7a;
-    --ref: #9a9993; --up: #c0392f; --down: #1c5cab; --bar-track: #ecebe7;
+    --ref: #9a9993; --up: #c0392f; --down: #1c5cab; --up-2: #7d1f1c; --down-2: #0d366b; --bar-track: #ecebe7;
     --bar-soft: #9ec5f4;
     --seq-1: #86b6ef; --seq-2: #5598e7; --seq-3: #2a78d6; --seq-4: #1c5cab; --seq-5: #0d366b;
   }
@@ -26,7 +26,7 @@
       --bg: #121211; --surface: #1a1a19; --border: #2e2e2b; --grid: #262624;
       --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #8f8e86;
       --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
-      --ref: #6f6e68; --up: #e66767; --down: #5598e7; --bar-track: #2a2a27;
+      --ref: #6f6e68; --up: #e66767; --down: #5598e7; --up-2: #b8322f; --down-2: #256abf; --bar-track: #2a2a27;
       --bar-soft: #184f95;
       --seq-1: #184f95; --seq-2: #256abf; --seq-3: #3987e5; --seq-4: #6da7ec; --seq-5: #b7d3f6;
     }
@@ -36,7 +36,7 @@
     --bg: #121211; --surface: #1a1a19; --border: #2e2e2b; --grid: #262624;
     --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #8f8e86;
     --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
-    --ref: #6f6e68; --up: #e66767; --down: #5598e7; --bar-track: #2a2a27;
+    --ref: #6f6e68; --up: #e66767; --down: #5598e7; --up-2: #b8322f; --down-2: #256abf; --bar-track: #2a2a27;
     --bar-soft: #184f95;
     --seq-1: #184f95; --seq-2: #256abf; --seq-3: #3987e5; --seq-4: #6da7ec; --seq-5: #b7d3f6;
   }
@@ -653,18 +653,14 @@ function renderOutcomes() {
     outcomeIdx = +b.dataset.i; renderOutcomes();
   };
   const m = list[outcomeIdx], tgt = latest.cash_rate_target;
-  // Compare each outcome with the most likely rate going into this meeting:
-  // today's target for the next meeting, otherwise the previous meeting's
-  // implied rate rounded to the nearest 25bp step.
-  const idx = latest.meetings.findIndex((x) => x.decision_date === m.decision_date);
-  const prevImplied = idx > 0 ? latest.meetings[idx - 1].implied_rate : tgt;
-  // Round to the nearest 25bp step; an exact 50/50 counts as no move (hold is the default).
-  const k = (prevImplied - tgt) / 0.25;
-  const steps = Math.sign(k) * Math.ceil(Math.abs(k) - 0.5 - 1e-9);
-  const base = +(tgt + 0.25 * steps).toFixed(4);
-  const rel = (r) => Math.round((r - base) * 100);
+  // Colour by distance from today's official cash rate target:
+  // grey = no change, red = +25bp, dark red = +50bp or more, blue/dark blue for cuts.
+  const rel = (r) => Math.round((r - tgt) * 100);
   const labels = m.outcomes.map((o) => pct(o.rate) + (rel(o.rate) === 0 ? " (no change)" : ` (${rel(o.rate) > 0 ? "+" : "−"}${Math.abs(rel(o.rate))}bp)`));
-  const colors = m.outcomes.map((o) => rel(o.rate) === 0 ? css("--ref") : rel(o.rate) > 0 ? css("--up") : css("--down"));
+  const colors = m.outcomes.map((o) => {
+    const d = rel(o.rate);
+    return d === 0 ? css("--ref") : d >= 50 ? css("--up-2") : d > 0 ? css("--up") : d <= -50 ? css("--down-2") : css("--down");
+  });
   const o = baseOptions({ time: false, yFmt: (v) => v + "%" });
   o.indexAxis = "y";
   o.scales = {
