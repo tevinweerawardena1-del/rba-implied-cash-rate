@@ -326,10 +326,10 @@
 
   <section class="card" data-card="slope">
     <div class="card-head">
-      <div><h2>2s10s ACGB curve</h2><p>10-year minus 2-year yield. Below zero means an inverted curve</p></div>
+      <div><h2>3s10s ACGB curve</h2><p>10-year minus 3-year yield, in basis points. Below zero means an inverted curve</p></div>
       <div class="seg" data-range="slope"></div>
     </div>
-    <div class="chart-box"><canvas id="slopeChart" role="img" aria-label="2s10s ACGB spread"></canvas></div>
+    <div class="chart-box"><canvas id="slopeChart" role="img" aria-label="3s10s ACGB spread"></canvas></div>
     <div class="src">Source: RBA table F2. <span data-asof="bonds"></span></div>
   </section>
 
@@ -785,10 +785,10 @@ function renderAcgb2() {
 }
 
 function renderSlope() {
-  const rows = (charts.bonds || []).filter((r) => r.spread !== null);
+  const rows = (charts.bonds || []).filter((r) => r.s3s10s_bp != null);
   if (!rows.length) return emptyCard("slope", "Bond data unavailable today.");
-  singleSeries("slopeChart", "slope", rows, "spread", css("--series-1"),
-    { yFmt: (v) => v.toFixed(2), zero: true, tip: (i) => ` 10y − 2y: ${signed(i.raw.y)} pp (${bp(i.raw.y * 100, 0)})` });
+  singleSeries("slopeChart", "slope", rows, "s3s10s_bp", css("--series-1"),
+    { yFmt: (v) => v + "bp", zero: true, tip: (i) => ` 3s10s: ${bp(i.raw.y)}` });
 }
 
 function renderFx() {

@@ -209,9 +209,11 @@ def run(backfill: bool):
               "bab6": r(row["b6"]),
               "spread_bp": None if row["b6"] is None else r((row["b6"] - row["base"]) * 100, 2)}
              for row in align(bab[1], {"b3": bab[3], "b6": bab[6]}, MONEY_FROM)]
-    bonds = [{"date": row["date"], "acgb2": r(row["base"]), "acgb10": r(row["y10"]),
-              "spread": None if row["y10"] is None else r(row["y10"] - row["base"])}
-             for row in align(acgb2, {"y10": acgb10}, BONDS_FROM)]
+    acgb3 = acgb("3 year")
+    bonds = [{"date": row["date"], "acgb2": r(row["base"]), "acgb3": r(row["y3"]), "acgb10": r(row["y10"]),
+              "s2s10s_bp": None if row["y10"] is None else r((row["y10"] - row["base"]) * 100, 1),
+              "s3s10s_bp": None if None in (row["y3"], row["y10"]) else r((row["y10"] - row["y3"]) * 100, 1)}
+             for row in align(acgb2, {"y3": acgb3, "y10": acgb10}, BONDS_FROM)]
     fx = [{"date": row["date"], "audusd": r(row["base"]), "ust2": r(row["ust2"]),
            "acgb2": r(row["acgb2"]),
            "aus_minus_us": None if None in (row["ust2"], row["acgb2"]) else r(row["acgb2"] - row["ust2"])}
