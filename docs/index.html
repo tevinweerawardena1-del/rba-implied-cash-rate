@@ -275,13 +275,15 @@
 
   <section class="card" data-card="fx">
     <div class="card-head">
-      <div><h2>AUD/USD and the 2-year rate differential</h2><p>Top: US dollars per Australian dollar. Bottom: US 2-year Treasury minus 2-year ACGB yield</p></div>
+      <div><h2>AUD/USD and the 2-year rate differential</h2><p>US dollars per Australian dollar (left axis) and US 2-year Treasury minus 2-year ACGB yield (right axis)</p></div>
       <div class="seg" data-range="fx"></div>
     </div>
-    <div class="panel-label">AUD/USD</div>
-    <div class="chart-box short"><canvas id="fxChart" role="img" aria-label="AUD/USD exchange rate"></canvas></div>
-    <div class="panel-label">UST 2y − ACGB 2y (percentage points)</div>
-    <div class="chart-box short"><canvas id="diffChart" role="img" aria-label="US minus Australian 2-year yield differential"></canvas></div>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--series-1)"></i>AUD/USD (left axis)</span>
+      <span><i class="sw" style="background:var(--series-2)"></i>UST 2y − ACGB 2y, percentage points (right axis)</span>
+      <span><i class="sw" style="background:var(--ref);height:1px"></i>Zero differential</span>
+    </div>
+    <div class="chart-box" style="height:400px"><canvas id="fxChart" role="img" aria-label="AUD/USD and the US minus Australian 2-year yield differential"></canvas></div>
     <div class="src">Sources: FRED (AUD/USD from Federal Reserve H.10, US 2-year Treasury), RBA table F2.</div>
   </section>
 
@@ -670,17 +672,28 @@ function renderSlope() {
 }
 
 function renderFx() {
-  const rows = charts.fx || [];
-  if (!rows.some((r) => r.audusd !== null)) return emptyCard("fx", "FX data unavailable today.");
-  singleSeries("fxChart", "fx", rows, "audusd", css("--series-1"), { yFmt: (v) => v.toFixed(2), tip: (i) => ` AUD/USD: ${i.raw.y.toFixed(4)}` });
-  const diffRows = rows.filter((r) => r.diff !== null);
-  if (diffRows.length) {
-    const c = singleSeries("diffChart", "fx", diffRows, "diff", css("--series-2"),
-      { yFmt: (v) => v.toFixed(1), zero: true, tip: (i) => ` UST − ACGB: ${signed(i.raw.y)} pp` });
-    // Keep both panels on the same time window.
-    const fxC = instances.fxChart;
-    c.options.scales.x.min = fxC.scales.x.min; c.options.scales.x.max = fxC.scales.x.max; c.update();
-  }
+  const all = charts.fx || [];
+  if (!all.some((r) => r.audusd !== null)) return emptyCard("fx", "FX data unavailable today.");
+  const from = cutoff("fx", all[all.length - 1].date);
+  const rows = all.filter((r) => ts(r.date) >= from);
+  const o = baseOptions({ yFmt: (v) => v.toFixed(2) });
+  const tickFont = { family: "IBM Plex Mono", size: 12 };
+  o.scales.y.title = { display: true, text: "AUD/USD", color: css("--text-secondary"), font: { family: "IBM Plex Sans", size: 12 } };
+  o.scales.y1 = {
+    position: "right", border: { display: false },
+    grid: { drawOnChartArea: true, color: (c) => (c.tick.value === 0 ? css("--ref") : "transparent") },
+    ticks: { color: css("--text-muted"), font: tickFont, callback: (v) => (v > 0 ? "+" : "") + v.toFixed(1) },
+    title: { display: true, text: "UST − ACGB (pp)", color: css("--text-secondary"), font: { family: "IBM Plex Sans", size: 12 } },
+  };
+  o.plugins.tooltip.callbacks = {
+    title: (i) => fmtDate(i[0].raw.x),
+    label: (i) => i.raw.y == null ? null
+      : i.dataset.yAxisID === "y1" ? ` UST − ACGB: ${signed(i.raw.y)} pp` : ` AUD/USD: ${i.raw.y.toFixed(4)}`,
+  };
+  draw("fxChart", { type: "line", options: o, data: { datasets: [
+    lineDS("AUD/USD", pts(rows, "audusd"), css("--series-1"), { yAxisID: "y", borderWidth: 1.5 }),
+    lineDS("UST − ACGB", pts(rows, "diff"), css("--series-2"), { yAxisID: "y1", borderWidth: 1.5 }),
+  ] } });
 }
 
 const RENDER = { horizons: renderHorizons, nextmeeting: renderNextMeeting, history: renderHistory,
