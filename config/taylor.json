@@ -1,0 +1,11 @@
+{
+  "_comment": "Taylor rule: i* = r* + pi + a*(pi - pi*) - b*(u - u*). Inflation is year-ended trimmed mean (RBA G1), unemployment is the seasonally adjusted rate (RBA H5). r* = neutral real rate (RBA neutral nominal ~3% minus the 2.5% target). u* = NAIRU (RBA implied ~4.25%). smoothing_per_quarter = rho in i_t = rho*i_(t-1) + (1-rho)*i*, used for the next-meeting estimate. Edit these values to change the model; the page updates on the next run.",
+  "neutral_real_rate": 0.5,
+  "inflation_target": 2.5,
+  "nairu": 4.25,
+  "inflation_gap_weight": 0.5,
+  "unemployment_gap_weight": 1.0,
+  "smoothing_per_quarter": 0.85,
+  "meetings_per_quarter": 2,
+  "start": "2011-01-01"
+}

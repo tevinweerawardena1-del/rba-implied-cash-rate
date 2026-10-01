@@ -303,3 +303,27 @@ def test_pricing_scorecard():
     r = sc["rows"][0]
     assert r["actual_bp"] == 25 and r["priced_bp"] == {"3 months": 5.0, "1 month": 10.0, "1 week": 20.0, "1 day": 23.0}
     assert r["surprise_bp"] == 2.0 and sc["summary"]["1 day"]["mean_abs_miss_bp"] == 2.0
+
+
+TAYLOR_P = {"neutral_real_rate": 0.5, "inflation_target": 2.5, "nairu": 4.25,
+            "inflation_gap_weight": 0.5, "unemployment_gap_weight": 1.0,
+            "smoothing_per_quarter": 0.85, "meetings_per_quarter": 2, "start": "2026-06-01"}
+
+
+def test_taylor_rate_matches_worked_example():
+    from build import taylor_rate
+    assert taylor_rate(3.6, 4.6, TAYLOR_P) == pytest.approx(4.30)
+
+
+def test_taylor_series_and_projection():
+    from build import taylor_series, taylor_projection
+    target = Series({date(2026, 5, 6): 4.35, date(2026, 9, 30): 4.60})
+    trimmed = Series({date(2026, 6, 30): 3.6})
+    unemp = Series({date(2026, 6, 1): 4.4, date(2026, 7, 1): 4.5, date(2026, 8, 1): 4.6})
+    rows = taylor_series(target, trimmed, unemp, TAYLOR_P)
+    assert [r["date"] for r in rows] == ["2026-06-30", "2026-07-31", "2026-08-31"]
+    assert rows[-1]["taylor"] == pytest.approx(4.30) and rows[-1]["cash_rate"] == 4.35
+    pr = taylor_projection(rows, 4.60, TAYLOR_P)
+    assert pr["next_month"] == "2026-09-30"
+    assert pr["gap_bp"] == pytest.approx(-30)
+    assert pr["smoothed_change_bp"] == pytest.approx(-30 * (1 - 0.85 ** 0.5), abs=0.1)

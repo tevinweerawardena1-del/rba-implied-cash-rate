@@ -425,3 +425,48 @@ def fetch_rba_schedule() -> dict[int, list[date]]:
     if not sched:
         raise ValueError("No meeting dates parsed from the RBA schedule page")
     return sched
+
+
+def parse_rba_table_typed(text: str) -> list[dict]:
+    """Like parse_rba_table, but keeps every column with its Title and Type
+    (Original / Seasonally adjusted / Trend), so duplicate titles survive."""
+    rows = list(csv.reader(io.StringIO(text)))
+    sid_i = next(i for i, r in enumerate(rows)
+                 if r and r[0].strip().lower() == "series id")
+    head = {r[0].strip().lower(): r for r in rows[:sid_i] if r}
+    title, typ = head.get("title", []), head.get("type", [])
+    cols = []
+    for c in range(1, len(title)):
+        if title[c].strip():
+            cols.append({"title": title[c].strip(),
+                         "type": typ[c].strip() if c < len(typ) else "", "col": c, "data": {}})
+    for r in rows[sid_i + 1:]:
+        if not r or not r[0].strip():
+            continue
+        d = parse_rba_date(r[0])
+        if d is None:
+            continue
+        for col in cols:
+            c = col["col"]
+            if c < len(r) and r[c].strip():
+                try:
+                    col["data"][d] = float(r[c])
+                except ValueError:
+                    pass
+    return cols
+
+
+def fetch_unemployment() -> Series:
+    """Seasonally adjusted unemployment rate from RBA table H5 (labour force)."""
+    cols = parse_rba_table_typed(http_get(RBA_CSV.format(code="h5")))
+    for c in cols:
+        if c["data"]:
+            print(f"   - H5 {c['title']!r} [{c['type']}]: {min(c['data'])} to {max(c['data'])}")
+    cands = [c for c in cols if "unemployment rate" in c["title"].lower() and c["data"]]
+    if not cands:
+        raise ValueError("No unemployment rate column in RBA H5")
+    sa = [c for c in cands if "seasonally" in c["type"].lower()] or \
+         [c for c in cands if "trend" not in c["type"].lower()] or cands
+    best = sa[0]
+    print(f"RBA H5 unemployment: using {best['title']!r} [{best['type']}]")
+    return Series(best["data"])

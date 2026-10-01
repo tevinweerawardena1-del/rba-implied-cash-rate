@@ -28,7 +28,7 @@ import sources as src  # noqa: E402
 from build import (daily_analytics, decisions, month_end_curves,  # noqa: E402
                    outcome_probabilities, rate_inputs, align, yield_curves,
                    merge_meetings, health_check, forwards_series, real_cash_rate,
-                   pricing_scorecard)
+                   pricing_scorecard, taylor_series, taylor_projection)
 from calc import implied_path, results_as_dicts, month_start  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -173,6 +173,7 @@ def run(backfill: bool):
     cpi_headline = (src.pick_exact(g1, "Year-ended inflation")
                     or src.pick(g1, "year-ended", "inflation", exclude=("trimmed", "weighted", "excluding", "tradable", "non-tradable", "seasonally")))
     cpi_trimmed = src.pick(g1, "year-ended", "trimmed mean")
+    unemp = try_step("RBA H5 (unemployment)", status, src.fetch_unemployment) or src.Series()
 
     # ---- 3. Analytics ----------------------------------------------------
     meeting_rows, horizon_rows = daily_analytics(fh, target, ibocr, meetings)
@@ -228,6 +229,11 @@ def run(backfill: bool):
     us = [{"date": row["date"], "ust2": r(row["base"]), "ust10": r(row["y10"])}
           for row in align(ust2, {"y10": ust10}, US_FROM)]
     scorecard = pricing_scorecard(meeting_rows, target, meetings)
+    taylor_params = json.loads((ROOT / "config" / "taylor.json").read_text())
+    taylor = taylor_series(target, cpi_trimmed, unemp, taylor_params)
+    taylor_proj = taylor_projection(taylor, target.on_or_before(as_at)[1], taylor_params)
+    pd.DataFrame(taylor).to_csv(DATA / "taylor_rule.csv", index=False)
+    print("Taylor:", taylor[-1] if taylor else None, taylor_proj)
     for name, rows in (("butterfly_2s5s10s", fly), ("forward_rates", forwards),
                        ("real_cash_rate", real), ("us_treasury_yields", us)):
         pd.DataFrame(rows).to_csv(DATA / f"{name}.csv", index=False)
@@ -252,7 +258,8 @@ def run(backfill: bool):
                   "AUD/USD": audusd.last_date,
                   "US 2-year Treasury": ust2.last_date,
                   "US 10-year Treasury": ust10.last_date,
-                  "RBA CPI (G1)": cpi_headline.last_date}
+                  "RBA CPI (G1)": cpi_headline.last_date,
+                  "RBA unemployment (H5)": unemp.last_date}
     today = datetime.now(ZoneInfo("Australia/Sydney")).date()
     health = health_check(today, last_dates, meetings, last_month)
     health["failed_steps"] = [k for k, v in status.items() if v != "ok"]
@@ -272,7 +279,8 @@ def run(backfill: bool):
                  "forwards": forwards[-1]["date"] if forwards else None,
                  "fly": next((x["date"] for x in reversed(fly) if x["fly_bp"] is not None), None),
                  "real": real[-1]["date"] if real else None,
-                 "us": us[-1]["date"] if us else None},
+                 "us": us[-1]["date"] if us else None,
+                 "taylor": taylor[-1]["date"] if taylor else None},
         "generated_utc": latest["generated_utc"],
         "status": status,
         "decisions": decisions(target, DECISIONS_FROM),
@@ -288,6 +296,9 @@ def run(backfill: bool):
         "real_cash": real,
         "us_yields": us,
         "scorecard": scorecard,
+        "taylor": taylor,
+        "taylor_projection": taylor_proj,
+        "taylor_params": {k: v for k, v in taylor_params.items() if not k.startswith("_")},
         "fx": fx,
     }
     (DATA / "charts.json").write_text(json.dumps(charts, separators=(",", ":")))

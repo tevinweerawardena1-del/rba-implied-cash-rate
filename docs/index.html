@@ -79,6 +79,12 @@
   .tile { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; }
   .tile .label { font-size: 13px; color: var(--text-secondary); }
   .tile .value { font: 500 30px/1.2 "IBM Plex Mono", monospace; margin: 6px 0 2px; }
+  .taylor-read { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+  .taylor-read div { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
+  .taylor-read .k { font-size: 12px; color: var(--text-secondary); }
+  .taylor-read .v { font: 500 18px "IBM Plex Mono", monospace; margin-top: 2px; }
+  .taylor-read .d { font-size: 12px; color: var(--text-muted); }
+  @media (max-width: 720px) { .taylor-read { grid-template-columns: 1fr; } }
   .tile .value .outcome { font: 500 15px "IBM Plex Sans", sans-serif; color: var(--text-secondary); white-space: nowrap; }
   .tile .detail { font-size: 13px; color: var(--text-secondary); }
   .tag { display: inline-block; font-size: 12px; font-weight: 500; padding: 1px 7px;
@@ -237,6 +243,23 @@
     </div>
     <div class="table-scroll"><table id="scoreTable"></table></div>
     <div class="src" id="scoreSummary"></div>
+  </section>
+
+
+  <section class="card" data-card="taylor">
+    <div class="card-head">
+      <div><h2>Taylor rule vs actual cash rate</h2><p>Where a simple policy rule says the cash rate should be, given inflation and unemployment, against where the RBA set it. Dotted lines are projections</p></div>
+      <div class="seg" data-range="taylor"></div>
+    </div>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--series-1)"></i>Actual cash rate target</span>
+      <span><i class="sw" style="background:var(--series-2)"></i>Taylor rule rate</span>
+      <span><i class="sw" style="background:repeating-linear-gradient(90deg, var(--series-1) 0 4px, transparent 4px 8px)"></i>Futures-implied path</span>
+      <span><i class="sw" style="background:repeating-linear-gradient(90deg, var(--series-2) 0 4px, transparent 4px 8px)"></i>Taylor rule, next month</span>
+    </div>
+    <div class="chart-box" style="height:380px"><canvas id="taylorChart" role="img" aria-label="Taylor rule rate versus actual cash rate"></canvas></div>
+    <div class="taylor-read" id="taylorRead"></div>
+    <div class="src" id="taylorNote"></div>
   </section>
 
   <section class="card" data-card="real">
@@ -489,7 +512,7 @@ const RANGE_SETS = {
 // charts stay readable as history accumulates. "All" is still one click away.
 const CARD_RANGE = { horizons: ["short", 730], nextmeeting: ["short", 730], history: ["short", 91],
   babspread: ["daily", 1096], bbsw: ["daily", 1096], acgb2: ["daily", 3653], slope: ["daily", 3653], fx: ["daily", 3653],
-  real: ["long", 3653], forwards: ["daily", 3653], fly: ["daily", 3653], us: ["daily", 3653] };
+  real: ["long", 3653], taylor: ["long", 3653], forwards: ["daily", 3653], fly: ["daily", 3653], us: ["daily", 3653] };
 
 function setupRanges() {
   document.querySelectorAll("[data-range]").forEach((seg) => {
@@ -831,6 +854,64 @@ function renderYieldCurve() {
   draw("ycurveChart", { type: "line", options: o, data: { datasets } });
 }
 
+function renderTaylor() {
+  const rows = charts.taylor || [];
+  const pr = charts.taylor_projection;
+  const P = charts.taylor_params || {};
+  if (!rows.length) return emptyCard("taylor", "Inflation or unemployment data unavailable today.");
+  const from = cutoff("taylor", rows[rows.length - 1].date);
+  const hist = rows.filter((r) => ts(r.date) >= from);
+  const tgt = latest.cash_rate_target, now = ts(latest.as_at);
+  // Actual: monthly history joined to today's target.
+  const actual = [...hist.map((r) => ({ x: ts(r.date), y: r.cash_rate })), { x: now, y: tgt }];
+  const taylor = hist.map((r) => ({ x: ts(r.date), y: r.taylor, r }));
+  // Futures-implied path from today, month by month (target terms).
+  const fut = [{ x: now, y: tgt }, ...(latest.futures || [])
+    .map((f) => ({ x: ts(f.month) + 14 * DAY, y: f.target_equivalent, month: f.month }))
+    .filter((p) => p.x > now)];
+  const last = taylor[taylor.length - 1];
+  const tProj = pr ? [{ x: last.x, y: last.y }, { x: ts(pr.next_month), y: pr.taylor_next_month, proj: true }] : [];
+  const o = baseOptions();
+  o.interaction = { mode: "nearest", intersect: false, axis: "x" };
+  o.plugins.tooltip.callbacks = {
+    title: (i) => i[0].raw.month ? fmtDate(i[0].raw.month, { month: "long", year: "numeric" }) + " (futures)" :
+      fmtDate(i[0].raw.x, { month: "short", year: "numeric" }) + (i[0].raw.proj ? " (projection)" : ""),
+    label: (i) => ` ${i.dataset.label}: ${pct(i.raw.y)}`,
+    afterBody: (i) => {
+      const r = i.find((x) => x.raw.r);
+      return r ? [` Inputs: trimmed mean ${pct(r.raw.r.inflation, 1)}, unemployment ${pct(r.raw.r.unemployment, 1)}`] : [];
+    },
+  };
+  o.scales.x.max = fut.length ? fut[fut.length - 1].x : undefined;
+  o.plugins.decisionLines.items = [];
+  draw("taylorChart", { type: "line", options: o, data: { datasets: [
+    lineDS("Actual cash rate", actual, css("--series-1"), { stepped: "before", borderWidth: 2 }),
+    lineDS("Taylor rule", taylor, css("--series-2"), { borderWidth: 2 }),
+    lineDS("Futures-implied", fut, css("--series-1"), { borderDash: [4, 4], borderWidth: 2, cubicInterpolationMode: "monotone" }),
+    lineDS("Taylor rule (next month)", tProj, css("--series-2"), { borderDash: [4, 4], borderWidth: 2,
+      pointRadius: (c) => (c.dataIndex === 1 ? 4 : 0), pointBackgroundColor: css("--surface"), pointBorderColor: css("--series-2"), pointBorderWidth: 2 }),
+  ] } });
+
+  if (pr) {
+    const nextMeet = latest.meetings && latest.meetings[0];
+    const call = (bpv) => bpv > 12.5 ? "hike" : bpv < -12.5 ? "cut" : "hold";
+    $("#taylorRead").innerHTML = `
+      <div><div class="k">Taylor rule rate (latest inputs)</div><div class="v">${pct(pr.taylor_next_month)}</div>
+        <div class="d">${bp(pr.gap_bp)} vs the ${pct(tgt)} target</div></div>
+      <div><div class="k">Smoothed rule, next meeting${nextMeet ? " · " + fmtDate(nextMeet.decision_date, { day: "numeric", month: "short" }) : ""}</div>
+        <div class="v">${pct(pr.smoothed_next_meeting)}</div><div class="d">${bp(pr.smoothed_change_bp)} → rule says ${call(pr.smoothed_change_bp)}</div></div>
+      <div><div class="k">Futures, next meeting</div><div class="v">${nextMeet ? pct(nextMeet.implied_rate, 3) : "–"}</div>
+        <div class="d">${nextMeet ? bp(nextMeet.change_bp) + " → market says " + call(nextMeet.change_bp) : ""}</div></div>`;
+    $("#taylorNote").textContent =
+      `Rule: i* = r* + π + ${P.inflation_gap_weight}(π − ${P.inflation_target}) − ${P.unemployment_gap_weight}(u − ${P.nairu}), ` +
+      `with r* = ${P.neutral_real_rate}% (neutral real rate), π = year-ended trimmed mean inflation (latest quarter, RBA G1), ` +
+      `u = unemployment rate (RBA H5). Latest inputs: π ${pct(pr.inputs.inflation, 1)} (${fmtDate(pr.inputs.inflation_asof, { month: "short", year: "numeric" })} qtr), ` +
+      `u ${pct(pr.inputs.unemployment, 1)} (${fmtDate(pr.inputs.unemployment_asof, { month: "short", year: "numeric" })}). ` +
+      `The next-month projection carries these forward; the next-meeting estimate closes ${Math.round((1 - pr.rho_per_meeting) * 100)}% of the gap per meeting (smoothing ρ = ${P.smoothing_per_quarter} per quarter). ` +
+      `Parameters are estimates (RBA neutral rate and NAIRU) and can be changed in config/taylor.json.`;
+  }
+}
+
 function renderScorecard() {
   const sc = charts.scorecard;
   if (!sc || !sc.rows.length) return emptyCard("scorecard", "No completed RBA decisions in the futures history yet.");
@@ -912,7 +993,7 @@ function renderUS() {
 
 const RENDER = { horizons: renderHorizons, nextmeeting: renderNextMeeting, history: renderHistory,
   babspread: renderBabSpread, bbsw: renderBbsw, acgb2: renderAcgb2, slope: renderSlope, fx: renderFx,
-  real: renderReal, forwards: renderForwards, fly: renderFly, us: renderUS };
+  real: renderReal, forwards: renderForwards, fly: renderFly, us: renderUS, taylor: renderTaylor };
 
 function renderAll() {
   $("#asat").innerHTML = `Futures close ${fmtDate(latest.as_at)}<br>Updated ${latest.generated_utc} UTC`;

@@ -182,7 +182,9 @@ STALE_AFTER = {"ASX futures": 6, "RBA cash rate & bank bills (F1)": 8,
                "RBA bond yields (F2)": 28, "RBA bond lines (F16)": 28, "AUD/USD": 10,
                "US 2-year Treasury": 10, "US 10-year Treasury": 10,
                # Quarterly CPI arrives about 4 weeks after each quarter ends.
-               "RBA CPI (G1)": 135}
+               "RBA CPI (G1)": 135,
+               # Monthly labour force, released ~3 weeks after month end.
+               "RBA unemployment (H5)": 60}
 
 
 def health_check(today: date, last_dates: dict[str, date | None], meetings: list[date],
@@ -327,3 +329,49 @@ def pricing_scorecard(meeting_rows: list[dict], target: Series, meetings: list[d
         summary[label] = {"mean_abs_miss_bp": round(sum(errs) / len(errs), 1) if errs else None,
                           "n": len(errs)}
     return {"rows": rows, "summary": summary, "horizons": [l for _, l in SCORE_HORIZONS]}
+
+
+# --------------------------------------------------------------------------
+# Taylor rule
+# --------------------------------------------------------------------------
+
+def taylor_rate(pi: float, u: float, p: dict) -> float:
+    return (p["neutral_real_rate"] + pi
+            + p["inflation_gap_weight"] * (pi - p["inflation_target"])
+            - p["unemployment_gap_weight"] * (u - p["nairu"]))
+
+
+def taylor_series(target: Series, trimmed: Series, unemp: Series, p: dict) -> list[dict]:
+    """Monthly: actual cash rate target and Taylor rule rate at each month end,
+    using the latest inflation (quarterly) and unemployment (monthly) known by then."""
+    start = date.fromisoformat(p["start"])
+    if not unemp or not trimmed:
+        return []
+    end = unemp.last_date
+    rows, m = [], month_end(start)
+    while m <= month_end(end):
+        pi, u, i = trimmed.on_or_before(m), unemp.on_or_before(m), target.on_or_before(m)
+        if pi and u and i and (m - pi[0]).days <= 200 and (m - u[0]).days <= 62:
+            rows.append({"date": m.isoformat(), "cash_rate": i[1],
+                         "taylor": round(taylor_rate(pi[1], u[1], p), 3),
+                         "inflation": pi[1], "inflation_asof": pi[0].isoformat(),
+                         "unemployment": u[1]})
+        m = month_end(add_months(m.replace(day=1), 1))
+    return rows
+
+
+def taylor_projection(rows: list[dict], target_now: float, p: dict) -> dict | None:
+    """Next month: Taylor rate with the latest inputs carried forward. Next
+    meeting: smoothed rule i_next = rho_m*i + (1-rho_m)*i*, rho_m = rho_q^(1/meetings per quarter)."""
+    if not rows:
+        return None
+    last = rows[-1]
+    nxt = month_end(add_months(date.fromisoformat(last["date"]).replace(day=1), 1))
+    rho_m = p["smoothing_per_quarter"] ** (1 / p["meetings_per_quarter"])
+    smoothed = rho_m * target_now + (1 - rho_m) * last["taylor"]
+    change_bp = (smoothed - target_now) * 100
+    return {"next_month": nxt.isoformat(), "taylor_next_month": last["taylor"],
+            "smoothed_next_meeting": round(smoothed, 3), "smoothed_change_bp": round(change_bp, 1),
+            "gap_bp": round((last["taylor"] - target_now) * 100, 1), "rho_per_meeting": round(rho_m, 3),
+            "inputs": {"inflation": last["inflation"], "inflation_asof": last["inflation_asof"],
+                       "unemployment": last["unemployment"], "unemployment_asof": last["date"]}}
