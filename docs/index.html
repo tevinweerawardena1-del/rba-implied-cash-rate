@@ -153,10 +153,11 @@
 
   <section class="card" data-card="curves">
     <div class="card-head">
-      <div><h2>Futures implied curves</h2><p>The 30-day interbank futures strip at each month end, and today. The most recent curve is the boldest</p></div>
+      <div><h2>Futures implied curves</h2><p>The 30-day interbank futures strip today and at the previous three month ends. The most recent curve is the boldest</p></div>
     </div>
     <div class="legend" id="curveLegend"></div>
     <div class="chart-box"><canvas id="curveChart" role="img" aria-label="Futures implied curves by month"></canvas></div>
+    <div class="src">Note: shows a maximum of 4 curves at all times (excluding the current target line): the latest close plus the previous three month ends. Each new month, the oldest curve drops off.</div>
   </section>
 
   <section class="card">

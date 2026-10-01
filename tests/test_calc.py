@@ -152,6 +152,17 @@ def test_month_end_curves():
     assert out[-1]["latest"]
 
 
+def test_month_end_curves_max_four_and_rolling():
+    # Month ends May-Sep 2026 plus a mid-October close.
+    days = [date(2026, 5, 29), date(2026, 6, 30), date(2026, 7, 31), date(2026, 8, 31),
+            date(2026, 9, 30), date(2026, 10, 15)]
+    fh = {d: {date(2026, 11, 1): 4.6} for d in days}
+    out = month_end_curves({d: fh[d] for d in days[:5]})
+    assert [c["as_at"] for c in out] == ["2026-06-30", "2026-07-31", "2026-08-31", "2026-09-30"]
+    out = month_end_curves(fh)                      # a month later: June rolls off
+    assert [c["as_at"] for c in out] == ["2026-07-31", "2026-08-31", "2026-09-30", "2026-10-15"]
+
+
 def test_align_respects_staleness():
     base = Series({date(2026, 9, 1): 1.0, date(2026, 9, 30): 2.0})
     other = Series({date(2026, 8, 1): 5.0, date(2026, 9, 29): 6.0})

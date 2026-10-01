@@ -81,9 +81,10 @@ def daily_analytics(futures_hist: dict[date, dict[date, float]],
     return meeting_rows, horizon_rows
 
 
-def month_end_curves(futures_hist: dict[date, dict[date, float]], n_months: int = 4):
+def month_end_curves(futures_hist: dict[date, dict[date, float]], n_months: int = 3):
     """The futures strip at the last pricing day of each of the previous
-    n_months calendar months, plus the latest day."""
+    n_months calendar months, plus the latest day: at most n_months + 1 curves
+    (4 by default). Each new month the oldest curve rolls off."""
     days = sorted(futures_hist)
     if not days:
         return []

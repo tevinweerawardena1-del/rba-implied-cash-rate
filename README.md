@@ -25,6 +25,8 @@ Probability of a move = priced change ÷ 25bp. Target-rate probabilities split e
 
 The forward-horizon chart uses the contract 6 and 12 months ahead of each pricing date, plus the furthest listed contract. The strip never reaches a full 18 months.
 
+The futures implied curves chart shows a maximum of 4 curves at all times (excluding the current target line): the latest close plus the previous three month ends. Each new month the oldest curve rolls off. The count is `n_months` in `month_end_curves()` in `scripts/build.py`.
+
 ## Data sources
 
 | Data | Source |
