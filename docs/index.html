@@ -710,22 +710,35 @@ function renderYieldCurve() {
   const steps = ["--seq-1", "--seq-3", "--seq-5"].slice(-ordered.length);
   const label = (c) => `${c.label} (${fmtDate(c.as_at)})`;
   $("#ycurveLegend").innerHTML = ordered.map((c, i) =>
-    `<span><i class="sw" style="background:var(${steps[i]});${c.latest ? "height:4px" : ""}"></i>${label(c)}</span>`).join("");
+    `<span><i class="sw" style="background:var(${steps[i]});${c.latest ? "height:4px" : ""}"></i>${label(c)}</span>`).join("") +
+    `<span><i class="sw dash"></i>Cash rate target (${pct(latest.cash_rate_target)})</span>`;
   const o = baseOptions({ time: false, yFmt: (v) => v.toFixed(2) + "%" });
   o.interaction = { mode: "nearest", intersect: false };
+  // Log scale: opens up the front end and compresses 10-30 years.
+  const TENORS = [[1 / 12, "1M"], [0.25, "3M"], [0.5, "6M"], [1, "1Y"], [2, "2Y"], [3, "3Y"], [5, "5Y"],
+                  [7, "7Y"], [10, "10Y"], [20, "20Y"], [30, "30Y"]];
   Object.assign(o.scales.x, {
-    type: "linear", min: 0, max: 30,
-    ticks: { ...o.scales.x.ticks, stepSize: 5, callback: (v) => v + "y" },
-    title: { display: true, text: "Years to maturity", color: css("--text-secondary"), font: { family: "IBM Plex Sans", size: 12 } },
+    type: "logarithmic", min: 1 / 12, max: 30,
+    afterBuildTicks: (axis) => { axis.ticks = TENORS.map(([v]) => ({ value: v })); },
+    ticks: { ...o.scales.x.ticks, autoSkip: false, callback: (v) => (TENORS.find(([t]) => Math.abs(t - v) < 1e-6) || [, ""])[1] },
+    grid: { display: true, color: css("--grid") },
+    title: { display: true, text: "Years to maturity (log scale)", color: css("--text-secondary"), font: { family: "IBM Plex Sans", size: 12 } },
   });
+  o.plugins.tooltip.filter = (i) => i.dataset.label !== "Current target";
   o.plugins.tooltip.callbacks = {
     title: (i) => `${i[0].raw.name} · matures ${fmtDate(i[0].raw.maturity)}`,
-    label: (i) => ` ${i.dataset.label}: ${pct(i.raw.y, 3)} at ${i.raw.x.toFixed(1)} years`,
+    label: (i) => {
+      const y = i.raw.x;
+      const t = y < 1 ? `${Math.round(y * 12)} months` : `${y.toFixed(1)} years`;
+      return ` ${i.dataset.label}: ${pct(i.raw.y, 3)} at ${t}`;
+    },
   };
-  draw("ycurveChart", { type: "line", options: o, data: { datasets: ordered.map((c, i) =>
+  const datasets = ordered.map((c, i) =>
     lineDS(label(c), c.points.map((p) => ({ x: p.years, y: p.yield, name: p.name, maturity: p.maturity })), css(steps[i]), {
       cubicInterpolationMode: "monotone", borderWidth: c.latest ? 3 : 1.5,
-      pointRadius: c.latest ? 3 : 0, pointBackgroundColor: css(steps[i]), order: ordered.length - i })) } });
+      pointRadius: c.latest ? 3 : 0, pointBackgroundColor: css(steps[i]), order: ordered.length - i }));
+  datasets.push({ ...refDS("Current target", 1 / 12, 30, latest.cash_rate_target), order: ordered.length + 1 });
+  draw("ycurveChart", { type: "line", options: o, data: { datasets } });
 }
 
 const RENDER = { horizons: renderHorizons, nextmeeting: renderNextMeeting, history: renderHistory,

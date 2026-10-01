@@ -139,7 +139,7 @@ def align(base: Series, others: dict[str, Series], start: date) -> list[dict]:
 
 def yield_curves(bonds: list[dict], lookbacks=((0, "Latest"), (30, "1 month earlier"),
                                                (365, "1 year earlier")),
-                 min_years: float = 0.25) -> list[dict]:
+                 min_years: float = 1 / 12) -> list[dict]:
     """Government bond yield curves by years to maturity, at the latest bond
     date and at earlier dates. Each point is one bond's yield on that day."""
     last = max((b["series"].last_date for b in bonds if b["series"]), default=None)
