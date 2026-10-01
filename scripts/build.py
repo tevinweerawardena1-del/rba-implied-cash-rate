@@ -184,7 +184,9 @@ STALE_AFTER = {"ASX futures": 6, "RBA cash rate & bank bills (F1)": 8,
                # Quarterly CPI arrives about 4 weeks after each quarter ends.
                "RBA CPI (G1)": 135,
                # Monthly labour force, released ~3 weeks after month end.
-               "RBA unemployment (H5)": 60}
+               "RBA unemployment (H5)": 60,
+               # The Fed Board updates the Kim-Wright series weekly.
+               "US term premium (Kim-Wright)": 21}
 
 
 def health_check(today: date, last_dates: dict[str, date | None], meetings: list[date],
@@ -375,3 +377,23 @@ def taylor_projection(rows: list[dict], target_now: float, p: dict) -> dict | No
             "gap_bp": round((last["taylor"] - target_now) * 100, 1), "rho_per_meeting": round(rho_m, 3),
             "inputs": {"inflation": last["inflation"], "inflation_asof": last["inflation_asof"],
                        "unemployment": last["unemployment"], "unemployment_asof": last["date"]}}
+
+
+# --------------------------------------------------------------------------
+# US 10-year term premium decomposition
+# --------------------------------------------------------------------------
+
+def term_premium_series(kw_yield: Series, kw_tp: Series, acm_tp: Series, start: date) -> list[dict]:
+    """10-year zero-coupon yield = expected average short rate + term premium
+    (Kim-Wright model, Federal Reserve Board). ACM (NY Fed) term premium added
+    as a second estimate where available."""
+    rows = []
+    for d, y in kw_yield.items(start):
+        tp = kw_tp.on_or_before(d)
+        if not tp or tp[0] != d:
+            continue
+        acm = acm_tp.on_or_before(d) if acm_tp else None
+        rows.append({"date": d.isoformat(), "yield10": round(y, 4),
+                     "expected": round(y - tp[1], 4), "tp_kw": round(tp[1], 4),
+                     "tp_acm": round(acm[1], 4) if acm and (d - acm[0]).days <= 7 else None})
+    return rows

@@ -28,7 +28,7 @@ import sources as src  # noqa: E402
 from build import (daily_analytics, decisions, month_end_curves,  # noqa: E402
                    outcome_probabilities, rate_inputs, align, yield_curves,
                    merge_meetings, health_check, forwards_series, real_cash_rate,
-                   pricing_scorecard, taylor_series, taylor_projection)
+                   pricing_scorecard, taylor_series, taylor_projection, term_premium_series)
 from calc import implied_path, results_as_dicts, month_start  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -44,6 +44,7 @@ FX_FROM = date(2018, 1, 1)
 US_FROM = date(2000, 1, 1)
 FORWARDS_FROM = date(2016, 1, 1)
 REAL_FROM = date(2011, 1, 1)
+TP_FROM = date(1990, 1, 1)
 
 
 def load_meetings() -> list[date]:
@@ -168,6 +169,9 @@ def run(backfill: bool):
         if ust10:
             status.pop("FRED US 10y", None)
     ust10 = ust10 or src.Series()
+    kw_y10 = try_step("FRED Kim-Wright 10y yield", status, lambda: src.fetch_fred("THREEFY10")) or src.Series()
+    kw_tp10 = try_step("FRED Kim-Wright term premium", status, lambda: src.fetch_fred("THREEFYTP10")) or src.Series()
+    acm_tp10 = try_step("NY Fed ACM term premium", status, src.fetch_acm_tp10) or src.Series()
 
     g1 = try_step("RBA G1 (CPI)", status, lambda: src.fetch_rba("g1")) or {}
     cpi_headline = (src.pick_exact(g1, "Year-ended inflation")
@@ -231,6 +235,9 @@ def run(backfill: bool):
     us = [{"date": row["date"], "ust2": r(row["base"]), "ust10": r(row["y10"])}
           for row in align(ust2, {"y10": ust10}, US_FROM)]
     scorecard = pricing_scorecard(meeting_rows, target, meetings)
+    tp = term_premium_series(kw_y10, kw_tp10, acm_tp10, TP_FROM)
+    pd.DataFrame(tp).to_csv(DATA / "us_term_premium.csv", index=False)
+    print("Term premium:", tp[-1] if tp else None)
     taylor_params = json.loads((ROOT / "config" / "taylor.json").read_text())
     taylor = taylor_series(target, cpi_trimmed, unemp, taylor_params)
     taylor_proj = taylor_projection(taylor, target.on_or_before(as_at)[1], taylor_params)
@@ -261,7 +268,8 @@ def run(backfill: bool):
                   "US 2-year Treasury": ust2.last_date,
                   "US 10-year Treasury": ust10.last_date,
                   "RBA CPI (G1)": cpi_headline.last_date,
-                  "RBA unemployment (H5)": unemp.last_date}
+                  "RBA unemployment (H5)": unemp.last_date,
+                  "US term premium (Kim-Wright)": kw_tp10.last_date}
     today = datetime.now(ZoneInfo("Australia/Sydney")).date()
     health = health_check(today, last_dates, meetings, last_month)
     health["failed_steps"] = [k for k, v in status.items() if v != "ok"]
@@ -282,7 +290,8 @@ def run(backfill: bool):
                  "fly": next((x["date"] for x in reversed(fly) if x["fly_bp"] is not None), None),
                  "real": real[-1]["date"] if real else None,
                  "us": us[-1]["date"] if us else None,
-                 "taylor": taylor[-1]["date"] if taylor else None},
+                 "taylor": taylor[-1]["date"] if taylor else None,
+                 "tp": tp[-1]["date"] if tp else None},
         "generated_utc": latest["generated_utc"],
         "status": status,
         "decisions": decisions(target, DECISIONS_FROM),
@@ -298,6 +307,7 @@ def run(backfill: bool):
         "real_cash": real,
         "us_yields": us,
         "scorecard": scorecard,
+        "term_premium": tp,
         "taylor": taylor,
         "taylor_projection": taylor_proj,
         "taylor_params": {k: v for k, v in taylor_params.items() if not k.startswith("_")},

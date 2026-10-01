@@ -383,6 +383,23 @@
     <div class="src">Source: FRED (US Treasury constant maturity yields). <span data-asof="us"></span></div>
   </section>
 
+  <section class="card" data-card="tp">
+    <div class="card-head">
+      <div><h2>US 10-year yield: expectations vs term premium</h2><p>The 10-year yield split into the expected average short rate over 10 years and the term premium, the extra yield investors demand for locking money up</p></div>
+      <div class="seg" data-range="tp"></div>
+    </div>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--series-1)"></i>10-year yield</span>
+      <span><i class="sw" style="background:var(--series-3)"></i>Expected average short rate</span>
+      <span><i class="sw" style="background:var(--series-2)"></i>Term premium (Kim–Wright)</span>
+      <span><i class="sw" style="background:repeating-linear-gradient(90deg, var(--series-2) 0 4px, transparent 4px 8px)"></i>Term premium (ACM)</span>
+    </div>
+    <div class="chart-box" style="height:380px"><canvas id="tpChart" role="img" aria-label="US 10-year yield decomposed into expected short rates and term premium"></canvas></div>
+    <div class="taylor-read" id="tpRead"></div>
+    <div class="src">Sources: Federal Reserve Board Kim–Wright model via FRED (THREEFY10, THREEFYTP10; 10-year zero-coupon yield); NY Fed ACM model (Adrian–Crump–Moench). Both are model estimates. <span data-asof="tp"></span></div>
+  </section>
+
+
   <section class="card" data-card="fx">
     <div class="card-head">
       <div><h2>AUD/USD and the 2-year rate differential</h2><p>US dollars per Australian dollar (left axis) and 2-year ACGB minus US 2-year Treasury yield (right axis)</p></div>
@@ -518,7 +535,7 @@ const RANGE_SETS = {
 // charts stay readable as history accumulates. "All" is still one click away.
 const CARD_RANGE = { horizons: ["short", 730], nextmeeting: ["short", 730], history: ["short", 91],
   babspread: ["daily", 1096], bbsw: ["daily", 1096], acgb2: ["daily", 3653], slope: ["daily", 3653], fx: ["daily", 3653],
-  real: ["long", 3653], taylor: ["daily", 3653], forwards: ["daily", 3653], fly: ["daily", 3653], us: ["daily", 3653] };
+  real: ["long", 3653], taylor: ["daily", 3653], forwards: ["daily", 3653], fly: ["daily", 3653], us: ["daily", 3653], tp: ["daily", 3653] };
 
 function setupRanges() {
   document.querySelectorAll("[data-range]").forEach((seg) => {
@@ -921,6 +938,36 @@ function renderTaylor() {
   }
 }
 
+function renderTP() {
+  const rows = charts.term_premium || [];
+  if (!rows.length) return emptyCard("tp", "Term premium data unavailable today.");
+  const from = cutoff("tp", rows[rows.length - 1].date);
+  const o = baseOptions();
+  o.interaction = { mode: "nearest", intersect: false, axis: "x" };
+  o.plugins.tooltip.mode = "x";
+  o.plugins.tooltip.callbacks = { title: (i) => fmtDate(i[0].raw.x), label: (i) => i.raw.y == null ? null : ` ${i.dataset.label}: ${pct(i.raw.y)}` };
+  o.plugins.decimation = { enabled: true, algorithm: "lttb", samples: 700 };
+  o.scales.y.grid.color = (c) => (c.tick.value === 0 ? css("--ref") : css("--grid"));
+  const w = { borderWidth: 1.5, spanGaps: false };
+  draw("tpChart", { type: "line", options: { ...o, parsing: false, normalized: true }, data: { datasets: [
+    lineDS("10-year yield", pts(rows, "yield10", from), css("--series-1"), w),
+    lineDS("Expected short rate", pts(rows, "expected", from), css("--series-3"), w),
+    lineDS("Term premium (Kim–Wright)", pts(rows, "tp_kw", from), css("--series-2"), w),
+    lineDS("Term premium (ACM)", pts(rows.filter((r) => r.tp_acm != null), "tp_acm", from), css("--series-2"), { ...w, borderDash: [4, 4] }),
+  ] } });
+  const last = rows[rows.length - 1];
+  const yearAgo = [...rows].reverse().find((r) => ts(r.date) <= ts(last.date) - 365 * DAY);
+  const share = Math.round(last.tp_kw / last.yield10 * 100);
+  const acm = [...rows].reverse().find((r) => r.tp_acm != null);
+  $("#tpRead").innerHTML = `
+    <div><div class="k">10-year yield (${fmtDate(last.date, { day: "numeric", month: "short" })})</div><div class="v">${pct(last.yield10)}</div>
+      <div class="d">${yearAgo ? bp((last.yield10 - yearAgo.yield10) * 100, 0) + " over the year" : ""}</div></div>
+    <div><div class="k">Expected average short rate</div><div class="v">${pct(last.expected)}</div>
+      <div class="d">${yearAgo ? bp((last.expected - yearAgo.expected) * 100, 0) + " over the year" : ""}</div></div>
+    <div><div class="k">Term premium (Kim–Wright)</div><div class="v">${pct(last.tp_kw)}</div>
+      <div class="d">${share}% of the yield${yearAgo ? " · " + bp((last.tp_kw - yearAgo.tp_kw) * 100, 0) + " over the year" : ""}${acm ? " · ACM " + pct(acm.tp_acm) : ""}</div></div>`;
+}
+
 function renderScorecard() {
   const sc = charts.scorecard;
   if (!sc || !sc.rows.length) return emptyCard("scorecard", "No completed RBA decisions in the futures history yet.");
@@ -1002,7 +1049,7 @@ function renderUS() {
 
 const RENDER = { horizons: renderHorizons, nextmeeting: renderNextMeeting, history: renderHistory,
   babspread: renderBabSpread, bbsw: renderBbsw, acgb2: renderAcgb2, slope: renderSlope, fx: renderFx,
-  real: renderReal, forwards: renderForwards, fly: renderFly, us: renderUS, taylor: renderTaylor };
+  real: renderReal, forwards: renderForwards, fly: renderFly, us: renderUS, taylor: renderTaylor, tp: renderTP };
 
 function renderAll() {
   $("#asat").innerHTML = `Futures close ${fmtDate(latest.as_at)}<br>Updated ${latest.generated_utc} UTC`;
