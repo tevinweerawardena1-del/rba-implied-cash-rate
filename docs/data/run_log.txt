@@ -39,6 +39,28 @@ RBA F2: 5 columns
 RBA F16: 52 nominal bonds, maturities 2015-04-15 to 2054-06-21
 FRED DEXUSAL: 13969 obs to 2026-09-25
 FRED DGS2: 12579 obs to 2026-09-29
+FRED DGS10: 16171 obs to 2026-09-29
+RBA G1: 20 columns
+   - 'Consumer price index': 1922-06-30 to 2026-06-30
+   - 'Year-ended inflation': 1923-06-30 to 2026-06-30
+   - 'Year-ended inflation – excluding interest charges and tax changes': 1923-06-30 to 2026-06-30
+   - 'Year-ended inflation – excluding volatile items, interest charges and tax changes': 1983-03-31 to 2026-06-30
+   - 'Year-ended tradables inflation – excluding tax changes': 1983-03-31 to 2026-06-30
+   - 'Year-ended tradables inflation – excluding volatile items, tobacco and tax changes': 1983-03-31 to 2026-06-30
+   - 'Year-ended non-tradables inflation – excluding interest charges and tax changes': 1983-03-31 to 2026-06-30
+   - 'Year-ended non-tradable inflation – excluding interest charges and indirect deposit & loan facilities and tax changes': 1983-03-31 to 2026-06-30
+   - 'Year-ended weighted median inflation – excluding interest charges and tax changes': 1983-03-31 to 2026-06-30
+   - 'Year-ended trimmed mean inflation – excluding interest charges and tax changes': 1983-03-31 to 2026-06-30
+   - 'Quarterly inflation – original': 1922-09-30 to 2026-06-30
+   - 'Quarterly inflation': 1982-06-30 to 2026-06-30
+   - 'Quarterly inflation – excluding interest charges and tax changes': 1982-06-30 to 2026-06-30
+   - 'Quarterly inflation – excluding volatile items, interest charges and tax changes': 1982-06-30 to 2026-06-30
+   - 'Quarterly tradables inflation  – excluding tax changes': 1982-06-30 to 2026-06-30
+   - 'Quarterly tradables inflation – excluding volatile items, tobacco and tax changes': 1982-06-30 to 2026-06-30
+   - 'Quarterly non-tradables inflation  – excluding interest charges and tax changes': 1982-06-30 to 2026-06-30
+   - 'Quarterly non-tradables inflation – excluding interest charges, indirect deposit and loan facilities and tax changes': 1982-06-30 to 2026-06-30
+   - 'Quarterly weighted median inflation  – excluding interest charges and tax changes': 1982-06-30 to 2026-06-30
+   - 'Quarterly trimmed mean inflation  – excluding interest charges and tax changes': 1982-06-30 to 2026-06-30
   2026-11-03: 4.656%  (+5.6bp, formula)
   2026-12-08: 4.700%  (+4.4bp, clean-month)
   2027-02-09: 4.796%  (+9.6bp, formula)
@@ -49,6 +71,7 @@ FRED DGS2: 12579 obs to 2026-09-29
   2027-09-28: 4.905%  (-0.8bp, clean-month)
   2027-11-02: 4.894%  (-1.1bp, formula)
   2027-12-14: 4.870%  (-2.4bp, clean-month)
-Health: {"checked": "2026-10-01", "warnings": [], "notes": ["Futures run to Feb 2028 but the last RBA meeting date on file is 14 Dec 2027; later meetings will appear once the RBA publishes them."], "failed_steps": [], "last_dates": {"ASX futures": "2026-09-30", "RBA cash rate & bank bills (F1)": "2026-09-30", "RBA bond yields (F2)": "2026-09-23", "RBA bond lines (F16)": "2026-09-23", "AUD/USD": "2026-09-25", "US 2-year Treasury": "2026-09-29"}}
-Status: {"RBA meeting schedule": "ok", "ASX futures": "ok", "RBA F1": "ok", "RBA F2": "ok", "RBA F16": "ok", "FRED AUD/USD": "ok", "FRED US 2y": "ok"}
+Forwards 2638 days, fly 2701, real 62 quarters, US 6689, scorecard 14 meetings
+Health: {"checked": "2026-10-01", "warnings": [], "notes": ["Futures run to Feb 2028 but the last RBA meeting date on file is 14 Dec 2027; later meetings will appear once the RBA publishes them."], "failed_steps": [], "last_dates": {"ASX futures": "2026-09-30", "RBA cash rate & bank bills (F1)": "2026-09-30", "RBA bond yields (F2)": "2026-09-23", "RBA bond lines (F16)": "2026-09-23", "AUD/USD": "2026-09-25", "US 2-year Treasury": "2026-09-29", "US 10-year Treasury": "2026-09-29", "RBA CPI (G1)": "2026-06-30"}}
+Status: {"RBA meeting schedule": "ok", "ASX futures": "ok", "RBA F1": "ok", "RBA F2": "ok", "RBA F16": "ok", "FRED AUD/USD": "ok", "FRED US 2y": "ok", "FRED US 10y": "ok", "RBA G1 (CPI)": "ok"}
 Wrote charts: horizons=455 money=942 bonds=2701 fx=2182
