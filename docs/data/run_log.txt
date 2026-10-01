@@ -36,7 +36,7 @@ RBA F2: 5 columns
    F16 header: ['Source', 'RBA', 'RBA', 'RBA']
    F16 header: ['Publication date', '25-Sep-2026', '25-Sep-2026', '25-Sep-2026']
    F16 header: ['Series ID', 'FCMYAPR15D', 'FCMYOCT15D', 'FCMYJUN16D']
-RBA F16: 52 nominal bonds, maturities 2026-09-25 to 2054-06-21
+RBA F16: 52 nominal bonds, maturities 2015-04-15 to 2054-06-21
 FRED DEXUSAL: 13969 obs to 2026-09-25
 FRED DGS2: 12579 obs to 2026-09-29
   2026-11-03: 4.656%  (+5.6bp, formula)
