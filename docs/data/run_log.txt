@@ -1,3 +1,4 @@
+RBA schedule: {2026: 8, 2027: 8}
 ASX scrape attempt 1
 Futures as at 2026-09-30: 17 contracts
 RBA F1: 17 columns
@@ -48,5 +49,6 @@ FRED DGS2: 12579 obs to 2026-09-29
   2027-09-28: 4.905%  (-0.8bp, clean-month)
   2027-11-02: 4.894%  (-1.1bp, formula)
   2027-12-14: 4.870%  (-2.4bp, clean-month)
-Status: {"ASX futures": "ok", "RBA F1": "ok", "RBA F2": "ok", "RBA F16": "ok", "FRED AUD/USD": "ok", "FRED US 2y": "ok"}
+Health: {"checked": "2026-10-01", "warnings": [], "notes": ["Futures run to Feb 2028 but the last RBA meeting date on file is 14 Dec 2027; later meetings will appear once the RBA publishes them."], "failed_steps": [], "last_dates": {"ASX futures": "2026-09-30", "RBA cash rate & bank bills (F1)": "2026-09-30", "RBA bond yields (F2)": "2026-09-23", "RBA bond lines (F16)": "2026-09-23", "AUD/USD": "2026-09-25", "US 2-year Treasury": "2026-09-29"}}
+Status: {"RBA meeting schedule": "ok", "ASX futures": "ok", "RBA F1": "ok", "RBA F2": "ok", "RBA F16": "ok", "FRED AUD/USD": "ok", "FRED US 2y": "ok"}
 Wrote charts: horizons=455 money=942 bonds=2701 fx=2182
