@@ -196,3 +196,24 @@ def test_bond_table_and_yield_curves():
     latest = curves[0]["points"]
     assert [p["maturity"] for p in latest] == ["2027-04-21", "2039-06-21", "2051-06-21"]
     assert latest[-1]["years"] == pytest.approx(24.72, abs=0.01) and latest[-1]["yield"] == 5.40
+
+
+def test_futures_front_end():
+    from build import futures_term_rate, futures_front_end
+    fut = {date(2026, 9, 1): 4.40, date(2026, 10, 1): 4.60, date(2026, 11, 1): 4.80,
+           date(2026, 12, 1): 4.80, date(2027, 1, 1): 4.80, date(2027, 2, 1): 4.80, date(2027, 3, 1): 4.80}
+    # 23 Sep -> 23 Oct: 8 days of Sep (4.40) and 22 days of Oct (4.60)
+    assert futures_term_rate(fut, date(2026, 9, 23), 1) == pytest.approx((8 * 4.40 + 22 * 4.60) / 30)
+    pts = futures_front_end({date(2026, 9, 22): fut}, date(2026, 9, 23))
+    assert [p["name"] for p in pts] == ["1M futures-implied rate", "3M futures-implied rate", "6M futures-implied rate"]
+    assert futures_front_end({date(2026, 8, 1): fut}, date(2026, 9, 23)) == []   # too stale
+
+
+def test_front_end_only_fills_gap_before_shortest_bond():
+    from build import add_front_end
+    fut = {add_months(date(2026, 8, 1), k): 4.5 for k in range(10)}
+    curves = [{"as_at": "2026-08-24", "points": [{"years": 0.07, "yield": 4.4}]},
+              {"as_at": "2026-08-24", "points": [{"years": 0.45, "yield": 4.8}]}]
+    add_front_end(curves, {date(2026, 8, 24): fut})
+    assert curves[0]["front_end"] == []
+    assert [p["name"][:2] for p in curves[1]["front_end"]] == ["1M", "3M"]

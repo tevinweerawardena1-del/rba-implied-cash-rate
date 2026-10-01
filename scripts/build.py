@@ -163,3 +163,51 @@ def yield_curves(bonds: list[dict], lookbacks=((0, "Latest"), (30, "1 month earl
                            "latest": days_back == 0,
                            "points": sorted(pts, key=lambda p: p["years"])})
     return curves
+
+
+FRONT_END_TENORS = ((1, "1M"), (3, "3M"), (6, "6M"))
+
+
+def futures_term_rate(fut: dict[date, float], start: date, months: int) -> float | None:
+    """Day-weighted average of the futures-implied rate from `start` over the
+    next `months` months: each day takes its calendar month's contract."""
+    end = add_months(start.replace(day=1), months) + timedelta(days=start.day - 1)
+    total, n, d = 0.0, 0, start
+    while d < end:
+        y = fut.get(month_start(d))
+        if y is None:
+            return None
+        total += y
+        n += 1
+        d += timedelta(days=1)
+    return total / n if n else None
+
+
+def futures_front_end(futures_hist: dict[date, dict[date, float]], ref: date) -> list[dict]:
+    """1M/3M/6M points for the front of the yield curve from the futures strip
+    on (or just before) `ref`."""
+    days = [d for d in futures_hist if d <= ref]
+    if not days:
+        return []
+    asof = max(days)
+    if (ref - asof).days > MAX_STALE_DAYS:
+        return []
+    fut = futures_hist[asof]
+    pts = []
+    for m, lab in FRONT_END_TENORS:
+        y = futures_term_rate(fut, ref, m)
+        if y is not None:
+            pts.append({"years": round(m / 12, 4), "yield": round(y, 4),
+                        "name": f"{lab} futures-implied rate", "maturity": None,
+                        "source": "futures"})
+    return pts
+
+
+def add_front_end(curves: list[dict], futures_hist) -> list[dict]:
+    """Attach futures-implied front-end points, keeping only tenors shorter
+    than the curve's shortest bond (they fill the gap, never overlap it)."""
+    for c in curves:
+        shortest = c["points"][0]["years"] if c["points"] else float("inf")
+        c["front_end"] = [p for p in futures_front_end(futures_hist, date.fromisoformat(c["as_at"]))
+                          if p["years"] < shortest]
+    return curves
