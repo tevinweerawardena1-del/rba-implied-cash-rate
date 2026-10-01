@@ -248,7 +248,7 @@
 
   <section class="card" data-card="taylor">
     <div class="card-head">
-      <div><h2>Taylor rule vs actual cash rate</h2><p>Where a simple policy rule says the cash rate should be, given inflation and unemployment, against where the RBA set it. Dotted lines are projections</p></div>
+      <div><h2>Taylor rule vs actual cash rate</h2><p>Dotted lines are projections</p></div>
       <div class="seg" data-range="taylor"></div>
     </div>
     <div class="legend">
@@ -259,7 +259,6 @@
     </div>
     <div class="chart-box" style="height:380px"><canvas id="taylorChart" role="img" aria-label="Taylor rule rate versus actual cash rate"></canvas></div>
     <div class="taylor-read" id="taylorRead"></div>
-    <div class="src" id="taylorNote"></div>
   </section>
 
   <section class="card" data-card="real">
@@ -512,7 +511,7 @@ const RANGE_SETS = {
 // charts stay readable as history accumulates. "All" is still one click away.
 const CARD_RANGE = { horizons: ["short", 730], nextmeeting: ["short", 730], history: ["short", 91],
   babspread: ["daily", 1096], bbsw: ["daily", 1096], acgb2: ["daily", 3653], slope: ["daily", 3653], fx: ["daily", 3653],
-  real: ["long", 3653], taylor: ["long", 3653], forwards: ["daily", 3653], fly: ["daily", 3653], us: ["daily", 3653] };
+  real: ["long", 3653], taylor: ["daily", 3653], forwards: ["daily", 3653], fly: ["daily", 3653], us: ["daily", 3653] };
 
 function setupRanges() {
   document.querySelectorAll("[data-range]").forEach((seg) => {
@@ -902,13 +901,6 @@ function renderTaylor() {
         <div class="v">${pct(pr.smoothed_next_meeting)}</div><div class="d">${bp(pr.smoothed_change_bp)} → rule says ${call(pr.smoothed_change_bp)}</div></div>
       <div><div class="k">Futures, next meeting</div><div class="v">${nextMeet ? pct(nextMeet.implied_rate, 3) : "–"}</div>
         <div class="d">${nextMeet ? bp(nextMeet.change_bp) + " → market says " + call(nextMeet.change_bp) : ""}</div></div>`;
-    $("#taylorNote").textContent =
-      `Rule: i* = r* + π + ${P.inflation_gap_weight}(π − ${P.inflation_target}) − ${P.unemployment_gap_weight}(u − ${P.nairu}), ` +
-      `with r* = ${P.neutral_real_rate}% (neutral real rate), π = year-ended trimmed mean inflation (latest quarter, RBA G1), ` +
-      `u = unemployment rate (RBA H5). Latest inputs: π ${pct(pr.inputs.inflation, 1)} (${fmtDate(pr.inputs.inflation_asof, { month: "short", year: "numeric" })} qtr), ` +
-      `u ${pct(pr.inputs.unemployment, 1)} (${fmtDate(pr.inputs.unemployment_asof, { month: "short", year: "numeric" })}). ` +
-      `The next-month projection carries these forward; the next-meeting estimate closes ${Math.round((1 - pr.rho_per_meeting) * 100)}% of the gap per meeting (smoothing ρ = ${P.smoothing_per_quarter} per quarter). ` +
-      `Parameters are estimates (RBA neutral rate and NAIRU) and can be changed in config/taylor.json.`;
   }
 }
 
