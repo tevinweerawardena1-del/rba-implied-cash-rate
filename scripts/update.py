@@ -203,7 +203,10 @@ def run(backfill: bool):
     for name, rows in (("money_market", money), ("bonds", bonds), ("fx_differential", fx)):
         pd.DataFrame(rows).to_csv(DATA / f"{name}.csv", index=False)
 
-    curves_by_maturity = add_front_end(yield_curves(bond_list), fh)
+    def spread_on(d):
+        ri = rate_inputs(target, ibocr, d)
+        return ri[2] if ri else 0.0
+    curves_by_maturity = add_front_end(yield_curves(bond_list), fh, spread_on)
     pd.DataFrame([{"curve": c["label"], "as_at": c["as_at"], "source": "ACGB", **p}
                   for c in curves_by_maturity for p in c["points"]]
                  + [{"curve": c["label"], "as_at": c["as_at"], **p}
