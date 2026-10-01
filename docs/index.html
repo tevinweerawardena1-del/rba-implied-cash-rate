@@ -123,6 +123,8 @@
   .banner { border-left: 3px solid var(--series-2); padding: 8px 12px; background: var(--surface);
             margin-bottom: 16px; font-size: 14px; color: var(--text-secondary); display: none; }
   footer { font-size: 13px; color: var(--text-muted); margin-top: 24px; }
+  footer p { margin: 0 0 4px; }
+  .disclaimer { font-size: 14px; color: var(--text-secondary); }
 
   @media (max-width: 720px) {
     .tiles { grid-template-columns: 1fr; }
@@ -151,7 +153,6 @@
     <a href="#money">Money markets</a>
     <a href="#bonds">Government bonds</a>
     <a href="#fx">AUD/USD</a>
-    <a href="#method">Method &amp; data</a>
   </nav>
 
   <div class="banner" id="banner"></div>
@@ -308,27 +309,9 @@
   </section>
 
   <!-- ===================== Method ===================== -->
-  <section class="card notes" id="method" style="margin-top:36px">
-    <h2>How it's calculated</h2>
-    <h4>Implied cash rate</h4>
-    <p>Each ASX 30 Day Interbank Cash Rate Futures contract settles on the <em>average</em> interbank overnight cash rate over its month, so 100 minus the price is that month's expected average. Today's gap between the overnight rate and the target (<span class="num" id="spreadNote">–</span>) is removed so results are in target terms. A new target applies from the day after each decision. Where the month after a meeting has no meeting, its contract gives the post-meeting rate directly; otherwise:</p>
-    <div class="formula">r_after = (monthly average × D − r_before × d₁) ÷ (D − d₁)</div>
-    <p>with D days in the month and d₁ days before the change. Probabilities assume 25bp steps.</p>
-    <h4>Forward horizons</h4>
-    <p>The 6- and 12-month lines use the contract that many months ahead of each pricing date. The strip never reaches a full 18 months, so the third line uses the furthest listed contract (usually 16–17 months out).</p>
-    <h4>Data</h4>
-    <p>Futures: <a href="https://www.asx.com.au/markets/trade-our-derivatives-market/derivatives-market-prices/short-term-derivatives">ASX</a> (previous settlement), with history from 2025 via a public daily scrape. Cash rate, overnight rate and bank bills: <a href="https://www.rba.gov.au/statistics/tables/">RBA table F1</a>. Bond yields: RBA table F2. AUD/USD and US 2-year yield: <a href="https://fred.stlouisfed.org/">FRED</a>. Download for Excel:
-      <a href="data/meeting_history.csv">meeting history</a> ·
-      <a href="data/implied_horizons.csv">forward horizons</a> ·
-      <a href="data/futures_history.csv">futures</a> ·
-      <a href="data/money_market.csv">bank bills</a> ·
-      <a href="data/bonds.csv">bonds</a> ·
-      <a href="data/yield_curve.csv">yield curve</a> ·
-      <a href="data/fx_differential.csv">AUD/USD &amp; differential</a> (CSV).</p>
-    <p>Indicative only and not financial advice.</p>
-  </section>
 
-  <footer id="footer"></footer>
+
+  <footer><p class="disclaimer">Indicative only and not financial advice.</p><p id="footerSource"></p></footer>
 </div>
 
 <script>
@@ -771,7 +754,6 @@ const RENDER = { horizons: renderHorizons, nextmeeting: renderNextMeeting, histo
 
 function renderAll() {
   $("#asat").innerHTML = `Futures close ${fmtDate(latest.as_at)}<br>Updated ${latest.generated_utc} UTC`;
-  $("#spreadNote").textContent = bp(latest.ibocr_spread_bp);
   const failed = Object.entries(charts.status || {}).filter(([k, v]) => v !== "ok" && !/backfill|backup/.test(k)).map(([k]) => k);
   const notes = [...(latest.notes || [])];
   if (failed.length && !(failed.length === 1 && failed[0] === "ASX futures" && notes.length)) notes.push(`Some sources didn't update today (${failed.join(", ")}); their charts show the last available data.`);
@@ -787,7 +769,7 @@ function renderAll() {
   // Expected gaps (e.g. next year's RBA meeting dates not yet published).
   const hnotes = (charts.health && charts.health.notes) || [];
   $("#scheduleNote").textContent = hnotes.join(" ");
-  $("#footer").textContent = `Futures source today: ${latest.source}.`;
+  $("#footerSource").textContent = `Futures source today: ${latest.source}.`;
   const steps = [renderTiles, renderPath, renderCurves, renderTable, renderOutcomes, renderYieldCurve, ...Object.values(RENDER)];
   for (const fn of steps) { try { fn(); } catch (e) { console.error(fn.name, e); } }
 }
