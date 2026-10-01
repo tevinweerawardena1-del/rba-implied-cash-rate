@@ -157,7 +157,7 @@
     </div>
     <div class="legend">
       <span><i class="sw" style="background:var(--series-1)"></i>Implied target</span>
-      <span><i class="sw dot" style="background:var(--series-2)"></i>Futures monthly average</span>
+      <span><i class="sw" style="background:var(--series-2)"></i>Futures monthly average</span>
       <span><i class="sw dash"></i>Current target</span>
     </div>
     <div class="chart-box"><canvas id="pathChart" role="img" aria-label="Implied cash rate path"></canvas></div>
@@ -508,8 +508,7 @@ function renderPath() {
     lineDS("Implied target", path, css("--series-1"), { stepped: "before",
       pointRadius: (c) => (c.raw && c.raw.meeting ? 4 : 0), pointBackgroundColor: css("--series-1"),
       pointBorderColor: css("--surface"), pointBorderWidth: 2, order: 1 }),
-    { label: "Futures monthly average", data: monthly, showLine: false, pointRadius: 4, pointHoverRadius: 6,
-      pointBackgroundColor: css("--series-2"), pointBorderColor: css("--surface"), pointBorderWidth: 2, order: 2 },
+    lineDS("Futures monthly average", monthly, css("--series-2"), { cubicInterpolationMode: "monotone", order: 2 }),
     { ...refDS("Current target", start, end, target), order: 3 },
   ] } });
 }
