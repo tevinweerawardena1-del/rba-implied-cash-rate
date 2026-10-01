@@ -35,15 +35,20 @@ jobs:
         run: python -m pytest tests -q
 
       - name: Update data
+        id: update
+        continue-on-error: true
+        shell: bash
         run: |
+          set -o pipefail
           if [ -f docs/data/meeting_history.csv ]; then
-            python scripts/update.py
+            python -u scripts/update.py 2>&1 | tee docs/data/run_log.txt
           else
             echo "First run: building history"
-            python scripts/update.py --backfill
+            python -u scripts/update.py --backfill 2>&1 | tee docs/data/run_log.txt
           fi
 
       - name: Commit changes
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -54,3 +59,9 @@ jobs:
             git commit -m "Data update $(date -u +%F)"
             git push
           fi
+
+      - name: Fail if the update failed
+        if: steps.update.outcome == 'failure'
+        run: |
+          echo "Update failed - see docs/data/run_log.txt"
+          exit 1

@@ -153,7 +153,8 @@ def parse_rba_f11(text: str) -> tuple[dict[date, float], dict[date, float]]:
         return next((i for i, t in enumerate(title) if pred(t.strip().lower())), None)
 
     t_col = col(lambda t: t == "cash rate target")
-    i_col = col(lambda t: "interbank overnight cash rate" in t)
+    i_col = col(lambda t: t == "interbank overnight cash rate")
+    print(f"RBA F1.1 columns: target={t_col}, ibocr={i_col}")
     if t_col is None:
         raise ValueError("Cash Rate Target column not found in RBA F1.1")
 
@@ -341,5 +342,10 @@ if __name__ == "__main__":
     args = ap.parse_args()
     DATA.mkdir(parents=True, exist_ok=True)
     if args.backfill:
-        run_backfill()
+        try:
+            run_backfill()
+        except Exception:
+            import traceback
+            print("Backfill failed; continuing with today's update only:")
+            traceback.print_exc(file=sys.stdout)
     run_daily()
