@@ -151,16 +151,12 @@
   <h3 class="section" id="expectations">Cash rate expectations</h3>
   <section class="tiles" id="tiles"></section>
 
-  <section class="card">
+  <section class="card" data-card="curves">
     <div class="card-head">
-      <div><h2>Implied path</h2><p>Expected cash rate target after each RBA meeting, and each futures month's implied average</p></div>
+      <div><h2>Futures implied curves</h2><p>The 30-day interbank futures strip at each month end, and today. The most recent curve is the boldest</p></div>
     </div>
-    <div class="legend">
-      <span><i class="sw" style="background:var(--series-1)"></i>Implied target</span>
-      <span><i class="sw" style="background:var(--series-2)"></i>Futures monthly average</span>
-      <span><i class="sw dash"></i>Current target</span>
-    </div>
-    <div class="chart-box"><canvas id="pathChart" role="img" aria-label="Implied cash rate path"></canvas></div>
+    <div class="legend" id="curveLegend"></div>
+    <div class="chart-box"><canvas id="curveChart" role="img" aria-label="Futures implied curves by month"></canvas></div>
   </section>
 
   <section class="card">
@@ -199,14 +195,6 @@
       <span><i class="sw vline" style="background:var(--down)"></i>Cut</span>
     </div>
     <div class="chart-box"><canvas id="nextChart" role="img" aria-label="Next-meeting implied change"></canvas></div>
-  </section>
-
-  <section class="card" data-card="curves">
-    <div class="card-head">
-      <div><h2>Futures implied curves</h2><p>The 30-day interbank futures strip at each month end, and today. The most recent curve is the boldest</p></div>
-    </div>
-    <div class="legend" id="curveLegend"></div>
-    <div class="chart-box"><canvas id="curveChart" role="img" aria-label="Futures implied curves by month"></canvas></div>
   </section>
 
   <section class="card">
@@ -477,42 +465,6 @@ function renderTable() {
   $("#meetingTable").innerHTML = `<thead><tr><th>Decision</th><th>Implied rate</th><th>Change at meeting</th><th>Probability</th><th>Cumulative</th></tr></thead><tbody>${rows}${beyond}</tbody>`;
 }
 
-function renderPath() {
-  const target = latest.cash_rate_target, start = ts(latest.as_at);
-  const path = [{ x: start, y: target }];
-  latest.meetings.forEach((r) => path.push({ x: ts(r.effective_date), y: r.implied_rate, meeting: r }));
-  const endD = new Date(latest.futures[latest.futures.length - 1].month + "T00:00:00");
-  endD.setMonth(endD.getMonth() + 1);
-  const end = endD.getTime();
-  path.push({ x: end, y: path[path.length - 1].y });
-  const monthly = latest.futures.map((f) => ({ x: ts(f.month) + 14 * DAY, y: f.target_equivalent, month: f.month, raw: f.implied_yield }));
-
-  const o = baseOptions();
-  o.interaction = { mode: "nearest", intersect: false, axis: "x" };
-  o.plugins.tooltip.callbacks = {
-    title: (items) => {
-      const p = items[0].raw;
-      if (p.meeting) return "After " + fmtDate(p.meeting.decision_date) + " meeting";
-      if (p.month) return fmtDate(p.month, { month: "long", year: "numeric" }) + " futures";
-      return fmtDate(p.x);
-    },
-    label: (item) => {
-      const p = item.raw;
-      if (p.meeting) return [` Implied ${pct(p.y, 3)}`, ` ${probText(p.meeting.move_fraction).text} · ${bp(p.meeting.change_bp)}`];
-      if (p.month) return [` Target terms ${pct(p.y, 3)}`, ` Price ${(100 - p.raw).toFixed(3)}`];
-      return ` ${item.dataset.label} ${pct(p.y)}`;
-    },
-  };
-  Object.assign(o.scales.x, { min: start, max: end, time: { unit: "month", displayFormats: { month: "MMM yy" } } });
-  draw("pathChart", { type: "line", options: o, data: { datasets: [
-    lineDS("Implied target", path, css("--series-1"), { stepped: "before",
-      pointRadius: (c) => (c.raw && c.raw.meeting ? 4 : 0), pointBackgroundColor: css("--series-1"),
-      pointBorderColor: css("--surface"), pointBorderWidth: 2, order: 1 }),
-    lineDS("Futures monthly average", monthly, css("--series-2"), { cubicInterpolationMode: "monotone", order: 2 }),
-    { ...refDS("Current target", start, end, target), order: 3 },
-  ] } });
-}
-
 let outcomeIdx = 0;
 function renderOutcomes() {
   const list = charts.outcomes || [];
@@ -588,17 +540,22 @@ function renderCurves() {
   if (!list.length) return emptyCard("curves", "No futures history yet.");
   const steps = ["--seq-1", "--seq-2", "--seq-3", "--seq-4", "--seq-5"].slice(-list.length);
   const label = (c) => c.latest ? `${fmtDate(c.as_at)} (latest)` : fmtDate(c.as_at, { month: "long", year: "numeric" });
-  $("#curveLegend").innerHTML = list.map((c, i) => `<span><i class="sw" style="background:var(${steps[i]});${c.latest ? "height:4px" : ""}"></i>${label(c)}</span>`).join("");
+  $("#curveLegend").innerHTML = list.map((c, i) => `<span><i class="sw" style="background:var(${steps[i]});${c.latest ? "height:4px" : ""}"></i>${label(c)}</span>`).join("") +
+    `<span><i class="sw dash"></i>Current target (${pct(latest.cash_rate_target)})</span>`;
   const o = baseOptions();
   o.interaction = { mode: "nearest", intersect: false, axis: "x" };
+  o.plugins.tooltip.filter = (i) => i.dataset.label !== "Current target";
   o.plugins.tooltip.callbacks = {
     title: (i) => fmtDate(i[0].raw.x, { month: "long", year: "numeric" }) + " contract",
     label: (i) => ` ${i.dataset.label}: ${pct(i.raw.y, 3)}`,
   };
   Object.assign(o.scales.x, { time: { unit: "month", displayFormats: { month: "MMM yy" } } });
-  draw("curveChart", { type: "line", options: o, data: { datasets: list.map((c, i) =>
+  const datasets = list.map((c, i) =>
     lineDS(label(c), c.points.map((p) => ({ x: ts(p.month), y: p.yield })), css(steps[i]),
-      { borderWidth: c.latest ? 3 : 2, order: list.length - i })) } });
+      { borderWidth: c.latest ? 3 : 2, order: list.length - i }));
+  const xs = datasets.flatMap((d) => d.data.map((p) => p.x));
+  datasets.push({ ...refDS("Current target", Math.min(...xs), Math.max(...xs), latest.cash_rate_target), order: list.length + 1 });
+  draw("curveChart", { type: "line", options: o, data: { datasets } });
 }
 
 function renderHistory() {
@@ -706,7 +663,7 @@ function renderAll() {
   if (failed.length && !(failed.length === 1 && failed[0] === "ASX futures" && notes.length)) notes.push(`Some sources didn't update today (${failed.join(", ")}); their charts show the last available data.`);
   if (notes.length) { $("#banner").style.display = "block"; $("#banner").textContent = notes.join(" "); }
   $("#footer").textContent = `Futures source today: ${latest.source}.`;
-  const steps = [renderTiles, renderTable, renderPath, renderOutcomes, renderCurves, ...Object.values(RENDER)];
+  const steps = [renderTiles, renderCurves, renderTable, renderOutcomes, ...Object.values(RENDER)];
   for (const fn of steps) { try { fn(); } catch (e) { console.error(fn.name, e); } }
 }
 
