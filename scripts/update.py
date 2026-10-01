@@ -198,7 +198,7 @@ def run(backfill: bool):
              for row in align(acgb2, {"y10": acgb10}, BONDS_FROM)]
     fx = [{"date": row["date"], "audusd": r(row["base"]), "ust2": r(row["ust2"]),
            "acgb2": r(row["acgb2"]),
-           "diff": None if None in (row["ust2"], row["acgb2"]) else r(row["ust2"] - row["acgb2"])}
+           "aus_minus_us": None if None in (row["ust2"], row["acgb2"]) else r(row["acgb2"] - row["ust2"])}
           for row in align(audusd, {"ust2": ust2, "acgb2": acgb2}, FX_FROM)]
     for name, rows in (("money_market", money), ("bonds", bonds), ("fx_differential", fx)):
         pd.DataFrame(rows).to_csv(DATA / f"{name}.csv", index=False)

@@ -295,12 +295,12 @@
 
   <section class="card" data-card="fx">
     <div class="card-head">
-      <div><h2>AUD/USD and the 2-year rate differential</h2><p>US dollars per Australian dollar (left axis) and US 2-year Treasury minus 2-year ACGB yield (right axis)</p></div>
+      <div><h2>AUD/USD and the 2-year rate differential</h2><p>US dollars per Australian dollar (left axis) and 2-year ACGB minus US 2-year Treasury yield (right axis)</p></div>
       <div class="seg" data-range="fx"></div>
     </div>
     <div class="legend">
       <span><i class="sw" style="background:var(--series-1)"></i>AUD/USD (left axis)</span>
-      <span><i class="sw" style="background:var(--series-2)"></i>UST 2y − ACGB 2y, percentage points (right axis)</span>
+      <span><i class="sw" style="background:var(--series-2)"></i>ACGB 2y − UST 2y, percentage points (right axis)</span>
       <span><i class="sw" style="background:var(--ref);height:1px"></i>Zero differential</span>
     </div>
     <div class="chart-box" style="height:400px"><canvas id="fxChart" role="img" aria-label="AUD/USD and the US minus Australian 2-year yield differential"></canvas></div>
@@ -684,16 +684,16 @@ function renderFx() {
     position: "right", border: { display: false },
     grid: { drawOnChartArea: true, color: (c) => (c.tick.value === 0 ? css("--ref") : "transparent") },
     ticks: { color: css("--text-muted"), font: tickFont, callback: (v) => (v > 0 ? "+" : "") + v.toFixed(1) },
-    title: { display: true, text: "UST − ACGB (pp)", color: css("--text-secondary"), font: { family: "IBM Plex Sans", size: 12 } },
+    title: { display: true, text: "ACGB − UST (pp)", color: css("--text-secondary"), font: { family: "IBM Plex Sans", size: 12 } },
   };
   o.plugins.tooltip.callbacks = {
     title: (i) => fmtDate(i[0].raw.x),
     label: (i) => i.raw.y == null ? null
-      : i.dataset.yAxisID === "y1" ? ` UST − ACGB: ${signed(i.raw.y)} pp` : ` AUD/USD: ${i.raw.y.toFixed(4)}`,
+      : i.dataset.yAxisID === "y1" ? ` ACGB − UST: ${signed(i.raw.y)} pp` : ` AUD/USD: ${i.raw.y.toFixed(4)}`,
   };
   draw("fxChart", { type: "line", options: o, data: { datasets: [
     lineDS("AUD/USD", pts(rows, "audusd"), css("--series-1"), { yAxisID: "y", borderWidth: 1.5 }),
-    lineDS("UST − ACGB", pts(rows, "diff"), css("--series-2"), { yAxisID: "y1", borderWidth: 1.5 }),
+    lineDS("ACGB − UST", pts(rows, "aus_minus_us"), css("--series-2"), { yAxisID: "y1", borderWidth: 1.5 }),
   ] } });
 }
 
