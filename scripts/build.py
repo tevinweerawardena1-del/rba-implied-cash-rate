@@ -375,3 +375,53 @@ def taylor_projection(rows: list[dict], target_now: float, p: dict) -> dict | No
             "gap_bp": round((last["taylor"] - target_now) * 100, 1), "rho_per_meeting": round(rho_m, 3),
             "inputs": {"inflation": last["inflation"], "inflation_asof": last["inflation_asof"],
                        "unemployment": last["unemployment"], "unemployment_asof": last["date"]}}
+
+
+# --------------------------------------------------------------------------
+# OIS curve implied by the futures strip
+# --------------------------------------------------------------------------
+
+OIS_TENORS = (1, 2, 3, 4, 5, 6, 9, 12, 15, 18)
+
+
+def ois_rate(fut: dict[date, float], start: date, months: int) -> float | None:
+    """Fixed rate (%) of an AONIA OIS from `start` for `months`: the daily
+    compounded futures-implied overnight rate over the term, ACT/365.
+    AONIA is the interbank overnight cash rate the futures settle on, so the
+    raw implied yields are used (no target spread adjustment)."""
+    end = add_months(start.replace(day=1), months) + timedelta(days=start.day - 1)
+    first = min(fut) if fut else None
+    growth, d = 1.0, start
+    while d < end:
+        r = fut.get(month_start(d))
+        if r is None and first is not None and month_start(d) < first:
+            r = fut[first]      # days before the first listed contract (current month expired)
+        if r is None:
+            return None
+        growth *= 1 + r / 36500
+        d += timedelta(days=1)
+    days = (end - start).days
+    return (growth - 1) * 36500 / days
+
+
+def ois_curves(futures_hist: dict[date, dict[date, float]],
+               lookbacks=((0, "Latest"), (30, "1 month earlier"), (91, "3 months earlier"))) -> list[dict]:
+    days = sorted(futures_hist)
+    if not days:
+        return []
+    latest = days[-1]
+    out = []
+    for back, label in lookbacks:
+        ref = latest - timedelta(days=back)
+        cands = [d for d in days if d <= ref and (ref - d).days <= 7]
+        if not cands:
+            continue
+        d = cands[-1]
+        pts = []
+        for m in OIS_TENORS:
+            r = ois_rate(futures_hist[d], d, m)
+            if r is not None:
+                pts.append({"tenor_months": m, "rate": round(r, 4)})
+        if pts:
+            out.append({"label": label, "as_at": d.isoformat(), "latest": back == 0, "points": pts})
+    return out

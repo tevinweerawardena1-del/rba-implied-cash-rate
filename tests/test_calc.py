@@ -327,3 +327,16 @@ def test_taylor_series_and_projection():
     assert pr["next_month"] == "2026-09-30"
     assert pr["gap_bp"] == pytest.approx(-30)
     assert pr["smoothed_change_bp"] == pytest.approx(-30 * (1 - 0.85 ** 0.5), abs=0.1)
+
+
+def test_ois_rate():
+    from build import ois_rate, ois_curves
+    flat_fut = {add_months(date(2026, 9, 1), k): 4.60 for k in range(18)}
+    r = ois_rate(flat_fut, date(2026, 9, 30), 3)
+    assert r == pytest.approx(4.6 * (1 + 4.6 / 36500 * 45), abs=0.003)   # compounding lifts slightly above 4.60
+    step = dict(flat_fut); step.update({m: 4.85 for m in flat_fut if m >= date(2026, 12, 1)})
+    assert ois_rate(step, date(2026, 9, 30), 6) > ois_rate(step, date(2026, 9, 30), 2)
+    assert ois_rate(flat_fut, date(2026, 9, 30), 24) is None                # beyond the strip
+    c = ois_curves({date(2026, 9, 30): flat_fut, date(2026, 8, 31): flat_fut})
+    assert [x["label"] for x in c] == ["Latest", "1 month earlier"]
+    assert c[0]["points"][-1]["tenor_months"] == 15
