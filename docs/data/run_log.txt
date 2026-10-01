@@ -61,6 +61,25 @@ RBA G1: 20 columns
    - 'Quarterly non-tradables inflation – excluding interest charges, indirect deposit and loan facilities and tax changes': 1982-06-30 to 2026-06-30
    - 'Quarterly weighted median inflation  – excluding interest charges and tax changes': 1982-06-30 to 2026-06-30
    - 'Quarterly trimmed mean inflation  – excluding interest charges and tax changes': 1982-06-30 to 2026-06-30
+   - H5 'Labour force' [Seasonally adjusted]: 1978-02-28 to 2026-08-31
+   - H5 'Participation rate' [Seasonally adjusted]: 1978-02-28 to 2026-08-31
+   - H5 'Part-time employment' [Seasonally adjusted]: 1978-02-28 to 2026-08-31
+   - H5 'Full-time employment' [Seasonally adjusted]: 1978-02-28 to 2026-08-31
+   - H5 'Employment' [Seasonally adjusted]: 1978-02-28 to 2026-08-31
+   - H5 'Year-ended employment growth' [Seasonally adjusted]: 1979-02-28 to 2026-08-31
+   - H5 'Year-ended employment trend growth' [Trend]: 1979-02-28 to 2026-08-31
+   - H5 'Employment to population ratio' [Seasonally adjusted]: 1978-02-28 to 2026-08-31
+   - H5 'Unemployment' [Seasonally adjusted]: 1978-02-28 to 2026-08-31
+   - H5 'Unemployment rate' [Seasonally adjusted]: 1978-02-28 to 2026-08-31
+   - H5 'Unemployment rate trend' [Trend]: 1978-02-28 to 2026-08-31
+   - H5 'Hours worked' [Seasonally adjusted]: 1978-07-31 to 2026-08-31
+   - H5 'Hours worked trend' [Trend]: 1978-07-31 to 2026-08-31
+   - H5 'Year-ended hours worked trend growth' [Trend]: 1979-07-31 to 2026-08-31
+   - H5 'Average hours worked trend' [Trend]: 1978-07-31 to 2026-08-31
+   - H5 'Job vacancies' [Seasonally adjusted]: 1979-05-31 to 2026-05-31
+   - H5 'Private sector job vacancies' [Seasonally adjusted]: 1979-05-31 to 2026-05-31
+   - H5 'Vacancies to labour force ratio' [Seasonally adjusted]: 1979-05-31 to 2026-05-31
+RBA H5 unemployment: using 'Unemployment rate' [Seasonally adjusted]
   2026-11-03: 4.656%  (+5.6bp, formula)
   2026-12-08: 4.700%  (+4.4bp, clean-month)
   2027-02-09: 4.796%  (+9.6bp, formula)
@@ -71,7 +90,8 @@ RBA G1: 20 columns
   2027-09-28: 4.905%  (-0.8bp, clean-month)
   2027-11-02: 4.894%  (-1.1bp, formula)
   2027-12-14: 4.870%  (-2.4bp, clean-month)
+Taylor: {'date': '2026-08-31', 'cash_rate': 4.35, 'taylor': 4.3, 'inflation': 3.6, 'inflation_asof': '2026-06-30', 'unemployment': 4.6} {'next_month': '2026-09-30', 'taylor_next_month': 4.3, 'smoothed_next_meeting': 4.577, 'smoothed_change_bp': -2.3, 'gap_bp': -30.0, 'rho_per_meeting': 0.922, 'inputs': {'inflation': 3.6, 'inflation_asof': '2026-06-30', 'unemployment': 4.6, 'unemployment_asof': '2026-08-31'}}
 Forwards 2638 days, fly 2701, real 62 quarters, US 6689, scorecard 14 meetings
-Health: {"checked": "2026-10-01", "warnings": [], "notes": ["Futures run to Feb 2028 but the last RBA meeting date on file is 14 Dec 2027; later meetings will appear once the RBA publishes them."], "failed_steps": [], "last_dates": {"ASX futures": "2026-09-30", "RBA cash rate & bank bills (F1)": "2026-09-30", "RBA bond yields (F2)": "2026-09-23", "RBA bond lines (F16)": "2026-09-23", "AUD/USD": "2026-09-25", "US 2-year Treasury": "2026-09-29", "US 10-year Treasury": "2026-09-29", "RBA CPI (G1)": "2026-06-30"}}
-Status: {"RBA meeting schedule": "ok", "ASX futures": "ok", "RBA F1": "ok", "RBA F2": "ok", "RBA F16": "ok", "FRED AUD/USD": "ok", "FRED US 2y": "ok", "FRED US 10y": "ok", "RBA G1 (CPI)": "ok"}
+Health: {"checked": "2026-10-01", "warnings": [], "notes": ["Futures run to Feb 2028 but the last RBA meeting date on file is 14 Dec 2027; later meetings will appear once the RBA publishes them."], "failed_steps": [], "last_dates": {"ASX futures": "2026-09-30", "RBA cash rate & bank bills (F1)": "2026-09-30", "RBA bond yields (F2)": "2026-09-23", "RBA bond lines (F16)": "2026-09-23", "AUD/USD": "2026-09-25", "US 2-year Treasury": "2026-09-29", "US 10-year Treasury": "2026-09-29", "RBA CPI (G1)": "2026-06-30", "RBA unemployment (H5)": "2026-08-31"}}
+Status: {"RBA meeting schedule": "ok", "ASX futures": "ok", "RBA F1": "ok", "RBA F2": "ok", "RBA F16": "ok", "FRED AUD/USD": "ok", "FRED US 2y": "ok", "FRED US 10y": "ok", "RBA G1 (CPI)": "ok", "RBA H5 (unemployment)": "ok"}
 Wrote charts: horizons=455 money=942 bonds=2701 fx=2182
