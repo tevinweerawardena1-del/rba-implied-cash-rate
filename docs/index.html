@@ -185,6 +185,7 @@
       <div><h2>Meeting by meeting</h2><p>Probability assumes 25bp moves: a 10bp priced change reads as a 40% chance of one move</p></div>
     </div>
     <div class="table-scroll"><table id="meetingTable"></table></div>
+    <div class="src" id="scheduleNote"></div>
   </section>
 
   <section class="card" data-card="outcomes">
@@ -241,7 +242,7 @@
       <span><i class="sw vline" style="background:var(--down)"></i>Cut</span>
     </div>
     <div class="chart-box"><canvas id="babSpreadChart" role="img" aria-label="Bank bill term spread"></canvas></div>
-    <div class="src">Source: RBA table F1 (bank bill rates are ASX BBSW).</div>
+    <div class="src">Source: RBA table F1 (bank bill rates are ASX BBSW). <span data-asof="money"></span></div>
   </section>
 
   <section class="card" data-card="bbsw">
@@ -255,7 +256,7 @@
       <span><i class="sw" style="background:var(--series-3)"></i>6-month</span>
     </div>
     <div class="chart-box"><canvas id="bbswChart" role="img" aria-label="Bank bill swap rates"></canvas></div>
-    <div class="src">Source: RBA table F1.</div>
+    <div class="src">Source: RBA table F1. <span data-asof="money"></span></div>
   </section>
 
   <!-- ===================== Bonds ===================== -->
@@ -267,7 +268,7 @@
       <div class="seg" data-range="acgb2"></div>
     </div>
     <div class="chart-box"><canvas id="acgb2Chart" role="img" aria-label="2-year ACGB yield"></canvas></div>
-    <div class="src">Source: RBA table F2.</div>
+    <div class="src">Source: RBA table F2. <span data-asof="bonds"></span></div>
   </section>
 
   <section class="card" data-card="slope">
@@ -276,7 +277,7 @@
       <div class="seg" data-range="slope"></div>
     </div>
     <div class="chart-box"><canvas id="slopeChart" role="img" aria-label="2s10s ACGB spread"></canvas></div>
-    <div class="src">Source: RBA table F2.</div>
+    <div class="src">Source: RBA table F2. <span data-asof="bonds"></span></div>
   </section>
 
   <section class="card" data-card="ycurve">
@@ -285,7 +286,7 @@
     </div>
     <div class="legend" id="ycurveLegend"></div>
     <div class="chart-box" style="height:380px"><canvas id="ycurveChart" role="img" aria-label="Australian Government bond yield curve"></canvas></div>
-    <div class="src">Source: RBA table F16 (indicative mid yields). Inflation-indexed bonds and Treasury notes excluded.</div>
+    <div class="src">Source: RBA table F16 (indicative mid yields). Inflation-indexed bonds and Treasury notes excluded. <span data-asof="ycurve"></span></div>
     <div class="src">Note on the front end: few government bonds mature within 6 months, so the dotted 1M, 3M and 6M points are not bond yields. They are futures-implied rates: the day-weighted average of the ASX 30 Day Interbank Cash Rate Futures implied rate over the next 1, 3 and 6 months from each curve's date. They act as a near risk-free proxy for the short end, joined to the shortest bond.</div>
   </section>
 
@@ -303,7 +304,7 @@
       <span><i class="sw" style="background:var(--ref);height:1px"></i>Zero differential</span>
     </div>
     <div class="chart-box" style="height:400px"><canvas id="fxChart" role="img" aria-label="AUD/USD and the US minus Australian 2-year yield differential"></canvas></div>
-    <div class="src">Sources: FRED (AUD/USD from Federal Reserve H.10, US 2-year Treasury), RBA table F2.</div>
+    <div class="src">Sources: FRED (AUD/USD from Federal Reserve H.10, US 2-year Treasury), RBA table F2. <span data-asof="fx"></span></div>
   </section>
 
   <!-- ===================== Method ===================== -->
@@ -436,11 +437,13 @@ function refDS(label, x0, x1, y) {
 
 // Range buttons shared by the time-series cards.
 const RANGE_SETS = {
-  short: [["3M", 91], ["6M", 182], ["1Y", 365], ["All", 0]],
-  long: [["1Y", 365], ["3Y", 1096], ["5Y", 1826], ["All", 0]],
+  short: [["3M", 91], ["6M", 182], ["1Y", 365], ["2Y", 730], ["All", 0]],
+  long: [["1Y", 365], ["3Y", 1096], ["5Y", 1826], ["10Y", 3653], ["All", 0]],
 };
-const CARD_RANGE = { horizons: ["short", 0], nextmeeting: ["short", 0], history: ["short", 91],
-  babspread: ["long", 1096], bbsw: ["long", 1096], acgb2: ["long", 0], slope: ["long", 0], fx: ["long", 0] };
+// Default windows roll forward with the data (e.g. always the last 2 years), so
+// charts stay readable as history accumulates. "All" is still one click away.
+const CARD_RANGE = { horizons: ["short", 730], nextmeeting: ["short", 730], history: ["short", 91],
+  babspread: ["long", 1096], bbsw: ["long", 1096], acgb2: ["long", 3653], slope: ["long", 3653], fx: ["long", 3653] };
 
 function setupRanges() {
   document.querySelectorAll("[data-range]").forEach((seg) => {
@@ -772,7 +775,18 @@ function renderAll() {
   const failed = Object.entries(charts.status || {}).filter(([k, v]) => v !== "ok" && !/backfill|backup/.test(k)).map(([k]) => k);
   const notes = [...(latest.notes || [])];
   if (failed.length && !(failed.length === 1 && failed[0] === "ASX futures" && notes.length)) notes.push(`Some sources didn't update today (${failed.join(", ")}); their charts show the last available data.`);
+  const warns = (charts.health && charts.health.warnings) || [];
+  if (warns.length) notes.push("Stale data: " + warns.join("; ") + ".");
   if (notes.length) { $("#banner").style.display = "block"; $("#banner").textContent = notes.join(" "); }
+  // "Data to <date>" under each chart, so readers can see how current each source is.
+  const asof = charts.asof || {};
+  document.querySelectorAll("[data-asof]").forEach((el) => {
+    const d = asof[el.dataset.asof];
+    el.textContent = d ? `Data to ${fmtDate(d)}.` : "";
+  });
+  // Expected gaps (e.g. next year's RBA meeting dates not yet published).
+  const hnotes = (charts.health && charts.health.notes) || [];
+  $("#scheduleNote").textContent = hnotes.join(" ");
   $("#footer").textContent = `Futures source today: ${latest.source}.`;
   const steps = [renderTiles, renderPath, renderCurves, renderTable, renderOutcomes, renderYieldCurve, ...Object.values(RENDER)];
   for (const fn of steps) { try { fn(); } catch (e) { console.error(fn.name, e); } }

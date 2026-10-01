@@ -211,3 +211,45 @@ def add_front_end(curves: list[dict], futures_hist) -> list[dict]:
         c["front_end"] = [p for p in futures_front_end(futures_hist, date.fromisoformat(c["as_at"]))
                           if p["years"] < shortest]
     return curves
+
+
+# --------------------------------------------------------------------------
+# Long-run upkeep: meeting schedule and data health
+# --------------------------------------------------------------------------
+
+def merge_meetings(config_dates: list[date], scraped: dict[int, list[date]] | None) -> list[date]:
+    """Config dates, with any year the RBA has published replaced by the RBA's
+    own list (so rescheduled meetings are picked up automatically)."""
+    scraped = scraped or {}
+    keep = [d for d in config_dates if d.year not in scraped]
+    return sorted(set(keep) | {d for ds in scraped.values() for d in ds})
+
+
+# Calendar days a source may lag today before it's flagged as stale.
+STALE_AFTER = {"ASX futures": 6, "RBA cash rate & bank bills (F1)": 8,
+               "RBA bond yields (F2)": 28, "RBA bond lines (F16)": 28, "AUD/USD": 10,
+               "US 2-year Treasury": 10}
+
+
+def health_check(today: date, last_dates: dict[str, date | None], meetings: list[date],
+                 last_contract_month: date) -> dict:
+    """Warnings (things that need fixing) and notes (expected gaps)."""
+    warnings, notes = [], []
+    for name, limit in STALE_AFTER.items():
+        d = last_dates.get(name)
+        if d is None:
+            warnings.append(f"{name}: no data")
+        elif (today - d).days > limit:
+            warnings.append(f"{name}: last data {d.isoformat()} ({(today - d).days} days old)")
+    strip_end = add_months(last_contract_month, 1) - timedelta(days=1)
+    last_meeting = max(meetings) if meetings else None
+    if last_meeting is None or (strip_end - last_meeting).days > 70:
+        msg = (f"Futures run to {strip_end:%b %Y} but the last RBA meeting date on file is "
+               f"{last_meeting:%d %b %Y}" if last_meeting else "No RBA meeting dates on file")
+        # The RBA publishes each year's dates well ahead; a gap of more than ~6 months
+        # means the schedule isn't being picked up and needs attention.
+        if last_meeting is None or (strip_end - last_meeting).days > 180:
+            warnings.append(msg + ". Add dates to config/rba_meetings.json.")
+        else:
+            notes.append(msg + "; later meetings will appear once the RBA publishes them.")
+    return {"checked": today.isoformat(), "warnings": warnings, "notes": notes}

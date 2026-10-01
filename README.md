@@ -58,11 +58,20 @@ tests/test_calc.py
 .github/workflows/update.yml
 ```
 
+## Keeping itself up to date
+
+Everything is recalculated from raw data on every run, so the page rolls forward on its own:
+
+- **RBA meeting dates** are read from the RBA's [board meeting schedule](https://www.rba.gov.au/schedules-events/board-meeting-schedules.html) each run and merged with `config/rba_meetings.json` (the RBA's published list wins for any year it covers). New years appear automatically once the RBA publishes them. The merged list is saved to `docs/data/rba_meetings.json`.
+- **Rolling views:** the meeting table, probabilities, "how pricing has moved" (next three meetings), the futures curves (latest plus the previous three month ends) and the yield curve (latest, 1 month and 1 year earlier) are always relative to the latest data. Long time series default to a rolling window (2, 3 or 10 years).
+- **Health checks:** each run records how current every source is (`docs/data/health.json`), and each chart shows its own "data to" date. If a run fails or a source goes stale, a banner appears on the page and the job opens a GitHub issue labelled `data-health`, which GitHub emails to you. The issue updates itself and closes automatically when the data is current again.
+- **Tests run before every update**, so if a future library version breaks something, the run stops and raises an issue rather than publishing bad numbers.
+
 ## Maintenance
 
-- **Add each new year's RBA meeting dates** to `config/rba_meetings.json` when the RBA publishes them. Without them the path stops at the last listed meeting.
-- If a run fails, read `docs/data/run_log.txt`. Page layout changes at the ASX are the most likely cause; the parser is `parse_asx_table()` in `scripts/sources.py`.
-- GitHub disables scheduled workflows in repos with no activity for 60 days. The daily data commits should keep it active, but if the schedule stops, re-enable it from the Actions tab.
+- If you get a `data-health` issue, read `docs/data/run_log.txt`. A source changing its page or file layout is the most likely cause; the parsers are in `scripts/sources.py`.
+- If the RBA schedule page can't be read, add the dates to `config/rba_meetings.json` by hand (the health check warns if the futures strip runs more than ~6 months past the last known meeting).
+- GitHub disables scheduled workflows in repos with no activity for 60 days. The daily data commits keep it active, but if the schedule ever stops, re-enable it from the Actions tab.
 
 ## Run locally
 

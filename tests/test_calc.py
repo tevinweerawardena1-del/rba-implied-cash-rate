@@ -217,3 +217,73 @@ def test_front_end_only_fills_gap_before_shortest_bond():
     add_front_end(curves, {date(2026, 8, 24): fut})
     assert curves[0]["front_end"] == []
     assert [p["name"][:2] for p in curves[1]["front_end"]] == ["1M", "3M"]
+
+
+SCHEDULE_HTML = """
+<h2>Monetary Policy Board Meeting Dates</h2>
+<h3>2027</h3><ul><li>8&ndash;9 February</li><li>22–23 March</li><li>3–4 May</li><li>21–22 June</li>
+<li>9–10 August</li><li>27–28 September</li><li>1–2 November</li><li>13–14 December</li></ul>
+<h3>2025</h3><ul><li>17–18 February</li><li>31 March–1 April</li><li>19–20 May</li><li>7–8 July</li>
+<li>11–12 August</li><li>29–30 September</li><li>3–4 November</li><li>8–9 December</li></ul>
+<p>Updated 12 March 2026. Payments System Board: 5–6 March 2026</p>
+"""
+
+
+def test_parse_rba_schedule():
+    from sources import parse_rba_schedule
+    s = parse_rba_schedule(SCHEDULE_HTML)
+    assert sorted(s) == [2025, 2027]                     # stray 2026 range ignored (<6 dates)
+    assert s[2027][0] == date(2027, 2, 9) and s[2027][-1] == date(2027, 12, 14)
+    assert date(2025, 4, 1) in s[2025]                    # cross-month range
+    assert all(d.weekday() == 1 for ds in s.values() for d in ds)
+
+
+def test_merge_meetings_prefers_published_years():
+    from build import merge_meetings
+    cfg = [date(2026, 11, 3), date(2027, 2, 9), date(2027, 3, 23)]
+    scraped = {2027: [date(2027, 2, 9), date(2027, 3, 30)], 2028: [date(2028, 2, 8)]}
+    assert merge_meetings(cfg, scraped) == [date(2026, 11, 3), date(2027, 2, 9),
+                                            date(2027, 3, 30), date(2028, 2, 8)]
+    assert merge_meetings(cfg, None) == cfg
+
+
+def test_health_check():
+    from build import health_check
+    today = date(2026, 10, 10)
+    last = {"ASX futures": date(2026, 10, 9), "RBA cash rate & bank bills (F1)": date(2026, 9, 1),
+            "RBA bond yields (F2)": date(2026, 10, 1), "RBA bond lines (F16)": date(2026, 10, 1),
+            "AUD/USD": date(2026, 10, 8), "US 2-year Treasury": None}
+    meetings = [date(2027, 12, 14)]
+    h = health_check(today, last, meetings, date(2028, 2, 1))
+    assert any("F1" in w for w in h["warnings"]) and any("Treasury" in w for w in h["warnings"])
+    assert not any("ASX" in w for w in h["warnings"])
+    assert h["notes"] and "Feb 2028" in h["notes"][0]          # expected gap -> note only
+    h = health_check(today, last, [date(2027, 6, 22)], date(2028, 2, 1))
+    assert any("config/rba_meetings.json" in w for w in h["warnings"])
+
+
+def test_everything_rolls_forward_in_time():
+    """Simulate looking at the page in April 2027: the path, next-three-meeting
+    history, probabilities and month-end curves must all start from then."""
+    from build import outcome_probabilities, month_end_curves
+    meetings = [date(2026, 11, 3), date(2026, 12, 8), date(2027, 2, 9), date(2027, 3, 23),
+                date(2027, 5, 4), date(2027, 6, 22), date(2027, 8, 10), date(2027, 9, 28),
+                date(2027, 11, 2), date(2027, 12, 14), date(2028, 2, 8), date(2028, 3, 21)]
+    fh = {}
+    for as_at in (date(2027, 1, 29), date(2027, 2, 26), date(2027, 3, 31), date(2027, 4, 15)):
+        fh[as_at] = flat(month_start_of(as_at), 17, 4.85)
+    target = Series({date(2027, 3, 24): 4.85})
+    ibocr = Series({date(2027, 3, 24): 4.85})
+    meeting_rows, horizon_rows = daily_analytics(fh, target, ibocr, meetings)
+    latest = [r for r in meeting_rows if r["as_at"] == "2027-04-15"]
+    assert latest[0]["decision_date"] == "2027-05-04"           # next meeting after April
+    assert all(r["decision_date"] > "2027-04-15" for r in latest)
+    res = implied_path(fh[date(2027, 4, 15)], 4.85, date(2027, 4, 15), 0.0, meetings)
+    outs = outcome_probabilities([{"decision_date": r.decision_date, "implied_rate": r.implied_rate} for r in res], 4.85)
+    assert [o["decision_date"] for o in outs][:2] == ["2027-05-04", "2027-06-22"]
+    assert [c["as_at"] for c in month_end_curves(fh)] == ["2027-01-29", "2027-02-26", "2027-03-31", "2027-04-15"]
+    assert horizon_rows[-1]["next_meeting"] == "2027-05-04"
+
+
+def month_start_of(d):
+    return d.replace(day=1)

@@ -369,3 +369,53 @@ def fetch_rba_audusd() -> Series:
     if not s:
         raise ValueError("No USD column in RBA F11.1")
     return s
+
+
+# --------------------------------------------------------------------------
+# RBA meeting schedule
+# --------------------------------------------------------------------------
+
+RBA_SCHEDULE_URL = "https://www.rba.gov.au/schedules-events/board-meeting-schedules.html"
+_MONTHS = ("January February March April May June July August September "
+           "October November December").split()
+_MONTH_RE = "|".join(_MONTHS)
+# "2–3 February", "31 March–1 April", "2-3 February 2026"
+_RANGE_RE = re.compile(
+    rf"(\d{{1,2}})\s*(?:({_MONTH_RE})\s*)?[–—-]\s*(\d{{1,2}})\s+({_MONTH_RE})(?:\s+(20\d\d))?")
+_YEAR_RE = re.compile(r"\b(20\d\d)\b")
+
+
+def parse_rba_schedule(html: str) -> dict[int, list[date]]:
+    """Decision dates (second day of each meeting) by year from the RBA's
+    board meeting schedule page. Only Tuesdays are kept, and only years with
+    at least 6 meetings, so stray dates elsewhere on the page are ignored."""
+    text = re.sub(r"<[^>]+>", " ", html)
+    text = re.sub(r"&nbsp;|&#160;", " ", text)
+    text = re.sub(r"&ndash;|&#8211;", "–", text)
+    text = re.sub(r"\s+", " ", text)
+    events = sorted([(m.start(), "y", m) for m in _YEAR_RE.finditer(text)]
+                    + [(m.start(), "r", m) for m in _RANGE_RE.finditer(text)], key=lambda e: e[0])
+    by_year: dict[int, set[date]] = {}
+    year = None
+    for _, kind, m in events:
+        if kind == "y":
+            year = int(m.group(1))
+            continue
+        candidates = [c for c in (year, int(m.group(5)) if m.group(5) else None) if c]
+        for y in candidates:
+            try:
+                d = date(y, _MONTHS.index(m.group(4)) + 1, int(m.group(3)))
+            except ValueError:
+                continue
+            if d.weekday() == 1:                   # decisions are announced on Tuesdays
+                by_year.setdefault(d.year, set()).add(d)
+                break
+    return {y: sorted(ds) for y, ds in by_year.items() if len(ds) >= 6}
+
+
+def fetch_rba_schedule() -> dict[int, list[date]]:
+    sched = parse_rba_schedule(http_get(RBA_SCHEDULE_URL))
+    print("RBA schedule:", {y: len(v) for y, v in sorted(sched.items())})
+    if not sched:
+        raise ValueError("No meeting dates parsed from the RBA schedule page")
+    return sched

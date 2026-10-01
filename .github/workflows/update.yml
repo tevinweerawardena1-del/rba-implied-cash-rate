@@ -17,6 +17,7 @@ on:
 
 permissions:
   contents: write
+  issues: write      # lets the job open/close a "data health" issue (GitHub emails you)
 
 concurrency:
   group: update-data
@@ -29,9 +30,9 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -64,7 +65,31 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "Data update $(date -u +%F)"
+            # Pick up any code pushed while this run was going, then push.
+            git pull --rebase --autostash origin main
             git push
+          fi
+
+      - name: Open or close the data health issue
+        if: always()
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          UPDATE_OUTCOME: ${{ steps.update.outcome }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        shell: bash
+        run: |
+          python scripts/health_report.py > /tmp/health.md && STATUS=problem || STATUS=ok
+          gh label create data-health --color B60205 --description "Automated data checks" --force >/dev/null 2>&1 || true
+          OPEN=$(gh issue list --label data-health --state open --json number --jq '.[0].number' || true)
+          if [ "$STATUS" = problem ]; then
+            if [ -n "$OPEN" ]; then
+              gh issue edit "$OPEN" --body-file /tmp/health.md
+            else
+              gh issue create --title "Rates monitor: data needs attention" --label data-health --body-file /tmp/health.md
+            fi
+          elif [ -n "$OPEN" ]; then
+            gh issue close "$OPEN" --comment "All data sources are up to date again ($RUN_URL)."
           fi
 
       - name: Fail if the update failed

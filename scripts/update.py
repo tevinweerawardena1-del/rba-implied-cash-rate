@@ -18,6 +18,7 @@ import json
 import sys
 import traceback
 from datetime import date, datetime, timezone
+from zoneinfo import ZoneInfo
 from pathlib import Path
 
 import pandas as pd
@@ -26,7 +27,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import sources as src  # noqa: E402
 from build import (daily_analytics, decisions, month_end_curves,  # noqa: E402
                    outcome_probabilities, rate_inputs, align, yield_curves,
-                   add_front_end)
+                   add_front_end, merge_meetings, health_check)
 from calc import implied_path, results_as_dicts, month_start  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -81,9 +82,16 @@ def try_step(label: str, status: dict, fn):
 
 def run(backfill: bool):
     DATA.mkdir(parents=True, exist_ok=True)
-    meetings = load_meetings()
     notes: list[str] = []
     status: dict[str, str] = {}
+
+    # ---- 0. RBA meeting schedule (config + RBA's published dates) ----------
+    scraped = try_step("RBA meeting schedule", status, src.fetch_rba_schedule)
+    meetings = merge_meetings(load_meetings(), scraped)
+    (DATA / "rba_meetings.json").write_text(json.dumps(
+        {"source": "config/rba_meetings.json + RBA board meeting schedule page",
+         "years_from_rba": sorted(scraped) if scraped else [],
+         "decision_dates": [d.isoformat() for d in meetings]}, indent=2))
 
     # ---- 1. Futures ------------------------------------------------------
     fh = load_futures_history()
@@ -202,8 +210,30 @@ def run(backfill: bool):
                     for c in curves_by_maturity for p in c.get("front_end", [])]) \
         .to_csv(DATA / "yield_curve.csv", index=False)
 
+    # ---- 4. Health ---------------------------------------------------------
+    bond_last = max((b["series"].last_date for b in bond_list if b["series"]), default=None)
+    last_dates = {"ASX futures": as_at,
+                  "RBA cash rate & bank bills (F1)": target.last_date,
+                  "RBA bond yields (F2)": acgb2.last_date,
+                  "RBA bond lines (F16)": bond_last,
+                  "AUD/USD": audusd.last_date,
+                  "US 2-year Treasury": ust2.last_date}
+    today = datetime.now(ZoneInfo("Australia/Sydney")).date()
+    health = health_check(today, last_dates, meetings, last_month)
+    health["failed_steps"] = [k for k, v in status.items() if v != "ok"]
+    health["last_dates"] = {k: (v.isoformat() if v else None) for k, v in last_dates.items()}
+    (DATA / "health.json").write_text(json.dumps(health, indent=2))
+    print("Health:", json.dumps(health))
+
     charts = {
         "as_at": as_at.isoformat(),
+        "health": health,
+        "asof": {"futures": as_at.isoformat(),
+                 "f1": target.last_date.isoformat() if target.last_date else None,
+                 "money": money[-1]["date"] if money else None,
+                 "bonds": bonds[-1]["date"] if bonds else None,
+                 "ycurve": curves_by_maturity[0]["as_at"] if curves_by_maturity else None,
+                 "fx": fx[-1]["date"] if fx else None},
         "generated_utc": latest["generated_utc"],
         "status": status,
         "decisions": decisions(target, DECISIONS_FROM),
