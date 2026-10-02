@@ -152,11 +152,15 @@ def run(backfill: bool):
 
     bond_list = try_step("RBA F16", status, src.fetch_bonds) or []
 
-    audusd = try_step("FRED AUD/USD", status, lambda: src.fetch_fred("DEXUSAL"))
-    if not audusd:
-        audusd = try_step("RBA AUD/USD", status, src.fetch_rba_audusd)
-        if audusd:
-            status.pop("FRED AUD/USD", None)
+    # AUD/USD: FRED (Fed H.10) for long history, which only updates weekly;
+    # RBA table F11.1 (published daily) fills in every day since FRED's last.
+    fred_fx = try_step("FRED AUD/USD", status, lambda: src.fetch_fred("DEXUSAL"))
+    rba_fx = try_step("RBA AUD/USD (F11.1)", status, src.fetch_rba_audusd)
+    audusd = src.merge_series(fred_fx, rba_fx)
+    if audusd and not fred_fx:
+        status.pop("FRED AUD/USD", None)
+    print(f"AUD/USD: FRED to {fred_fx.last_date if fred_fx else None}, "
+          f"RBA to {rba_fx.last_date if rba_fx else None}, combined to {audusd.last_date if audusd else None}")
     ust2 = try_step("FRED US 2y", status, lambda: src.fetch_fred("DGS2"))
     if not ust2:
         ust2 = try_step("US Treasury 2y", status, lambda: src.fetch_treasury_2y(FX_FROM.year))

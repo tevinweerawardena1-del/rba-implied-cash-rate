@@ -179,7 +179,7 @@ def merge_meetings(config_dates: list[date], scraped: dict[int, list[date]] | No
 
 # Calendar days a source may lag today before it's flagged as stale.
 STALE_AFTER = {"ASX futures": 6, "RBA cash rate & bank bills (F1)": 8,
-               "RBA bond yields (F2)": 28, "RBA bond lines (F16)": 28, "AUD/USD": 10,
+               "RBA bond yields (F2)": 28, "RBA bond lines (F16)": 28, "AUD/USD": 6,
                "US 2-year Treasury": 10, "US 10-year Treasury": 10,
                # Quarterly CPI arrives about 4 weeks after each quarter ends.
                "RBA CPI (G1)": 135,

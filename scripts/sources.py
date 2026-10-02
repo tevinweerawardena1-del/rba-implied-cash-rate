@@ -371,7 +371,7 @@ def fetch_treasury_2y(start_year: int) -> Series:
 def fetch_rba_audusd() -> Series:
     """AUD/USD from RBA table F11.1 (daily exchange rates; recent years only)."""
     cols = fetch_rba("f11.1")
-    s = pick(cols, "usd")
+    s = pick(cols, "aud/usd") or pick(cols, "usd", exclude=("twi", "trade-weighted"))
     if not s:
         raise ValueError("No USD column in RBA F11.1")
     return s
@@ -471,3 +471,14 @@ def fetch_unemployment() -> Series:
     print(f"RBA H5 unemployment: using {best['title']!r} [{best['type']}]")
     return Series(best["data"])
 
+
+
+def merge_series(base: Series | None, extension: Series | None) -> Series:
+    """`base` history, extended with `extension` for dates after base's last date."""
+    data = dict(zip(base.dates, base.values)) if base else {}
+    last = base.last_date if base else None
+    if extension:
+        for d, v in zip(extension.dates, extension.values):
+            if last is None or d > last:
+                data[d] = v
+    return Series(data)

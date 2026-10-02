@@ -335,3 +335,13 @@ def test_term_premium_series():
     tp = Series({date(2026, 9, 25): 1.02})
     rows = term_premium_series(y, tp, date(2026, 1, 1))
     assert rows == [{"date": "2026-09-25", "yield10": 5.0, "expected": 3.98, "tp_kw": 1.02}]
+
+
+def test_merge_series_extends_after_base():
+    from sources import merge_series
+    base = Series({date(2026, 9, 24): 0.70, date(2026, 9, 25): 0.71})
+    ext = Series({date(2026, 9, 25): 0.99, date(2026, 9, 30): 0.72, date(2026, 10, 1): 0.73})
+    m = merge_series(base, ext)
+    assert m.on_or_before(date(2026, 9, 25))[1] == 0.71          # base wins on overlap
+    assert m.last_date == date(2026, 10, 1) and len(m) == 4
+    assert merge_series(None, ext).last_date == date(2026, 10, 1)
