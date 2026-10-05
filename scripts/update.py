@@ -310,6 +310,11 @@ def run(backfill: bool):
         "taylor_params": {k: v for k, v in taylor_params.items() if not k.startswith("_")},
         "fx": fx,
     }
+    # Bank RBA calls are maintained by hand (or by the bank-calls scheduled task)
+    # in config/bank_calls.json; publish a copy for the page.
+    import shutil
+    shutil.copyfile(ROOT / "config" / "bank_calls.json", DATA / "bank_calls.json")
+
     (DATA / "charts.json").write_text(json.dumps(charts, separators=(",", ":")))
     print("Status:", json.dumps(status))
     print(f"Wrote charts: horizons={len(horizon_rows)} money={len(money)} "

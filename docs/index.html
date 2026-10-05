@@ -80,6 +80,13 @@
   .tile .label { font-size: 13px; color: var(--text-secondary); }
   .tile .value { font: 500 30px/1.2 "IBM Plex Mono", monospace; margin: 6px 0 2px; }
   .taylor-read { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+  #bankTable td { vertical-align: top; }
+  #bankTable td:first-child { min-width: 170px; }
+  @media (max-width: 720px) { #bankTable td:first-child { min-width: 190px; } #bankTable td:nth-child(3) { min-width: 200px; } }
+  #bankTable .bank { font-weight: 600; }
+  #bankTable .sub-note { display: block; font-size: 12px; color: var(--text-muted); white-space: normal; margin-top: 2px; max-width: 360px; }
+  #bankTable a { font-size: 12px; }
+  #bankTable td:nth-child(2), #bankTable td:nth-child(3), #bankTable th:nth-child(2), #bankTable th:nth-child(3) { text-align: left; }
   .taylor-formula { margin-top: 14px; font-size: 13px; color: var(--text-secondary); }
   .taylor-formula .eq { font: 500 15px "IBM Plex Mono", monospace; color: var(--text-primary); margin-bottom: 6px; }
   .taylor-formula dl { display: grid; grid-template-columns: max-content 1fr; gap: 2px 12px; margin: 0; }
@@ -202,6 +209,15 @@
     </div>
     <div class="chart-box short"><canvas id="outcomeChart" role="img" aria-label="Target rate probabilities"></canvas></div>
   </section>
+
+  <section class="card" data-card="banks">
+    <div class="card-head">
+      <div><h2>Major bank RBA calls</h2><p>What each bank's economists expect at the next RBA meeting, and when they expect the next change in the cash rate</p></div>
+    </div>
+    <div class="table-scroll"><table id="bankTable"></table></div>
+    <div class="src" id="bankNote"></div>
+  </section>
+
 
   <section class="card" data-card="horizons">
     <div class="card-head">
@@ -613,6 +629,40 @@ function renderPath() {
     lineDS("Implied future cash rate", data, css("--series-1"), { cubicInterpolationMode: "monotone", borderWidth: 2.5 }),
     refDS("Current target", x0, x1, target),
   ] } });
+}
+
+let bankCalls = null;
+function renderBanks() {
+  const list = (bankCalls && bankCalls.banks) || [];
+  if (!list.length) return emptyCard("banks", "Bank calls unavailable.");
+  const next = latest.meetings && latest.meetings[0];
+  const nextIso = next ? next.decision_date : null;
+  const tag = (call) => call === "hike" ? '<span class="tag up">Hike</span>'
+    : call === "cut" ? '<span class="tag down">Cut</span>' : '<span class="tag">No change</span>';
+  const counts = { hike: 0, "no change": 0, cut: 0 };
+  const rows = list.map((b) => {
+    // A call only counts if it refers to the upcoming meeting; otherwise it is out of date.
+    const current = b.call && b.next_meeting === nextIso;
+    if (current) counts[b.call] = (counts[b.call] || 0) + 1;
+    const meetCell = current ? tag(b.call)
+      : `<span class="muted">${b.call ? "Awaiting update since " + fmtDate(b.next_meeting, { day: "numeric", month: "short" }) + " meeting" : "No published call"}</span>`;
+    const nc = b.next_change;
+    const changeCell = nc
+      ? `<span class="num">${fmtDate(nc.month + "-01", { month: "short", year: "numeric" })}</span> ${nc.direction === "hike" ? '<span class="tag up">+' : '<span class="tag down">−'}${nc.size_bp}bp</span>${nc.rate_after ? ` <span class="muted">to ${pct(nc.rate_after)}</span>` : ""}`
+      : '<span class="muted">–</span>';
+    const src = (b.sources || []).map((x) => `<a href="${x.url}" target="_blank" rel="noopener">${x.label}</a>`).join(" · ");
+    return `<tr>
+      <td><span class="bank">${b.bank}</span><span class="sub-note">${b.note || ""}</span></td>
+      <td>${meetCell}</td>
+      <td>${changeCell}</td>
+      <td class="num">${fmtDate(b.as_of, { day: "numeric", month: "short" })}<span class="sub-note">${src}</span></td></tr>`;
+  }).join("");
+  const nextLabel = nextIso ? fmtDate(nextIso, { day: "numeric", month: "short" }) : "next";
+  $("#bankTable").innerHTML = `<thead><tr><th>Bank</th><th>${nextLabel} meeting</th><th>Next cash rate change</th><th>As of</th></tr></thead><tbody>${rows}</tbody>`;
+  const n = counts.hike + counts["no change"] + counts.cut;
+  const mkt = next ? `Futures put the chance of a hike on ${nextLabel} at ${Math.max(0, Math.round(next.move_fraction * 100))}%.` : "";
+  $("#bankNote").textContent = (n ? `${counts.hike} of ${n} banks expect a hike, ${counts["no change"]} no change${counts.cut ? ", " + counts.cut + " a cut" : ""}. ` : "") + mkt +
+    " Calls are taken from each bank's published research and media commentary; see the links for sources.";
 }
 
 let outcomeIdx = 0;
@@ -1030,7 +1080,7 @@ function renderAll() {
     el.textContent = d ? `Data to ${fmtDate(d)}.` : "";
   });
   $("#footerSource").textContent = `Futures source today: ${latest.source}.`;
-  const steps = [renderTiles, renderPath, renderCurves, renderOutcomes, renderYieldCurve, ...Object.values(RENDER)];
+  const steps = [renderTiles, renderPath, renderCurves, renderOutcomes, renderBanks, renderYieldCurve, ...Object.values(RENDER)];
   for (const fn of steps) { try { fn(); } catch (e) { console.error(fn.name, e); } }
 }
 
@@ -1039,8 +1089,9 @@ matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => late
 
 const get = (p, as = "json") => fetch(p, { cache: "no-store" }).then((r) => (r.ok ? r[as]() : Promise.reject(p)));
 Promise.all([get("data/latest.json"), get("data/charts.json").catch(() => ({})),
+             get("data/bank_calls.json").then((b) => { bankCalls = b; }).catch(() => {}),
              get("data/meeting_history.csv", "text").then(parseCSV).catch(() => [])])
-  .then(([l, c, h]) => { latest = l; charts = c; history = h; renderAll(); })
+  .then(([l, c, , h]) => { latest = l; charts = c; history = h; renderAll(); })
   .catch((err) => { $("#asat").textContent = "No data yet. Run the update workflow once."; console.error(err); });
 </script>
 </body>

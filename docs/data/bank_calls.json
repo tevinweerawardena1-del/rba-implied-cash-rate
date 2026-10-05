@@ -1,0 +1,64 @@
+{
+  "_comment": "Major bank RBA calls. Update when a bank changes its view. For each bank: next_meeting = the RBA decision date the call refers to; call = hike | no change | cut; next_change = {month: YYYY-MM, direction: hike | cut, size_bp, rate_after}; as_of = date of the source; sources = links. Set call to null if the bank has not published a view for the next meeting.",
+  "banks": [
+    {
+      "bank": "CBA",
+      "next_meeting": "2026-11-03",
+      "call": "no change",
+      "next_change": {"month": "2027-08", "direction": "cut", "size_bp": 25, "rate_after": 4.35},
+      "note": "Sees September as the last hike; November 'live' and finely balanced",
+      "as_of": "2026-10-02",
+      "sources": [
+        {"label": "CommBank, 21 Sep", "url": "https://www.commbank.com.au/articles/newsroom/2026/09/rba-expected-to-lift-interest-rates-next-week.html"},
+        {"label": "ABC, 2 Oct", "url": "https://www.abc.net.au/news/2026-10-02/cba-boss-talks-interest-rates-and-november-hike-possibility/107220010"}
+      ]
+    },
+    {
+      "bank": "Westpac",
+      "next_meeting": "2026-11-03",
+      "call": "hike",
+      "next_change": {"month": "2026-11", "direction": "hike", "size_bp": 25, "rate_after": 4.85},
+      "note": "November hike is the base case; cuts from August 2027",
+      "as_of": "2026-09-30",
+      "sources": [
+        {"label": "Savings.com.au, 30 Sep", "url": "https://www.savings.com.au/news/westpac-tips-another-rba-rate-hike-in-november"},
+        {"label": "Canstar, 1 Oct", "url": "https://www.canstar.com.au/home-loans/interest-rate-forecast-australia/"}
+      ]
+    },
+    {
+      "bank": "NAB",
+      "next_meeting": "2026-11-03",
+      "call": "no change",
+      "next_change": {"month": "2027-08", "direction": "cut", "size_bp": 25, "rate_after": 4.35},
+      "note": "Peak of 4.60%; next move a cut",
+      "as_of": "2026-10-01",
+      "sources": [
+        {"label": "Canstar, 1 Oct", "url": "https://www.canstar.com.au/home-loans/interest-rate-forecast-australia/"},
+        {"label": "The Adviser, 1 Oct", "url": "https://www.theadviser.com.au/borrower/49010-westpac-joins-anz-in-forecasting-november-hike"}
+      ]
+    },
+    {
+      "bank": "ANZ",
+      "next_meeting": "2026-11-03",
+      "call": "hike",
+      "next_change": {"month": "2026-11", "direction": "hike", "size_bp": 25, "rate_after": 4.85},
+      "note": "November hike 'more likely than not'; cuts from November 2027",
+      "as_of": "2026-09-30",
+      "sources": [
+        {"label": "ABC, 30 Sep", "url": "https://www.abc.net.au/news/2026-09-30/asx-markets-business-live-news/107210136"},
+        {"label": "Canstar, 1 Oct", "url": "https://www.canstar.com.au/home-loans/interest-rate-forecast-australia/"}
+      ]
+    },
+    {
+      "bank": "Macquarie",
+      "next_meeting": null,
+      "call": null,
+      "next_change": null,
+      "note": "Correctly called the 29 September hike; no published view on November yet",
+      "as_of": "2026-09-10",
+      "sources": [
+        {"label": "The Nightly, 10 Sep", "url": "https://thenightly.com.au/australia/rba-interest-rates-why-most-economists-are-now-expecting-at-least-one-more-hike-this-year-c-22844160"}
+      ]
+    }
+  ]
+}
