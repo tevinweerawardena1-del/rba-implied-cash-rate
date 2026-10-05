@@ -648,7 +648,7 @@ function renderBanks() {
       : `<span class="muted">${b.call ? "Awaiting update since " + fmtDate(b.next_meeting, { day: "numeric", month: "short" }) + " meeting" : "No published call"}</span>`;
     const nc = b.next_change;
     const changeCell = nc
-      ? `<span class="num">${fmtDate(nc.month + "-01", { month: "short", year: "numeric" })}</span> ${nc.direction === "hike" ? '<span class="tag up">+' : '<span class="tag down">−'}${nc.size_bp}bp</span>${nc.rate_after ? ` <span class="muted">to ${pct(nc.rate_after)}</span>` : ""}`
+      ? `<span class="num">${nc.label || fmtDate(nc.month + "-01", { month: "short", year: "numeric" })}</span> ${nc.direction === "hike" ? '<span class="tag up">+' : '<span class="tag down">−'}${nc.size_bp}bp</span>${nc.rate_after ? ` <span class="muted">to ${pct(nc.rate_after)}</span>` : ""}`
       : '<span class="muted">–</span>';
     const src = (b.sources || []).map((x) => `<a href="${x.url}" target="_blank" rel="noopener">${x.label}</a>`).join(" · ");
     return `<tr>
