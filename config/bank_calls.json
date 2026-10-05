@@ -1,5 +1,5 @@
 {
-  "_comment": "Major bank RBA calls. Update when a bank changes its view. For each bank: next_meeting = the RBA decision date the call refers to; call = hike | no change | cut; next_change = {month: YYYY-MM, optional label for approximate timing e.g. 'Mid 2027', direction: hike | cut, size_bp, rate_after}; as_of = date of the source; sources = links. Set call to null if the bank has not published a view for the next meeting.",
+  "_comment": "Major bank RBA calls. Update when a bank changes its view. For each bank: next_meeting = the RBA decision date the call refers to; call = hike | no change | cut; next_change = {month: YYYY-MM, optional label for approximate timing e.g. 'Mid 2027', direction: hike | cut, size_bp, rate_after}; as_of = date of the source; sources = links, newest first (the call bubble on the page links to sources[0], so put the article the current call comes from first). Set call to null if the bank has not published a view for the next meeting.",
   "banks": [
     {
       "bank": "CBA",
@@ -15,12 +15,12 @@
       "as_of": "2026-10-02",
       "sources": [
         {
-          "label": "CommBank, 21 Sep",
-          "url": "https://www.commbank.com.au/articles/newsroom/2026/09/rba-expected-to-lift-interest-rates-next-week.html"
-        },
-        {
           "label": "ABC, 2 Oct",
           "url": "https://www.abc.net.au/news/2026-10-02/cba-boss-talks-interest-rates-and-november-hike-possibility/107220010"
+        },
+        {
+          "label": "CommBank, 21 Sep",
+          "url": "https://www.commbank.com.au/articles/newsroom/2026/09/rba-expected-to-lift-interest-rates-next-week.html"
         }
       ]
     },

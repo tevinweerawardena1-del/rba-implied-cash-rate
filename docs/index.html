@@ -80,11 +80,11 @@
   .tile .label { font-size: 13px; color: var(--text-secondary); }
   .tile .value { font: 500 30px/1.2 "IBM Plex Mono", monospace; margin: 6px 0 2px; }
   .taylor-read { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
-  #bankTable td { vertical-align: top; }
+  #bankTable td { vertical-align: middle; }
   @media (max-width: 720px) { #bankTable td:nth-child(3) { min-width: 200px; } }
   #bankTable .bank { font-weight: 600; }
   #bankTable .sub-note { display: block; font-size: 12px; color: var(--text-muted); white-space: normal; margin-top: 2px; max-width: 360px; }
-  #bankTable a { font-size: 12px; }
+  #bankTable a { font-size: 12px; margin: 0; }
   #bankTable td:nth-child(2), #bankTable td:nth-child(3), #bankTable th:nth-child(2), #bankTable th:nth-child(3) { text-align: left; }
   .card .updated { text-align: right; font-size: 12px; color: var(--text-muted); margin-top: 10px; }
   .taylor-formula { margin-top: 14px; font-size: 13px; color: var(--text-secondary); }
@@ -103,6 +103,10 @@
          border-radius: 999px; border: 1px solid var(--border); color: var(--text-secondary); }
   .tag.up::before { content: "▲ "; color: var(--up); }
   .tag.down::before { content: "▼ "; color: var(--down); }
+  a.tag.src { color: var(--down); border-color: var(--down); text-decoration: none; cursor: pointer;
+              background: color-mix(in srgb, var(--down) 10%, transparent); }
+  a.tag.src::after { content: " ↗"; font-size: 11px; }
+  a.tag.src:hover, a.tag.src:focus-visible { background: color-mix(in srgb, var(--down) 20%, transparent); }
 
   .chart-box { position: relative; height: 340px; }
   .chart-box.short { height: 220px; }
@@ -636,12 +640,19 @@ function renderBanks() {
   if (!list.length) return emptyCard("banks", "Bank calls unavailable.");
   const next = latest.meetings && latest.meetings[0];
   const nextIso = next ? next.decision_date : null;
-  const tag = (call) => call === "hike" ? '<span class="tag up">Hike</span>'
-    : call === "cut" ? '<span class="tag down">Cut</span>' : '<span class="tag">Hold</span>';
+  // The call bubble links to the newest source (sources[0]), so it follows each update.
+  const esc = (t) => String(t).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+  const tag = (call, src) => {
+    const cls = call === "hike" ? "tag up" : call === "cut" ? "tag down" : "tag";
+    const word = call === "hike" ? "Hike" : call === "cut" ? "Cut" : "Hold";
+    return src && src.url
+      ? `<a class="${cls} src" href="${esc(src.url)}" target="_blank" rel="noopener" title="Source: ${esc(src.label || src.url)}">${word}</a>`
+      : `<span class="${cls}">${word}</span>`;
+  };
   const rows = list.map((b) => {
     // A call is only shown if it refers to the upcoming meeting; otherwise it is out of date.
     const current = b.call && b.next_meeting === nextIso;
-    const meetCell = current ? tag(b.call)
+    const meetCell = current ? tag(b.call, (b.sources || [])[0])
       : `<span class="muted">${b.call ? "Awaiting update since " + fmtDate(b.next_meeting, { day: "numeric", month: "short" }) + " meeting" : "No published call"}</span>`;
     const nc = b.next_change;
     const changeCell = nc
