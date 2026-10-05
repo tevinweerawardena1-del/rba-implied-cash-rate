@@ -433,7 +433,7 @@ const bp = (x, dp = 1) => (x > 0 ? "+" : x < 0 ? "−" : "") + Math.abs(x).toFix
 const signed = (x, dp = 2) => (x > 0 ? "+" : x < 0 ? "−" : "") + Math.abs(x).toFixed(dp);
 
 function probText(frac) {
-  if (Math.abs(frac) < 0.02) return { text: "No change", dir: 0, p: 0 };
+  if (Math.abs(frac) < 0.02) return { text: "Hold", dir: 0, p: 0 };
   const dir = Math.sign(frac), a = Math.abs(frac), word = dir > 0 ? "hike" : "cut";
   if (a <= 1) return { text: `${Math.round(a * 100)}% ${word}`, dir, p: a };
   const n = Math.floor(a), rem = Math.round((a - n) * 100);
@@ -584,7 +584,7 @@ function renderTiles() {
   if (next) {
     const pt = probText(next.move_fraction);
     // Most likely outcome: a move only if futures price more than half of 25bp.
-    const outcome = next.change_bp > 12.5 ? "increase" : next.change_bp < -12.5 ? "decrease" : "no change";
+    const outcome = next.change_bp > 12.5 ? "increase" : next.change_bp < -12.5 ? "decrease" : "hold";
     tiles.push({ label: `Next meeting · ${fmtDate(next.decision_date)}`,
       value: `${pct(next.implied_rate, 3)} <span class="outcome">(${outcome})</span>`,
       detail: `<span class="tag ${pt.dir > 0 ? "up" : pt.dir < 0 ? "down" : ""}">${pt.text}</span> ${bp(next.change_bp)} priced` });
@@ -637,7 +637,7 @@ function renderBanks() {
   const next = latest.meetings && latest.meetings[0];
   const nextIso = next ? next.decision_date : null;
   const tag = (call) => call === "hike" ? '<span class="tag up">Hike</span>'
-    : call === "cut" ? '<span class="tag down">Cut</span>' : '<span class="tag">No change</span>';
+    : call === "cut" ? '<span class="tag down">Cut</span>' : '<span class="tag">Hold</span>';
   const rows = list.map((b) => {
     // A call is only shown if it refers to the upcoming meeting; otherwise it is out of date.
     const current = b.call && b.next_meeting === nextIso;
@@ -668,7 +668,7 @@ function renderOutcomes() {
   };
   const m = list[outcomeIdx], tgt = latest.cash_rate_target;
   // Colour by distance from today's official cash rate target:
-  // grey = no change, red = +25bp, dark red = +50bp or more, blue/dark blue for cuts.
+  // grey = hold, red = +25bp, dark red = +50bp or more, blue/dark blue for cuts.
   const rel = (r) => Math.round((r - tgt) * 100);
   // Labels: change at this meeting vs the most likely rate going into it (today's
   // target for the next meeting, otherwise the previous meeting's implied rate
@@ -678,7 +678,7 @@ function renderOutcomes() {
   const k = (prevImplied - tgt) / 0.25;
   const base = +(tgt + 0.25 * Math.sign(k) * Math.ceil(Math.abs(k) - 0.5 - 1e-9)).toFixed(4);
   const atMeeting = (r) => Math.round((r - base) * 100);
-  const labels = m.outcomes.map((o) => pct(o.rate) + (atMeeting(o.rate) === 0 ? " (no change)" : ` (${atMeeting(o.rate) > 0 ? "+" : "−"}${Math.abs(atMeeting(o.rate))}bp)`));
+  const labels = m.outcomes.map((o) => pct(o.rate) + (atMeeting(o.rate) === 0 ? " (hold)" : ` (${atMeeting(o.rate) > 0 ? "+" : "−"}${Math.abs(atMeeting(o.rate))}bp)`));
   const colors = m.outcomes.map((o) => {
     const d = rel(o.rate);
     return d === 0 ? css("--ref") : d >= 50 ? css("--up-2") : d > 0 ? css("--up") : d <= -50 ? css("--down-2") : css("--down");
