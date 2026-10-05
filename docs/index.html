@@ -646,12 +646,12 @@ function renderBanks() {
     const nc = b.next_change;
     const changeCell = nc
       ? `<span class="num">${nc.label || fmtDate(nc.month + "-01", { month: "short", year: "numeric" })}</span> ${nc.direction === "hike" ? '<span class="tag up">+' : '<span class="tag down">−'}${nc.size_bp}bp</span>${nc.rate_after ? ` <span class="muted">to ${pct(nc.rate_after)}</span>` : ""}`
-      : '<span class="muted">–</span>';
+      : `<span class="muted">${b.call ? "Not published" : "–"}</span>`;
     return `<tr>
       <td><span class="bank">${b.bank}</span></td>
       <td>${meetCell}</td>
       <td>${changeCell}</td>
-      <td class="num">${fmtDate(b.as_of, { day: "numeric", month: "short" })}</td></tr>`;
+      <td class="num">${b.as_of ? fmtDate(b.as_of, { day: "numeric", month: "short" }) : "–"}</td></tr>`;
   }).join("");
   $("#bankTable").innerHTML = `<thead><tr><th>Bank</th><th>Next meeting${nextIso ? " (" + fmtDate(nextIso, { month: "short", year: "numeric" }) + ")" : ""}</th><th>Next cash rate change</th><th>As of</th></tr></thead><tbody>${rows}</tbody>`;
 }
