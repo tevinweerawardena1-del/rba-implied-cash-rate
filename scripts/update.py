@@ -28,7 +28,7 @@ import sources as src  # noqa: E402
 from build import (daily_analytics, decisions, month_end_curves,  # noqa: E402
                    outcome_probabilities, rate_inputs, align, yield_curves,
                    merge_meetings, health_check, forwards_series, real_cash_rate,
-                   pricing_scorecard, taylor_series, taylor_projection, term_premium_series)
+                   taylor_series, taylor_projection, term_premium_series)
 from calc import implied_path, results_as_dicts, month_start  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -237,7 +237,6 @@ def run(backfill: bool):
     real = real_cash_rate(target, cpi_headline, cpi_trimmed, REAL_FROM)
     us = [{"date": row["date"], "ust2": r(row["base"]), "ust10": r(row["y10"])}
           for row in align(ust2, {"y10": ust10}, US_FROM)]
-    scorecard = pricing_scorecard(meeting_rows, target, meetings)
     tp = term_premium_series(kw_y10, kw_tp10, TP_FROM)
     pd.DataFrame(tp).to_csv(DATA / "us_term_premium.csv", index=False)
     print("Term premium:", tp[-1] if tp else None)
@@ -249,12 +248,8 @@ def run(backfill: bool):
     for name, rows in (("butterfly_2s5s10s", fly), ("forward_rates", forwards),
                        ("real_cash_rate", real), ("us_treasury_yields", us)):
         pd.DataFrame(rows).to_csv(DATA / f"{name}.csv", index=False)
-    pd.DataFrame([{"decision_date": x["decision_date"], "actual_bp": x["actual_bp"],
-                   **{f"priced_{k.replace(' ', '_')}_before_bp": v for k, v in x["priced_bp"].items()},
-                   "surprise_bp": x["surprise_bp"]} for x in scorecard["rows"]]) \
-        .to_csv(DATA / "pricing_scorecard.csv", index=False)
     print(f"Forwards {len(forwards)} days, fly {len(fly)}, real {len(real)} quarters, "
-          f"US {len(us)}, scorecard {len(scorecard['rows'])} meetings")
+          f"US {len(us)}")
 
     curves_by_maturity = yield_curves(bond_list)
     pd.DataFrame([{"curve": c["label"], "as_at": c["as_at"], **p}
@@ -309,7 +304,6 @@ def run(backfill: bool):
         "fly": fly,
         "real_cash": real,
         "us_yields": us,
-        "scorecard": scorecard,
         "term_premium": tp,
         "taylor": taylor,
         "taylor_projection": taylor_proj,

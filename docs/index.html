@@ -194,13 +194,6 @@
   </section>
 
 
-  <section class="card">
-    <div class="card-head">
-      <div><h2>Meeting by meeting</h2><p>Probability assumes 25bp moves: a 10bp priced change reads as a 40% chance of one move</p></div>
-    </div>
-    <div class="table-scroll"><table id="meetingTable"></table></div>
-    <div class="src" id="scheduleNote"></div>
-  </section>
 
   <section class="card" data-card="outcomes">
     <div class="card-head">
@@ -243,13 +236,6 @@
   </section>
 
 
-  <section class="card" data-card="scorecard">
-    <div class="card-head">
-      <div><h2>Market pricing scorecard</h2><p>For each RBA decision: the change futures priced before the meeting, against what the RBA did. Surprise = outcome minus pricing the day before</p></div>
-    </div>
-    <div class="table-scroll"><table id="scoreTable"></table></div>
-    <div class="src" id="scoreSummary"></div>
-  </section>
 
 
   <section class="card" data-card="taylor">
@@ -607,19 +593,6 @@ function renderTiles() {
     `<div class="tile"><div class="label">${t.label}</div><div class="value">${t.value}</div><div class="detail">${t.detail}</div></div>`).join("");
 }
 
-function renderTable() {
-  const up = css("--up"), down = css("--down");
-  const rows = latest.meetings.map((r) => {
-    const pt = probText(r.move_fraction);
-    return `<tr><td>${fmtDate(r.decision_date, { weekday: "short", day: "numeric", month: "short", year: "numeric" })}</td>
-      <td class="num">${pct(r.implied_rate, 3)}</td><td class="num">${bp(r.change_bp)}</td>
-      <td><span class="prob"><span>${pt.text}</span><span class="pbar"><i style="width:${pt.p * 100}%;background:${pt.dir > 0 ? up : down}"></i></span></span></td>
-      <td class="num">${bp(r.cumulative_bp)}</td></tr>`;
-  }).join("");
-  const beyond = latest.meetings_beyond_futures.length
-    ? `<tr><td colspan="5" class="muted" style="text-align:left">Later meetings (${latest.meetings_beyond_futures.map((d) => fmtDate(d, { month: "short", year: "numeric" })).join(", ")}) are beyond the futures strip.</td></tr>` : "";
-  $("#meetingTable").innerHTML = `<thead><tr><th>Decision</th><th>Implied rate</th><th>Change at meeting</th><th>Probability</th><th>Cumulative</th></tr></thead><tbody>${rows}${beyond}</tbody>`;
-}
 
 function renderPath() {
   const fut = latest.futures || [];
@@ -980,27 +953,6 @@ function renderTP() {
       <div class="d">Source: <a href="https://fred.stlouisfed.org/series/THREEFYTP10" target="_blank" rel="noopener">FRED THREEFYTP10</a></div></div>`;
 }
 
-function renderScorecard() {
-  const sc = charts.scorecard;
-  if (!sc || !sc.rows.length) return emptyCard("scorecard", "No completed RBA decisions in the futures history yet.");
-  const up = css("--up"), down = css("--down");
-  const outcome = (bpv) => bpv > 0 ? `<span class="tag up">Hike +${bpv}bp</span>` : bpv < 0 ? `<span class="tag down">Cut −${Math.abs(bpv)}bp</span>` : `<span class="tag">Hold</span>`;
-  const cell = (v, actual) => {
-    if (v === null || v === undefined) return '<td class="num muted">–</td>';
-    const pt = probText(v / 25);
-    const miss = Math.abs(actual - v);
-    const color = miss <= 5 ? "var(--series-3)" : miss <= 12.5 ? "var(--text-secondary)" : "var(--up)";
-    return `<td class="num"><span title="${pt.text}">${bp(v)}</span><br><span style="font-size:12px;color:${color}">${pt.text}</span></td>`;
-  };
-  const rows = [...sc.rows].reverse().map((r) => `<tr>
-      <td>${fmtDate(r.decision_date, { day: "numeric", month: "short", year: "numeric" })}</td>
-      <td>${outcome(r.actual_bp)}</td>
-      ${sc.horizons.map((h) => cell(r.priced_bp[h], r.actual_bp)).join("")}
-      <td class="num">${r.surprise_bp === null ? "–" : bp(r.surprise_bp)}</td></tr>`).join("");
-  $("#scoreTable").innerHTML = `<thead><tr><th>Decision</th><th>Outcome</th>${sc.horizons.map((h) => `<th>${h} before</th>`).join("")}<th>Surprise</th></tr></thead><tbody>${rows}</tbody>`;
-  const parts = sc.horizons.filter((h) => sc.summary[h].n).map((h) => `${h} before: ${sc.summary[h].mean_abs_miss_bp}bp`);
-  $("#scoreSummary").textContent = `Average miss (absolute, outcome vs priced): ${parts.join(" · ")}. Green: within 5bp of the outcome; red: off by more than half a move. Futures history starts January 2025.`;
-}
 
 function renderReal() {
   const rows = charts.real_cash || [];
@@ -1077,11 +1029,8 @@ function renderAll() {
     const d = asof[el.dataset.asof];
     el.textContent = d ? `Data to ${fmtDate(d)}.` : "";
   });
-  // Expected gaps (e.g. next year's RBA meeting dates not yet published).
-  const hnotes = (charts.health && charts.health.notes) || [];
-  $("#scheduleNote").textContent = hnotes.join(" ");
   $("#footerSource").textContent = `Futures source today: ${latest.source}.`;
-  const steps = [renderTiles, renderPath, renderCurves, renderTable, renderOutcomes, renderYieldCurve, renderScorecard, ...Object.values(RENDER)];
+  const steps = [renderTiles, renderPath, renderCurves, renderOutcomes, renderYieldCurve, ...Object.values(RENDER)];
   for (const fn of steps) { try { fn(); } catch (e) { console.error(fn.name, e); } }
 }
 

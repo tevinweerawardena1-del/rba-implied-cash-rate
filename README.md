@@ -5,7 +5,7 @@ A self-updating web page tracking Australian rates markets, rebuilt every weekda
 - **Cash rate expectations** (ASX 30 Day Interbank Cash Rate Futures): the implied RBA path meeting by meeting, target-rate probabilities, implied change at 6 and 12 months and at the end of the strip, next-meeting pricing, futures curves at each month end, and how pricing has moved.
 - **Money markets** (RBA table F1): the 6-month minus 1-month bank bill spread, and 1/3/6-month BBSW.
 - **Government bonds** (RBA table F2): the 2-year ACGB yield and the 2s10s curve.
-- **Policy & pricing:** a market pricing scorecard (what futures priced 3 months, 1 month, 1 week and 1 day before each RBA decision vs the outcome) and the real cash rate (cash rate minus headline and trimmed mean inflation, RBA table G1).
+- **Policy:** the Taylor rule vs the actual cash rate, and the real cash rate (cash rate minus headline and trimmed mean inflation, RBA table G1).
 - **Curve analytics** (RBA F16/F2): the ACGB yield curve, 1y1y / 2y1y / 5y5y forward rates, and the 2s5s10s butterfly.
 - **Global & FX** (FRED + RBA F2): US 2-year and 10-year Treasury yields, and AUD/USD alongside the 2-year ACGB minus US 2-year Treasury differential.
 
@@ -65,7 +65,7 @@ tests/test_calc.py
 Everything is recalculated from raw data on every run, so the page rolls forward on its own:
 
 - **RBA meeting dates** are read from the RBA's [board meeting schedule](https://www.rba.gov.au/schedules-events/board-meeting-schedules.html) each run and merged with `config/rba_meetings.json` (the RBA's published list wins for any year it covers). New years appear automatically once the RBA publishes them. The merged list is saved to `docs/data/rba_meetings.json`.
-- **Rolling views:** the meeting table, probabilities, "how pricing has moved" (next three meetings), the futures curves (latest plus the previous three month ends) and the yield curve (latest, 1 month and 1 year earlier) are always relative to the latest data. Long time series default to a rolling window (2, 3 or 10 years).
+- **Rolling views:** the target rate probabilities, "how pricing has moved" (next three meetings), the futures curves (latest plus the previous three month ends) and the yield curve (latest, 1 month and 1 year earlier) are always relative to the latest data. Long time series default to a rolling window (2, 3 or 10 years).
 - **Health checks:** each run records how current every source is (`docs/data/health.json`), and each chart shows its own "data to" date. If a run fails or a source goes stale, a banner appears on the page and the job opens a GitHub issue labelled `data-health`, which GitHub emails to you. The issue updates itself and closes automatically when the data is current again.
 - **Tests run before every update**, so if a future library version breaks something, the run stops and raises an issue rather than publishing bad numbers.
 

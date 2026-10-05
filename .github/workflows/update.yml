@@ -4,8 +4,8 @@ on:
   schedule:
     # GitHub cron runs in UTC. 11:00 UTC = 9pm AEST / 10pm AEDT (after ASX settlement).
     - cron: "0 11 * * 1-5"
-    # Second pass at 7am/8am Sydney next morning, in case the evening run failed.
-    - cron: "0 21 * * 1-5"
+    # Morning pass, 7am AEST / 8am AEDT Mon-Fri (Sun-Thu in UTC), in case the evening run failed.
+    - cron: "0 21 * * 0-4"
   workflow_dispatch: {}
   # Re-run whenever the code changes, so the page always reflects the latest logic.
   push:
