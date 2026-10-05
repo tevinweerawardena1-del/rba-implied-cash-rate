@@ -653,7 +653,7 @@ function renderBanks() {
       <td>${changeCell}</td>
       <td class="num">${fmtDate(b.as_of, { day: "numeric", month: "short" })}</td></tr>`;
   }).join("");
-  $("#bankTable").innerHTML = `<thead><tr><th>Bank</th><th>Next meeting</th><th>Next cash rate change</th><th>As of</th></tr></thead><tbody>${rows}</tbody>`;
+  $("#bankTable").innerHTML = `<thead><tr><th>Bank</th><th>Next meeting${nextIso ? " (" + fmtDate(nextIso, { month: "short", year: "numeric" }) + ")" : ""}</th><th>Next cash rate change</th><th>As of</th></tr></thead><tbody>${rows}</tbody>`;
 }
 
 let outcomeIdx = 0;
