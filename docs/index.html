@@ -48,6 +48,8 @@
   header { display: flex; justify-content: space-between; align-items: flex-end;
            gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
   h1 { font-size: 26px; font-weight: 600; margin: 0 0 4px; letter-spacing: -0.01em; }
+  h1 a.home { color: inherit; text-decoration: none; }
+  h1 a.home:hover { text-decoration: underline; text-underline-offset: 4px; }
   h2 { font-size: 17px; font-weight: 600; margin: 0 0 2px; }
   h3.section { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
                color: var(--text-muted); margin: 36px 0 12px; scroll-margin-top: 64px; }
@@ -163,7 +165,7 @@
 <div class="wrap">
   <header>
     <div class="head-text">
-      <h1>AUS Rates Monitor</h1>
+      <h1><a class="home" href="https://tevinweerawardena1-del.github.io/rba-implied-cash-rate/">AUS Rates Monitor</a></h1>
       <p class="sub byline">By Tevin Weerawardena · <a href="https://www.linkedin.com/in/tevin-weerawardena/" target="_blank" rel="noopener">LinkedIn ↗</a></p>
       <p class="sub">RBA cash rate expectations, money markets, government bonds and the AUD, updated every weekday.</p>
       <div class="asat" id="asat">Loading…</div>
