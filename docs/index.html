@@ -86,6 +86,7 @@
   #bankTable .sub-note { display: block; font-size: 12px; color: var(--text-muted); white-space: normal; margin-top: 2px; max-width: 360px; }
   #bankTable a { font-size: 12px; }
   #bankTable td:nth-child(2), #bankTable td:nth-child(3), #bankTable th:nth-child(2), #bankTable th:nth-child(3) { text-align: left; }
+  .card .updated { text-align: right; font-size: 12px; color: var(--text-muted); margin-top: 10px; }
   .taylor-formula { margin-top: 14px; font-size: 13px; color: var(--text-secondary); }
   .taylor-formula .eq { font: 500 15px "IBM Plex Mono", monospace; color: var(--text-primary); margin-bottom: 6px; }
   .taylor-formula dl { display: grid; grid-template-columns: max-content 1fr; gap: 2px 12px; margin: 0; }
@@ -240,7 +241,7 @@
     <div class="chart-box"><canvas id="nextChart" role="img" aria-label="Next-meeting implied change"></canvas></div>
   </section>
 
-  <section class="card">
+  <section class="card" data-card="history">
     <div class="card-head">
       <div><h2>How pricing has moved</h2><p>Implied rate for the next three meetings, each day's close</p></div>
       <div class="seg" data-range="history"></div>
@@ -278,7 +279,7 @@
       <span><i class="sw" style="background:var(--series-2)"></i>Real cash rate (headline CPI)</span>
     </div>
     <div class="chart-box"><canvas id="realChart" role="img" aria-label="Real cash rate"></canvas></div>
-    <div class="src">Sources: RBA table G1 (consumer price inflation), RBA table F1. Ex-post: uses inflation over the past year. <span data-asof="real"></span></div>
+    <div class="src">Sources: RBA table G1 (consumer price inflation), RBA table F1. Ex-post: uses inflation over the past year.</div>
   </section>
 
   <!-- ===================== Money markets ===================== -->
@@ -295,7 +296,7 @@
       <span><i class="sw vline" style="background:var(--down)"></i>Cut</span>
     </div>
     <div class="chart-box"><canvas id="babSpreadChart" role="img" aria-label="Bank bill term spread"></canvas></div>
-    <div class="src">Source: RBA table F1 (bank bill rates are ASX BBSW). <span data-asof="money"></span></div>
+    <div class="src">Source: RBA table F1 (bank bill rates are ASX BBSW).</div>
   </section>
 
   <section class="card" data-card="bbsw">
@@ -309,7 +310,7 @@
       <span><i class="sw" style="background:var(--series-3)"></i>6-month</span>
     </div>
     <div class="chart-box"><canvas id="bbswChart" role="img" aria-label="Bank bill swap rates"></canvas></div>
-    <div class="src">Source: RBA table F1. <span data-asof="money"></span></div>
+    <div class="src">Source: RBA table F1.</div>
   </section>
 
   <!-- ===================== Bonds ===================== -->
@@ -321,7 +322,7 @@
       <div class="seg" data-range="acgb2"></div>
     </div>
     <div class="chart-box"><canvas id="acgb2Chart" role="img" aria-label="2-year ACGB yield"></canvas></div>
-    <div class="src">Source: RBA table F2. <span data-asof="bonds"></span></div>
+    <div class="src">Source: RBA table F2.</div>
   </section>
 
   <section class="card" data-card="slope">
@@ -330,7 +331,7 @@
       <div class="seg" data-range="slope"></div>
     </div>
     <div class="chart-box"><canvas id="slopeChart" role="img" aria-label="3s10s ACGB spread"></canvas></div>
-    <div class="src">Source: RBA table F2. <span data-asof="bonds"></span></div>
+    <div class="src">Source: RBA table F2.</div>
   </section>
 
   <section class="card" data-card="ycurve">
@@ -339,7 +340,7 @@
     </div>
     <div class="legend" id="ycurveLegend"></div>
     <div class="chart-box" style="height:380px"><canvas id="ycurveChart" role="img" aria-label="Australian Government bond yield curve"></canvas></div>
-    <div class="src">Source: RBA table F16 (indicative mid yields). Inflation-indexed bonds and Treasury notes excluded. <span data-asof="ycurve"></span></div>
+    <div class="src">Source: RBA table F16 (indicative mid yields). Inflation-indexed bonds and Treasury notes excluded.</div>
   </section>
 
 
@@ -355,7 +356,7 @@
       <span><i class="sw" style="background:var(--ref)"></i>Cash rate target</span>
     </div>
     <div class="chart-box"><canvas id="forwardsChart" role="img" aria-label="Forward rates"></canvas></div>
-    <div class="src">Calculated from RBA table F16: each day's bond yields are interpolated by maturity to 1, 2, 3, 5 and 10 years (treated as zero rates, a standard approximation), then compounded annually into forwards. <span data-asof="forwards"></span></div>
+    <div class="src">Calculated from RBA table F16: each day's bond yields are interpolated by maturity to 1, 2, 3, 5 and 10 years (treated as zero rates, a standard approximation), then compounded annually into forwards.</div>
   </section>
 
   <section class="card" data-card="fly">
@@ -364,7 +365,7 @@
       <div class="seg" data-range="fly"></div>
     </div>
     <div class="chart-box"><canvas id="flyChart" role="img" aria-label="2s5s10s ACGB butterfly"></canvas></div>
-    <div class="src">Source: RBA table F2. <span data-asof="fly"></span></div>
+    <div class="src">Source: RBA table F2.</div>
   </section>
 
   <!-- ===================== FX ===================== -->
@@ -380,7 +381,7 @@
       <span><i class="sw" style="background:var(--series-2)"></i>10-year</span>
     </div>
     <div class="chart-box"><canvas id="usChart" role="img" aria-label="US 2-year and 10-year Treasury yields"></canvas></div>
-    <div class="src">Source: FRED (US Treasury constant maturity yields). <span data-asof="us"></span></div>
+    <div class="src">Source: FRED (US Treasury constant maturity yields).</div>
   </section>
 
   <section class="card" data-card="tp">
@@ -395,7 +396,7 @@
     </div>
     <div class="chart-box" style="height:380px"><canvas id="tpChart" role="img" aria-label="US 10-year yield decomposed into expected short rates and term premium"></canvas></div>
     <div class="taylor-read" id="tpRead"></div>
-    <div class="src">Source: Federal Reserve Board Kim–Wright model via FRED. Term premium: <a href="https://fred.stlouisfed.org/series/THREEFYTP10" target="_blank" rel="noopener">FRED THREEFYTP10</a> (Term Premium on a 10 Year Zero Coupon Bond). 10-year yield: <a href="https://fred.stlouisfed.org/series/THREEFY10" target="_blank" rel="noopener">FRED THREEFY10</a> (10-year zero-coupon yield). Expected short-term rates = yield − term premium. The term premium is a model estimate. <span data-asof="tp"></span></div>
+    <div class="src">Source: Federal Reserve Board Kim–Wright model via FRED. Term premium: <a href="https://fred.stlouisfed.org/series/THREEFYTP10" target="_blank" rel="noopener">FRED THREEFYTP10</a> (Term Premium on a 10 Year Zero Coupon Bond). 10-year yield: <a href="https://fred.stlouisfed.org/series/THREEFY10" target="_blank" rel="noopener">FRED THREEFY10</a> (10-year zero-coupon yield). Expected short-term rates = yield − term premium. The term premium is a model estimate.</div>
   </section>
 
 
@@ -410,7 +411,7 @@
       <span><i class="sw" style="background:var(--ref);height:1px"></i>Zero differential</span>
     </div>
     <div class="chart-box" style="height:400px"><canvas id="fxChart" role="img" aria-label="AUD/USD and the US minus Australian 2-year yield differential"></canvas></div>
-    <div class="src">Sources: FRED (AUD/USD from Federal Reserve H.10, US 2-year Treasury), RBA table F2. <span data-asof="fx"></span></div>
+    <div class="src">Sources: FRED (AUD/USD from Federal Reserve H.10, US 2-year Treasury), RBA table F2.</div>
   </section>
 
   <!-- ===================== Method ===================== -->
@@ -1065,9 +1066,18 @@ function renderAll() {
   if (notes.length) { $("#banner").style.display = "block"; $("#banner").textContent = notes.join(" "); }
   // "Data to <date>" under each chart, so readers can see how current each source is.
   const asof = charts.asof || {};
-  document.querySelectorAll("[data-asof]").forEach((el) => {
-    const d = asof[el.dataset.asof];
-    el.textContent = d ? `Data to ${fmtDate(d)}.` : "";
+  // "Last updated" footer, bottom right of every card: the date of the latest data in that chart.
+  const bankDates = ((bankCalls && bankCalls.banks) || []).map((b) => b.as_of).filter(Boolean).sort();
+  const CARD_ASOF = { path: "futures", curves: "futures", outcomes: "futures", horizons: "futures",
+    nextmeeting: "futures", history: "futures", taylor: "taylor", real: "real", babspread: "money",
+    bbsw: "money", acgb2: "bonds", slope: "bonds", ycurve: "ycurve", forwards: "forwards", fly: "fly",
+    us: "us", tp: "tp", fx: "fx" };
+  document.querySelectorAll("section.card[data-card]").forEach((card) => {
+    const key = card.dataset.card;
+    const d = key === "banks" ? bankDates[bankDates.length - 1] : asof[CARD_ASOF[key]];
+    let el = card.querySelector(":scope > .updated");
+    if (!el) { el = document.createElement("div"); el.className = "updated"; card.appendChild(el); }
+    el.textContent = d ? `Last updated ${fmtDate(d)}` : "";
   });
   $("#footerSource").textContent = `Futures source today: ${latest.source}.`;
   const steps = [renderTiles, renderPath, renderCurves, renderOutcomes, renderBanks, renderYieldCurve, ...Object.values(RENDER)];
