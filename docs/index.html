@@ -105,10 +105,8 @@
          border-radius: 999px; border: 1px solid var(--border); color: var(--text-secondary); }
   .tag.up::before { content: "▲ "; color: var(--up); }
   .tag.down::before { content: "▼ "; color: var(--down); }
-  a.tag.src { color: var(--down); border-color: var(--down); text-decoration: none; cursor: pointer;
-              background: color-mix(in srgb, var(--down) 10%, transparent); }
-  a.tag.src::after { content: " ↗"; font-size: 11px; }
-  a.tag.src:hover, a.tag.src:focus-visible { background: color-mix(in srgb, var(--down) 20%, transparent); }
+  a.tag.src { color: var(--text-secondary); text-decoration: none; cursor: pointer; }
+  a.tag.src:hover, a.tag.src:focus-visible { border-color: var(--text-muted); color: var(--text); }
 
   .chart-box { position: relative; height: 340px; }
   .chart-box.short { height: 220px; }
