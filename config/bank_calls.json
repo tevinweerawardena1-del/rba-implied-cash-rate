@@ -106,15 +106,19 @@
       "next_meeting": "2026-11-03",
       "call": "no change",
       "next_change": {
-        "month": "2027-08",
-        "label": "H2 2027",
+        "month": "2027-11",
+        "label": "Late 2027",
         "direction": "cut",
         "size_bp": 25,
         "rate_after": 4.35
       },
-      "note": "Shane Oliver: 4.60% likely the peak; cooling economy should make a November hike unnecessary, though risk is 'very high'; cuts in the second half of 2027",
-      "as_of": "2026-10-01",
+      "note": "Shane Oliver: base case 4.60% is the peak and RBA holds in November, though another hike is 'a very high risk'; cuts not until late 2027",
+      "as_of": "2026-10-03",
       "sources": [
+        {
+          "label": "Livewire (Shane Oliver), 3 Oct",
+          "url": "https://www.livewiremarkets.com/wires/the-bond-vigilantes-are-back-and-shares-could-be-next"
+        },
         {
           "label": "Oliver's Insights, 1 Oct",
           "url": "https://www.sgw.net.au/olivers-insights/a-hawkish-hike-from-the-rba-to-4-6-this-is-likely-the-top-but-the-risk-of-another-hike-is-very-high"
@@ -122,10 +126,6 @@
         {
           "label": "MPA, 29 Sep",
           "url": "https://www.mpamag.com/au/news/general/have-rates-peaked-brokers-and-economists-weigh-in/591555"
-        },
-        {
-          "label": "AMP weekly update, 25 Sep",
-          "url": "https://www.amp.com.au/resources/insights-hub/weekly-market-update-25-09-2026"
         }
       ]
     },
