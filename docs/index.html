@@ -326,7 +326,7 @@
 
   <section class="card" data-card="events">
     <div class="card-head">
-      <div><h2>Major data and events</h2><p>The next 10 releases and decisions for Australian and US rates</p></div>
+      <div><h2>Major data and events</h2><p>The next 10 releases and events for Australian and US rates</p></div>
     </div>
     <div class="table-scroll"><table id="eventTable"></table></div>
   </section>
@@ -685,15 +685,20 @@ let eventCal = null;
 function renderEvents() {
   const all = (eventCal && eventCal.events) || [];
   const now = Date.now();
-  // Upcoming events only. Within the next 31 days take the most important first
-  // (priority 1 > 2 > 3, then soonest); top up with the nearest later events; show by time.
+  // Upcoming events only, skewed to Australia: within the next 31 days take the
+  // 7 most important AU and 3 most important US events (priority 1 > 2 > 3, then
+  // soonest), fill any gap from the other country or later events, then show by time.
   const t = (e) => Date.parse(e.time);
   const horizon = now + 31 * 864e5;
+  const rank = (a, b) => (a.priority || 3) - (b.priority || 3) || t(a) - t(b);
   const upcoming = all.filter((e) => t(e) > now);
-  const inWindow = upcoming.filter((e) => t(e) <= horizon)
-    .sort((a, b) => (a.priority || 3) - (b.priority || 3) || t(a) - t(b)).slice(0, 10);
-  const later = upcoming.filter((e) => t(e) > horizon).sort((a, b) => t(a) - t(b));
-  const list = inWindow.concat(later.slice(0, 10 - inWindow.length)).sort((a, b) => t(a) - t(b));
+  const inWindow = upcoming.filter((e) => t(e) <= horizon).sort(rank);
+  const quota = { AU: 7, US: 3 };
+  const picked = [];
+  for (const [cc, n] of Object.entries(quota)) picked.push(...inWindow.filter((e) => e.country === cc).slice(0, n));
+  const rest = inWindow.filter((e) => !picked.includes(e))
+    .concat(upcoming.filter((e) => t(e) > horizon).sort((a, b) => t(a) - t(b)));
+  const list = picked.concat(rest.slice(0, Math.max(0, 10 - picked.length))).sort((a, b) => t(a) - t(b));
   if (!list.length) return emptyCard("events", "No upcoming events listed.");
   const tz = "Australia/Sydney";
   const part = (d, o) => new Intl.DateTimeFormat("en-AU", { timeZone: tz, ...o }).format(d);

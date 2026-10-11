@@ -1,5 +1,5 @@
 {
-  "_comment": "Major data and events calendar (AU and US rates), maintained by the daily 'Update data and events calendar' scheduled task. Each event: time = ISO datetime with UTC offset (release time), country = AU | US, event = name incl. reference period, expected = consensus ('' if none, shown as a dash), previous = prior reading ('' if none), priority = 1 (top-tier: RBA/FOMC decisions, CPI, labour force, payrolls, WPI) | 2 (important: core measures, GDP, PCE, employment change) | 3 (secondary: minutes, retail, spending, speeches), url = official release page. The page shows 10 events: among future events in the next 31 days it takes the highest priority first (then earliest), tops up with the nearest later events if needed, and lists them by time. Keep at least 14 future events (about 5-6 weeks ahead) and drop events once they have passed.",
+  "_comment": "Major data and events calendar (AU and US rates), maintained by the daily 'Update data and events calendar' scheduled task. Each event: time = ISO datetime with UTC offset (release time), country = AU | US, event = name incl. reference period, expected = consensus ('' if none, shown as a dash), previous = prior reading ('' if none), priority = 1 (top-tier: RBA/FOMC decisions, CPI, unemployment, payrolls, WPI, AU GDP, national elections) | 2 (important: core measures, US GDP, PCE, employment change) | 3 (second-tier: RBA minutes, consumer sentiment/confidence, NAB business survey, PMIs, building approvals, household spending, PPI, ISM, state elections, major speeches), url = official release page. The page shows 10 events skewed to Australia: among future events in the next 31 days it takes the 7 best AU and 3 best US events (priority first, then earliest), fills any shortfall from the other country or later events, and lists them by time. Keep at least 14 future events (about 5-6 weeks ahead) and drop events once they have passed.",
   "as_of": "2026-10-12",
   "events": [
     {
@@ -10,6 +10,15 @@
       "previous": "",
       "url": "https://www.rba.gov.au/monetary-policy/rba-board-minutes/",
       "priority": 3
+    },
+    {
+      "time": "2026-10-13T11:30:00+11:00",
+      "country": "AU",
+      "event": "NAB Business Confidence Sep",
+      "expected": "",
+      "previous": "-8",
+      "priority": 3,
+      "url": "https://www.nab.com.au/news/economy-markets"
     },
     {
       "time": "2026-10-14T23:30:00+11:00",
@@ -57,6 +66,24 @@
       "priority": 3
     },
     {
+      "time": "2026-10-23T09:00:00+11:00",
+      "country": "AU",
+      "event": "S&P Global Manufacturing PMI Oct (flash)",
+      "expected": "",
+      "previous": "49.6",
+      "priority": 3,
+      "url": "https://www.pmi.spglobal.com/Public/Release/PressReleases"
+    },
+    {
+      "time": "2026-10-28T01:00:00+11:00",
+      "country": "US",
+      "event": "Conference Board Consumer Confidence Oct",
+      "expected": "",
+      "previous": "81.9",
+      "priority": 3,
+      "url": "https://www.conference-board.org/topics/consumer-confidence"
+    },
+    {
       "time": "2026-10-28T11:30:00+11:00",
       "country": "AU",
       "event": "CPI Sep (y/y)",
@@ -102,6 +129,33 @@
       "priority": 2
     },
     {
+      "time": "2026-10-30T11:30:00+11:00",
+      "country": "AU",
+      "event": "PPI Q3 (q/q)",
+      "expected": "",
+      "previous": "1.3%",
+      "priority": 3,
+      "url": "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/producer-price-indexes-australia/latest-release"
+    },
+    {
+      "time": "2026-11-02T11:30:00+11:00",
+      "country": "AU",
+      "event": "Building Approvals Sep (m/m)",
+      "expected": "",
+      "previous": "-6.1%",
+      "priority": 3,
+      "url": "https://www.abs.gov.au/statistics/industry/building-and-construction/building-approvals-australia/latest-release"
+    },
+    {
+      "time": "2026-11-03T02:00:00+11:00",
+      "country": "US",
+      "event": "ISM Manufacturing PMI Oct",
+      "expected": "",
+      "previous": "54.5",
+      "priority": 3,
+      "url": "https://www.ismworld.org/supply-management-news-and-reports/reports/ism-pmi-reports/"
+    },
+    {
       "time": "2026-11-03T14:30:00+11:00",
       "country": "AU",
       "event": "RBA Cash Rate Decision",
@@ -109,6 +163,15 @@
       "previous": "4.60%",
       "url": "https://www.rba.gov.au/monetary-policy/int-rate-decisions/",
       "priority": 1
+    },
+    {
+      "time": "2026-11-04T10:00:00+11:00",
+      "country": "US",
+      "event": "Midterm Elections (first polls close)",
+      "expected": "",
+      "previous": "",
+      "priority": 1,
+      "url": "https://www.usa.gov/midterm-elections"
     },
     {
       "time": "2026-11-04T11:30:00+11:00",
@@ -163,6 +226,15 @@
       "previous": "",
       "url": "https://www.abs.gov.au/statistics/labour/employment-and-unemployment/labour-force-australia/latest-release",
       "priority": 1
+    },
+    {
+      "time": "2026-11-28T18:00:00+11:00",
+      "country": "AU",
+      "event": "Victorian State Election (polls close)",
+      "expected": "",
+      "previous": "",
+      "priority": 3,
+      "url": "https://www.vec.vic.gov.au/voting/2026-state-election"
     }
   ]
 }
