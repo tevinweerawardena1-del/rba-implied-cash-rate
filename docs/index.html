@@ -223,7 +223,7 @@
 
   <section class="card" data-card="banks">
     <div class="card-head">
-      <div><h2>Major bank RBA calls</h2></div>
+      <div><h2>Major Financial Institutions RBA calls</h2></div>
     </div>
     <div class="table-scroll"><table id="bankTable"></table></div>
   </section>
@@ -651,7 +651,7 @@ function renderPath() {
 let bankCalls = null;
 function renderBanks() {
   const list = (bankCalls && bankCalls.banks) || [];
-  if (!list.length) return emptyCard("banks", "Bank calls unavailable.");
+  if (!list.length) return emptyCard("banks", "RBA calls unavailable.");
   const next = latest.meetings && latest.meetings[0];
   const nextIso = next ? next.decision_date : null;
   // The call bubble links to the newest source (sources[0]), so it follows each update.
@@ -678,7 +678,7 @@ function renderBanks() {
       <td>${changeCell}</td>
       <td class="num">${b.as_of ? fmtDate(b.as_of, { day: "numeric", month: "short" }) : "–"}</td></tr>`;
   }).join("");
-  $("#bankTable").innerHTML = `<thead><tr><th>Bank</th><th>Next meeting${nextIso ? " (" + fmtDate(nextIso, { month: "short", year: "numeric" }) + ")" : ""}</th><th>Next cash rate change</th><th>As of</th></tr></thead><tbody>${rows}</tbody>`;
+  $("#bankTable").innerHTML = `<thead><tr><th>Institution</th><th>Next meeting${nextIso ? " (" + fmtDate(nextIso, { month: "short", year: "numeric" }) + ")" : ""}</th><th>Next cash rate change</th><th>As of</th></tr></thead><tbody>${rows}</tbody>`;
 }
 
 let eventCal = null;
