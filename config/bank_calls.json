@@ -1,5 +1,5 @@
 {
-  "_comment": "Major financial institutions RBA calls. Update when an institution changes its view. For each bank: next_meeting = the RBA decision date the call refers to; call = hike | no change | cut; next_change = {month: YYYY-MM, optional label for approximate timing e.g. 'Mid 2027', direction: hike | cut, size_bp, rate_after}; as_of = date of the source; sources = links, newest first (the call bubble on the page links to sources[0], so put the article the current call comes from first). Set call to null if the bank has not published a view for the next meeting.",
+  "_comment": "RBA calls on the Street (economists and strategists). Update when an institution changes its view. For each bank: next_meeting = the RBA decision date the call refers to; call = hike | no change | cut; next_change = {month: YYYY-MM, optional label for approximate timing e.g. 'Mid 2027', direction: hike | cut, size_bp, rate_after}; as_of = date of the source; sources = links, newest first (the call bubble on the page links to sources[0], so put the article the current call comes from first). Set call to null if the bank has not published a view for the next meeting.",
   "banks": [
     {
       "bank": "CBA",
