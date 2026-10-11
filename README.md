@@ -4,6 +4,7 @@ A self-updating web page tracking Australian rates markets, rebuilt every weekda
 
 - **Cash rate expectations** (ASX 30 Day Interbank Cash Rate Futures): the implied RBA path meeting by meeting, target-rate probabilities, implied change at 6 and 12 months and at the end of the strip, next-meeting pricing, futures curves at each month end, and how pricing has moved.
 - **Money markets** (RBA table F1): the 6-month minus 1-month bank bill spread, and 1/3/6-month BBSW.
+- **Major data and events:** the next 10 market-moving AU and US releases and decisions (time, expected, previous), kept in `config/events.json` and refreshed daily by a scheduled task.
 - **Government bonds** (RBA table F2): the 2-year ACGB yield and the 2s10s curve.
 - **Policy:** the Taylor rule vs the actual cash rate, and the real cash rate (cash rate minus headline and trimmed mean inflation, RBA table G1).
 - **Curve analytics** (RBA F16/F2): the ACGB yield curve, 1y1y / 2y1y / 5y5y forward rates, and the 2s5s10s butterfly.
