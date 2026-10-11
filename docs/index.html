@@ -83,6 +83,13 @@
   .tile .value { font: 500 30px/1.2 "IBM Plex Mono", monospace; margin: 6px 0 2px; }
   .taylor-read { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
   #bankTable td { vertical-align: middle; }
+  #eventTable td, #eventTable th { text-align: left; }
+  #eventTable td:nth-child(3), #eventTable td:nth-child(4), #eventTable th:nth-child(3), #eventTable th:nth-child(4) { text-align: right; }
+  #eventTable td:first-child { color: var(--text-secondary); }
+  #eventTable .cc { display: inline-block; min-width: 26px; font-size: 11px; font-weight: 600; color: var(--text-muted); }
+  #eventTable a.ev { color: inherit; text-decoration: none; }
+  #eventTable a.ev:hover { text-decoration: underline; text-underline-offset: 3px; }
+  #eventTable tr.newday td { border-top: 1px solid var(--border); }
   @media (max-width: 720px) { #bankTable td:nth-child(3) { min-width: 200px; } }
   #bankTable .bank { font-weight: 600; }
   #bankTable .sub-note { display: block; font-size: 12px; color: var(--text-muted); white-space: normal; margin-top: 2px; max-width: 360px; }
@@ -315,6 +322,13 @@
     </div>
     <div class="chart-box"><canvas id="bbswChart" role="img" aria-label="Bank bill swap rates"></canvas></div>
     <div class="src">Source: RBA table F1.</div>
+  </section>
+
+  <section class="card" data-card="events">
+    <div class="card-head">
+      <div><h2>Major data and events</h2><p>The next 10 releases and decisions for Australian and US rates</p></div>
+    </div>
+    <div class="table-scroll"><table id="eventTable"></table></div>
   </section>
 
   <!-- ===================== Bonds ===================== -->
@@ -665,6 +679,40 @@ function renderBanks() {
       <td class="num">${b.as_of ? fmtDate(b.as_of, { day: "numeric", month: "short" }) : "–"}</td></tr>`;
   }).join("");
   $("#bankTable").innerHTML = `<thead><tr><th>Bank</th><th>Next meeting${nextIso ? " (" + fmtDate(nextIso, { month: "short", year: "numeric" }) + ")" : ""}</th><th>Next cash rate change</th><th>As of</th></tr></thead><tbody>${rows}</tbody>`;
+}
+
+let eventCal = null;
+function renderEvents() {
+  const all = (eventCal && eventCal.events) || [];
+  const now = Date.now();
+  // Upcoming events only. Within the next 31 days take the most important first
+  // (priority 1 > 2 > 3, then soonest); top up with the nearest later events; show by time.
+  const t = (e) => Date.parse(e.time);
+  const horizon = now + 31 * 864e5;
+  const upcoming = all.filter((e) => t(e) > now);
+  const inWindow = upcoming.filter((e) => t(e) <= horizon)
+    .sort((a, b) => (a.priority || 3) - (b.priority || 3) || t(a) - t(b)).slice(0, 10);
+  const later = upcoming.filter((e) => t(e) > horizon).sort((a, b) => t(a) - t(b));
+  const list = inWindow.concat(later.slice(0, 10 - inWindow.length)).sort((a, b) => t(a) - t(b));
+  if (!list.length) return emptyCard("events", "No upcoming events listed.");
+  const tz = "Australia/Sydney";
+  const part = (d, o) => new Intl.DateTimeFormat("en-AU", { timeZone: tz, ...o }).format(d);
+  const tzName = new Intl.DateTimeFormat("en-AU", { timeZone: tz, timeZoneName: "short" })
+    .formatToParts(new Date()).find((p) => p.type === "timeZoneName");
+  const esc = (t) => String(t).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+  const dash = (v) => (v === undefined || v === null || String(v).trim() === "" ? "–" : esc(v));
+  let lastDay = null;
+  const rows = list.map((e) => {
+    const d = new Date(e.time);
+    const day = `${part(d, { weekday: "short" })} ${part(d, { day: "numeric", month: "short" })}`;
+    const time = part(d, { hour: "2-digit", minute: "2-digit", hour12: false });
+    const cls = lastDay !== null && day !== lastDay ? ' class="newday"' : "";
+    lastDay = day;
+    const name = e.url ? `<a class="ev" href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.event)}</a>` : esc(e.event);
+    return `<tr${cls}><td class="num">${day} ${time}</td><td><span class="cc">${esc(e.country || "")}</span>${name}</td>
+      <td class="num">${dash(e.expected)}</td><td class="num">${dash(e.previous)}</td></tr>`;
+  }).join("");
+  $("#eventTable").innerHTML = `<thead><tr><th>Time${tzName ? " (" + tzName.value.replace("GMT+11", "AEDT").replace("GMT+10", "AEST") + ")" : ""}</th><th>Event</th><th>Expected</th><th>Previous</th></tr></thead><tbody>${rows}</tbody>`;
 }
 
 let outcomeIdx = 0;
@@ -1085,13 +1133,14 @@ function renderAll() {
     us: "us", tp: "tp", fx: "fx" };
   document.querySelectorAll("section.card[data-card]").forEach((card) => {
     const key = card.dataset.card;
-    const d = key === "banks" ? bankDates[bankDates.length - 1] : asof[CARD_ASOF[key]];
+    const d = key === "banks" ? bankDates[bankDates.length - 1]
+      : key === "events" ? eventCal && eventCal.as_of : asof[CARD_ASOF[key]];
     let el = card.querySelector(":scope > .updated");
     if (!el) { el = document.createElement("div"); el.className = "updated"; card.appendChild(el); }
     el.textContent = d ? `Last updated ${fmtDate(d)}` : "";
   });
   $("#footerSource").textContent = `Futures source today: ${latest.source}.`;
-  const steps = [renderTiles, renderPath, renderCurves, renderOutcomes, renderBanks, renderYieldCurve, ...Object.values(RENDER)];
+  const steps = [renderTiles, renderPath, renderCurves, renderOutcomes, renderBanks, renderEvents, renderYieldCurve, ...Object.values(RENDER)];
   for (const fn of steps) { try { fn(); } catch (e) { console.error(fn.name, e); } }
 }
 
@@ -1101,8 +1150,9 @@ matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => late
 const get = (p, as = "json") => fetch(p, { cache: "no-store" }).then((r) => (r.ok ? r[as]() : Promise.reject(p)));
 Promise.all([get("data/latest.json"), get("data/charts.json").catch(() => ({})),
              get("data/bank_calls.json").then((b) => { bankCalls = b; }).catch(() => {}),
+             get("data/events.json").then((e) => { eventCal = e; }).catch(() => {}),
              get("data/meeting_history.csv", "text").then(parseCSV).catch(() => [])])
-  .then(([l, c, , h]) => { latest = l; charts = c; history = h; renderAll(); })
+  .then(([l, c, , , h]) => { latest = l; charts = c; history = h; renderAll(); })
   .catch((err) => { $("#asat").textContent = "No data yet. Run the update workflow once."; console.error(err); });
 </script>
 </body>

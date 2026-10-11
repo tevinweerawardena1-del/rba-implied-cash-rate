@@ -314,6 +314,8 @@ def run(backfill: bool):
     # in config/bank_calls.json; publish a copy for the page.
     import shutil
     shutil.copyfile(ROOT / "config" / "bank_calls.json", DATA / "bank_calls.json")
+    # Same for the data and events calendar (config/events.json).
+    shutil.copyfile(ROOT / "config" / "events.json", DATA / "events.json")
 
     (DATA / "charts.json").write_text(json.dumps(charts, separators=(",", ":")))
     print("Status:", json.dumps(status))

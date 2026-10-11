@@ -1,0 +1,168 @@
+{
+  "_comment": "Major data and events calendar (AU and US rates), maintained by the daily 'Update data and events calendar' scheduled task. Each event: time = ISO datetime with UTC offset (release time), country = AU | US, event = name incl. reference period, expected = consensus ('' if none, shown as a dash), previous = prior reading ('' if none), priority = 1 (top-tier: RBA/FOMC decisions, CPI, labour force, payrolls, WPI) | 2 (important: core measures, GDP, PCE, employment change) | 3 (secondary: minutes, retail, spending, speeches), url = official release page. The page shows 10 events: among future events in the next 31 days it takes the highest priority first (then earliest), tops up with the nearest later events if needed, and lists them by time. Keep at least 14 future events (about 5-6 weeks ahead) and drop events once they have passed.",
+  "as_of": "2026-10-12",
+  "events": [
+    {
+      "time": "2026-10-13T11:30:00+11:00",
+      "country": "AU",
+      "event": "RBA Minutes (Sep meeting)",
+      "expected": "",
+      "previous": "",
+      "url": "https://www.rba.gov.au/monetary-policy/rba-board-minutes/",
+      "priority": 3
+    },
+    {
+      "time": "2026-10-14T23:30:00+11:00",
+      "country": "US",
+      "event": "CPI Sep (y/y)",
+      "expected": "3.6%",
+      "previous": "3.4%",
+      "url": "https://www.bls.gov/cpi/",
+      "priority": 1
+    },
+    {
+      "time": "2026-10-14T23:30:00+11:00",
+      "country": "US",
+      "event": "Core CPI Sep (y/y)",
+      "expected": "2.5%",
+      "previous": "2.4%",
+      "url": "https://www.bls.gov/cpi/",
+      "priority": 2
+    },
+    {
+      "time": "2026-10-15T11:30:00+11:00",
+      "country": "AU",
+      "event": "Employment Change Sep",
+      "expected": "+20k",
+      "previous": "+39.5k",
+      "url": "https://www.abs.gov.au/statistics/labour/employment-and-unemployment/labour-force-australia/latest-release",
+      "priority": 2
+    },
+    {
+      "time": "2026-10-15T11:30:00+11:00",
+      "country": "AU",
+      "event": "Unemployment Rate Sep",
+      "expected": "4.6%",
+      "previous": "4.6%",
+      "url": "https://www.abs.gov.au/statistics/labour/employment-and-unemployment/labour-force-australia/latest-release",
+      "priority": 1
+    },
+    {
+      "time": "2026-10-15T23:30:00+11:00",
+      "country": "US",
+      "event": "Retail Sales Sep (m/m)",
+      "expected": "0.3%",
+      "previous": "1.1%",
+      "url": "https://www.census.gov/retail/index.html",
+      "priority": 3
+    },
+    {
+      "time": "2026-10-28T11:30:00+11:00",
+      "country": "AU",
+      "event": "CPI Sep (y/y)",
+      "expected": "",
+      "previous": "4.0%",
+      "url": "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/latest-release",
+      "priority": 1
+    },
+    {
+      "time": "2026-10-28T11:30:00+11:00",
+      "country": "AU",
+      "event": "Trimmed Mean CPI Q3 (q/q)",
+      "expected": "1.0%",
+      "previous": "0.8%",
+      "url": "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/latest-release",
+      "priority": 1
+    },
+    {
+      "time": "2026-10-29T05:00:00+11:00",
+      "country": "US",
+      "event": "FOMC Decision (upper bound)",
+      "expected": "",
+      "previous": "4.00%",
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "priority": 1
+    },
+    {
+      "time": "2026-10-29T23:30:00+11:00",
+      "country": "US",
+      "event": "GDP Q3 Advance (annualised)",
+      "expected": "",
+      "previous": "2.2%",
+      "url": "https://www.bea.gov/data/gdp/gross-domestic-product",
+      "priority": 2
+    },
+    {
+      "time": "2026-10-29T23:30:00+11:00",
+      "country": "US",
+      "event": "Core PCE Sep (y/y)",
+      "expected": "",
+      "previous": "3.0%",
+      "url": "https://www.bea.gov/data/personal-consumption-expenditures-price-index-excluding-food-and-energy",
+      "priority": 2
+    },
+    {
+      "time": "2026-11-03T14:30:00+11:00",
+      "country": "AU",
+      "event": "RBA Cash Rate Decision",
+      "expected": "",
+      "previous": "4.60%",
+      "url": "https://www.rba.gov.au/monetary-policy/int-rate-decisions/",
+      "priority": 1
+    },
+    {
+      "time": "2026-11-04T11:30:00+11:00",
+      "country": "AU",
+      "event": "Household Spending Sep (m/m)",
+      "expected": "",
+      "previous": "0.0%",
+      "url": "https://www.abs.gov.au/statistics/economy/finance/monthly-household-spending-indicator/latest-release",
+      "priority": 3
+    },
+    {
+      "time": "2026-11-07T00:30:00+11:00",
+      "country": "US",
+      "event": "Nonfarm Payrolls Oct",
+      "expected": "",
+      "previous": "+29k",
+      "url": "https://www.bls.gov/ces/",
+      "priority": 1
+    },
+    {
+      "time": "2026-11-07T00:30:00+11:00",
+      "country": "US",
+      "event": "Unemployment Rate Oct",
+      "expected": "",
+      "previous": "4.2%",
+      "url": "https://www.bls.gov/cps/",
+      "priority": 2
+    },
+    {
+      "time": "2026-11-11T00:30:00+11:00",
+      "country": "US",
+      "event": "CPI Oct (y/y)",
+      "expected": "",
+      "previous": "",
+      "url": "https://www.bls.gov/cpi/",
+      "priority": 1
+    },
+    {
+      "time": "2026-11-18T11:30:00+11:00",
+      "country": "AU",
+      "event": "Wage Price Index Q3 (q/q)",
+      "expected": "",
+      "previous": "",
+      "url": "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/wage-price-index-australia/latest-release",
+      "priority": 1
+    },
+    {
+      "time": "2026-11-19T11:30:00+11:00",
+      "country": "AU",
+      "event": "Unemployment Rate Oct",
+      "expected": "",
+      "previous": "",
+      "url": "https://www.abs.gov.au/statistics/labour/employment-and-unemployment/labour-force-australia/latest-release",
+      "priority": 1
+    }
+  ]
+}

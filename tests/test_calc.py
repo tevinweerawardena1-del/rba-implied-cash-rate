@@ -345,3 +345,18 @@ def test_merge_series_extends_after_base():
     assert m.on_or_before(date(2026, 9, 25))[1] == 0.71          # base wins on overlap
     assert m.last_date == date(2026, 10, 1) and len(m) == 4
     assert merge_series(None, ext).last_date == date(2026, 10, 1)
+
+
+def test_events_calendar_is_valid():
+    """config/events.json must parse and every event needs the fields the page reads."""
+    import json
+    from datetime import datetime
+    from pathlib import Path
+    data = json.loads((Path(__file__).resolve().parents[1] / "config" / "events.json").read_text())
+    assert data["events"], "calendar is empty"
+    for e in data["events"]:
+        datetime.fromisoformat(e["time"])  # must carry a UTC offset
+        assert datetime.fromisoformat(e["time"]).utcoffset() is not None
+        assert e["country"] in ("AU", "US")
+        assert e["event"] and e.get("priority") in (1, 2, 3)
+        assert isinstance(e.get("expected", ""), str) and isinstance(e.get("previous", ""), str)
