@@ -357,6 +357,6 @@ def test_events_calendar_is_valid():
     for e in data["events"]:
         datetime.fromisoformat(e["time"])  # must carry a UTC offset
         assert datetime.fromisoformat(e["time"]).utcoffset() is not None
-        assert e["country"] in ("AU", "US")
+        assert e["country"] in ("AU", "US", "NZ", "CA", "UK", "EZ", "JP", "CH", "NO", "SE")
         assert e["event"] and e.get("priority") in (1, 2, 3)
         assert isinstance(e.get("expected", ""), str) and isinstance(e.get("previous", ""), str)

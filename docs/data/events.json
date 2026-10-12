@@ -1,5 +1,5 @@
 {
-  "_comment": "Major data and events calendar (AU and US rates), maintained by the daily 'Update data and events calendar' scheduled task. Each event: time = ISO datetime with UTC offset (release time), country = AU | US, event = name incl. reference period, expected = consensus ('' if none, shown as a dash), previous = prior reading ('' if none), priority = 1 (top-tier: RBA/FOMC decisions, CPI, unemployment, payrolls, WPI, AU GDP, national elections) | 2 (important: core measures, US GDP, PCE, employment change) | 3 (second-tier: RBA minutes, consumer sentiment/confidence, NAB business survey, PMIs, building approvals, household spending, PPI, ISM, state elections, major speeches), url = official release page. The page shows 10 events skewed to Australia: among future events in the next 31 days it takes the 7 best AU and 3 best US events (priority first, then earliest), fills any shortfall from the other country or later events, and lists them by time. Keep at least 14 future events (about 5-6 weeks ahead) and drop events once they have passed.",
+  "_comment": "Major data and events calendar (AU and US rates), maintained by the daily 'Update data and events calendar' scheduled task. Each event: time = ISO datetime with UTC offset (release time), country = AU | US | another G10 code (NZ, CA, UK, EZ, JP, CH, NO, SE), event = name incl. reference period, expected = consensus ('' if none, shown as a dash), previous = prior reading ('' if none), priority = 1 (top-tier: RBA/FOMC decisions, CPI, unemployment, payrolls, WPI, AU GDP, national elections) | 2 (important: core measures, US GDP, PCE, employment change) | 3 (second-tier: RBA minutes, consumer sentiment/confidence, NAB business survey, PMIs, building approvals, household spending, PPI, ISM, state elections, major speeches), url = official release page. The page shows 10 events, almost all AU and US: among future events in the next 31 days it takes the 6 best AU, 2 best US and 2 best other-G10 events (priority first, then earliest), fills any shortfall from the remaining in-window events or later events, and lists them by time. Other G10 countries get only very major events: rate decisions and national elections (priority 1), headline CPI and unemployment/labour market reports (priority 2) - nothing smaller. Keep at least 14 future events (about 5-6 weeks ahead) and drop events once they have passed.",
   "as_of": "2026-10-12",
   "events": [
     {
@@ -66,6 +66,33 @@
       "priority": 3
     },
     {
+      "time": "2026-10-19T23:30:00+11:00",
+      "country": "CA",
+      "event": "CPI Sep (y/y)",
+      "expected": "",
+      "previous": "3.0%",
+      "priority": 2,
+      "url": "https://www150.statcan.gc.ca/n1/en/subjects/prices_and_price_indexes/consumer_price_indexes"
+    },
+    {
+      "time": "2026-10-21T17:00:00+11:00",
+      "country": "UK",
+      "event": "CPI Sep (y/y)",
+      "expected": "",
+      "previous": "3.1%",
+      "priority": 2,
+      "url": "https://www.ons.gov.uk/releases/consumerpriceinflationukseptember2026"
+    },
+    {
+      "time": "2026-10-22T08:45:00+11:00",
+      "country": "NZ",
+      "event": "CPI Q3 (y/y)",
+      "expected": "",
+      "previous": "4.1%",
+      "priority": 2,
+      "url": "https://www.stats.govt.nz/indicators/consumers-price-index-cpi/"
+    },
+    {
       "time": "2026-10-23T09:00:00+11:00",
       "country": "AU",
       "event": "S&P Global Manufacturing PMI Oct (flash)",
@@ -102,6 +129,24 @@
       "priority": 1
     },
     {
+      "time": "2026-10-28T12:00:00+11:00",
+      "country": "NZ",
+      "event": "RBNZ OCR Decision",
+      "expected": "",
+      "previous": "2.75%",
+      "priority": 1,
+      "url": "https://www.rbnz.govt.nz/news-and-events/events/2026/october/monetary-policy-review-and-ocr-october-2026"
+    },
+    {
+      "time": "2026-10-29T00:45:00+11:00",
+      "country": "CA",
+      "event": "BoC Rate Decision",
+      "expected": "",
+      "previous": "2.25%",
+      "priority": 1,
+      "url": "https://www.bankofcanada.ca/core-functions/monetary-policy/key-interest-rate/"
+    },
+    {
       "time": "2026-10-29T05:00:00+11:00",
       "country": "US",
       "event": "FOMC Decision (upper bound)",
@@ -129,6 +174,15 @@
       "priority": 2
     },
     {
+      "time": "2026-10-30T00:15:00+11:00",
+      "country": "EZ",
+      "event": "ECB Rate Decision (deposit rate)",
+      "expected": "",
+      "previous": "2.50%",
+      "priority": 1,
+      "url": "https://www.ecb.europa.eu/press/calendars/mgcgc/html/index.en.html"
+    },
+    {
       "time": "2026-10-30T11:30:00+11:00",
       "country": "AU",
       "event": "PPI Q3 (q/q)",
@@ -136,6 +190,15 @@
       "previous": "1.3%",
       "priority": 3,
       "url": "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/producer-price-indexes-australia/latest-release"
+    },
+    {
+      "time": "2026-10-30T14:00:00+11:00",
+      "country": "JP",
+      "event": "BoJ Rate Decision (time approx.)",
+      "expected": "",
+      "previous": "1.25%",
+      "priority": 1,
+      "url": "https://www.boj.or.jp/en/mopo/mpmsche_minu/index.htm"
     },
     {
       "time": "2026-11-02T11:30:00+11:00",
@@ -183,6 +246,15 @@
       "priority": 3
     },
     {
+      "time": "2026-11-05T23:00:00+11:00",
+      "country": "UK",
+      "event": "BoE Rate Decision",
+      "expected": "",
+      "previous": "3.75%",
+      "priority": 1,
+      "url": "https://www.bankofengland.co.uk/monetary-policy/the-interest-rate-bank-rate"
+    },
+    {
       "time": "2026-11-07T00:30:00+11:00",
       "country": "US",
       "event": "Nonfarm Payrolls Oct",
@@ -199,6 +271,15 @@
       "previous": "4.2%",
       "url": "https://www.bls.gov/cps/",
       "priority": 2
+    },
+    {
+      "time": "2026-11-07T17:00:00+11:00",
+      "country": "NZ",
+      "event": "General Election (polls close)",
+      "expected": "",
+      "previous": "",
+      "priority": 1,
+      "url": "https://www.elections.nz/2026-general-election"
     },
     {
       "time": "2026-11-11T00:30:00+11:00",

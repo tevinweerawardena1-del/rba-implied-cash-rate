@@ -326,7 +326,7 @@
 
   <section class="card" data-card="events">
     <div class="card-head">
-      <div><h2>Major data and events</h2><p>The next 10 releases and events for Australian and US rates</p></div>
+      <div><h2>Major data and events</h2><p>The next 10 releases and events for Australian rates, with the US and other G10 majors</p></div>
     </div>
     <div class="table-scroll"><table id="eventTable"></table></div>
   </section>
@@ -685,17 +685,18 @@ let eventCal = null;
 function renderEvents() {
   const all = (eventCal && eventCal.events) || [];
   const now = Date.now();
-  // Upcoming events only, skewed to Australia: within the next 31 days take the
-  // 7 most important AU and 3 most important US events (priority 1 > 2 > 3, then
-  // soonest), fill any gap from the other country or later events, then show by time.
+  // Upcoming events only, almost all AU and US: within the next 31 days take the
+  // 6 most important AU, 2 US and 2 other-G10 events (priority 1 > 2 > 3, then
+  // soonest), fill any gap from the rest or later events, then show by time.
   const t = (e) => Date.parse(e.time);
   const horizon = now + 31 * 864e5;
   const rank = (a, b) => (a.priority || 3) - (b.priority || 3) || t(a) - t(b);
   const upcoming = all.filter((e) => t(e) > now);
   const inWindow = upcoming.filter((e) => t(e) <= horizon).sort(rank);
-  const quota = { AU: 7, US: 3 };
+  const group = (e) => (e.country === "AU" || e.country === "US" ? e.country : "G10");
+  const quota = { AU: 6, US: 2, G10: 2 };
   const picked = [];
-  for (const [cc, n] of Object.entries(quota)) picked.push(...inWindow.filter((e) => e.country === cc).slice(0, n));
+  for (const [g, n] of Object.entries(quota)) picked.push(...inWindow.filter((e) => group(e) === g).slice(0, n));
   const rest = inWindow.filter((e) => !picked.includes(e))
     .concat(upcoming.filter((e) => t(e) > horizon).sort((a, b) => t(a) - t(b)));
   const list = picked.concat(rest.slice(0, Math.max(0, 10 - picked.length))).sort((a, b) => t(a) - t(b));
