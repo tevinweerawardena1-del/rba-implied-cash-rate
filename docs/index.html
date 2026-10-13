@@ -248,6 +248,7 @@
       <span><i class="sw box" style="background:var(--bar-soft)"></i>Further out</span>
       <span><i class="sw vline" style="background:var(--up)"></i>Hike</span>
       <span><i class="sw vline" style="background:var(--down)"></i>Cut</span>
+      <span><i class="sw vline" style="background:var(--ref)"></i>No change</span>
     </div>
     <div class="chart-box"><canvas id="nextChart" role="img" aria-label="Next-meeting implied change"></canvas></div>
   </section>
@@ -474,7 +475,7 @@ function draw(id, config) {
   return instances[id];
 }
 
-// Vertical lines at RBA decisions (hikes and cuts).
+// Vertical lines at RBA decisions (hikes, cuts and, where passed in, holds).
 const decisionLines = {
   id: "decisionLines",
   afterDatasetsDraw(chart, _args, opts) {
@@ -486,12 +487,12 @@ const decisionLines = {
     for (const d of opts.items) {
       const px = x.getPixelForValue(ts(d.date));
       if (px < a.left || px > a.right) continue;
-      const col = d.change_bp > 0 ? css("--up") : css("--down");
+      const col = d.change_bp > 0 ? css("--up") : d.change_bp < 0 ? css("--down") : css("--ref");
       ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
       ctx.beginPath(); ctx.moveTo(px, a.top); ctx.lineTo(px, a.bottom); ctx.stroke();
       if (px - lastLabelX > 30) {
         ctx.fillStyle = col;
-        const txt = (d.change_bp > 0 ? "+" : "−") + Math.abs(d.change_bp);
+        const txt = (d.change_bp < 0 ? "−" : "+") + Math.abs(d.change_bp);
         // Near the right edge, put the label on the left of the line so it isn't cut off.
         const left = px + 34 > a.right;
         ctx.textAlign = left ? "right" : "left";
@@ -794,7 +795,8 @@ function renderNextMeeting() {
   const from = cutoff("nextmeeting", rows[rows.length - 1].as_at);
   const data = rows.filter((r) => ts(r.as_at) >= from).map((r) => ({ x: ts(r.as_at), y: r.next_meeting_bp, m: r.next_meeting, d: r.days_to_meeting }));
   const o = baseOptions({ yFmt: (v) => (v > 0 ? "+" : "") + v + "bp" });
-  o.plugins.decisionLines.items = charts.decisions;
+  o.plugins.decisionLines.items = (charts.decisions || []).concat(charts.holds || [])
+    .sort((a, b) => ts(a.date) - ts(b.date));
   o.interaction = { mode: "nearest", intersect: false, axis: "x" };
   o.plugins.tooltip.callbacks = {
     title: (i) => "Priced " + fmtDate(i[0].raw.x),

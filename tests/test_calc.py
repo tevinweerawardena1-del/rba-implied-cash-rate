@@ -360,3 +360,12 @@ def test_events_calendar_is_valid():
         assert e["country"] in ("AU", "US", "NZ", "CA", "UK", "EZ", "JP", "CH", "NO", "SE")
         assert e["event"] and e.get("priority") in (1, 2, 3)
         assert isinstance(e.get("expected", ""), str) and isinstance(e.get("previous", ""), str)
+
+
+def test_holds_are_meetings_without_a_change():
+    from datetime import date
+    from build import holds
+    meetings = [date(2026, 8, 11), date(2026, 9, 29), date(2026, 11, 3)]
+    changes = [{"date": "2026-09-29", "change_bp": 25, "rate": 4.6}]
+    out = holds(meetings, changes, date(2026, 10, 12))
+    assert out == [{"date": "2026-08-11", "change_bp": 0}]   # Sep hiked, Nov not yet held

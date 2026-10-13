@@ -25,7 +25,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import sources as src  # noqa: E402
-from build import (daily_analytics, decisions, month_end_curves,  # noqa: E402
+from build import (daily_analytics, decisions, holds, month_end_curves,  # noqa: E402
                    outcome_probabilities, rate_inputs, align, yield_curves,
                    merge_meetings, health_check, forwards_series, real_cash_rate,
                    taylor_series, taylor_projection, term_premium_series)
@@ -293,6 +293,8 @@ def run(backfill: bool):
         "generated_utc": latest["generated_utc"],
         "status": status,
         "decisions": decisions(target, DECISIONS_FROM),
+        # Meetings where the RBA held, for the next-meeting chart's "no change" lines.
+        "holds": holds(meetings, decisions(target, DECISIONS_FROM), target.last_date),
         "horizons": horizon_rows,
         "curves": month_end_curves(fh),
         "outcomes": outcome_probabilities(results, tgt),

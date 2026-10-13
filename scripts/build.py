@@ -46,6 +46,14 @@ def decisions(target: Series, start: date) -> list[dict]:
     return out
 
 
+def holds(meetings: list[date], changes: list[dict], last_known: date | None) -> list[dict]:
+    """RBA meetings with no change to the cash rate target (up to the latest target data)."""
+    changed = {date.fromisoformat(c["date"]) for c in changes}
+    near = lambda m: any(abs((m - c).days) <= 1 for c in changed)  # noqa: E731
+    return [{"date": m.isoformat(), "change_bp": 0} for m in meetings
+            if last_known is not None and m < last_known and not near(m)]
+
+
 def daily_analytics(futures_hist: dict[date, dict[date, float]],
                     target: Series, ibocr: Series, meetings: list[date]):
     """Per pricing day: meeting-by-meeting path, horizon changes, next meeting."""
