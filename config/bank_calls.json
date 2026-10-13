@@ -11,9 +11,13 @@
         "size_bp": 25,
         "rate_after": 4.35
       },
-      "note": "Sees September as the last hike; November 'live' and finely balanced",
-      "as_of": "2026-10-02",
+      "note": "Belinda Allen: still expect cash rate on hold from here; November 'very much live' and clear risk is another hike, with a lower bar after the minutes",
+      "as_of": "2026-10-13",
       "sources": [
+        {
+          "label": "CommBank, 13 Oct",
+          "url": "https://www.commbank.com.au/articles/newsroom/2026/10/rba-minutes-show-why-board-decided-it-could-not-wait-on-inflation.html"
+        },
         {
           "label": "ABC, 2 Oct",
           "url": "https://www.abc.net.au/news/2026-10-02/cba-boss-talks-interest-rates-and-november-hike-possibility/107220010"
@@ -157,9 +161,13 @@
       "next_meeting": "2026-11-03",
       "call": "no change",
       "next_change": null,
-      "note": "Andrew Boak: RBA on hold from here at 4.60%; timing of first cut not published",
-      "as_of": "2026-09-30",
+      "note": "Andrew Boak: 'continue to expect the RBA to remain on hold', though the minutes are 'lowering the bar for an additional rate hike in November' (Q3 CPI key); timing of first cut not published",
+      "as_of": "2026-10-13",
       "sources": [
+        {
+          "label": "Business Recorder (Reuters), 13 Oct",
+          "url": "https://www.brecorder.com/news/40443969/australia-dollar-finds-some-support-in-rba-hawks-kiwi-totters"
+        },
         {
           "label": "CNBC via Whatfinger, 30 Sep",
           "url": "https://money.whatfinger.com/2026/09/30/australias-15-year-high-rate-likely-to-hold-from-here-goldman-sachs/"
