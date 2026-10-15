@@ -11,9 +11,13 @@
         "size_bp": 25,
         "rate_after": 4.35
       },
-      "note": "Belinda Allen: still expect cash rate on hold from here; November 'very much live' and clear risk is another hike, with a lower bar after the minutes",
-      "as_of": "2026-10-13",
+      "note": "Ashwin Clarke after September jobs data: labour data 'supports our expectation' of a November hold, though risks tilted to a hike and the meeting is 'live'; next move a cut",
+      "as_of": "2026-10-15",
       "sources": [
+        {
+          "label": "ABC, 15 Oct",
+          "url": "https://www.abc.net.au/news/2026-10-15/unemployment-rate-september-2026-australia/107268870"
+        },
         {
           "label": "CommBank, 13 Oct",
           "url": "https://www.commbank.com.au/articles/newsroom/2026/10/rba-minutes-show-why-board-decided-it-could-not-wait-on-inflation.html"
@@ -21,10 +25,6 @@
         {
           "label": "ABC, 2 Oct",
           "url": "https://www.abc.net.au/news/2026-10-02/cba-boss-talks-interest-rates-and-november-hike-possibility/107220010"
-        },
-        {
-          "label": "CommBank, 21 Sep",
-          "url": "https://www.commbank.com.au/articles/newsroom/2026/09/rba-expected-to-lift-interest-rates-next-week.html"
         }
       ]
     },
@@ -38,9 +38,13 @@
         "size_bp": 25,
         "rate_after": 4.85
       },
-      "note": "November hike to 4.85% reaffirmed (Matthew Hassan: 'on balance, we think that a follow-up rate hike is likely at the RBA's November meeting'); cuts from August 2027",
-      "as_of": "2026-10-07",
+      "note": "After September jobs data: 'we continue to expect a 25bp hike, taking the cash rate to 4.85%'; labour data 'unlikely to shift the dial for November', Q3 CPI the key hurdle; cuts from August 2027",
+      "as_of": "2026-10-15",
       "sources": [
+        {
+          "label": "Westpac via ActionForex, 15 Oct",
+          "url": "https://www.actionforex.com/contributors/fundamental-analysis/657535-australia-september-labour-force-looking-shakier/"
+        },
         {
           "label": "The New Daily, 7 Oct",
           "url": "https://www.thenewdaily.com.au/themoneyedition/trending/2026/10/07/banks-split-on-next-rba-meeting-as-households-rattled-by-hikes"
@@ -48,10 +52,6 @@
         {
           "label": "investingLive, 5 Oct",
           "url": "https://investinglive.com/news/australian-consumer-sentiment-slumps-after-rba-hike-as-westpac-tips-another-in-november/"
-        },
-        {
-          "label": "Westpac IQ, 2 Oct",
-          "url": "https://www.westpaciq.com.au/economics/2026/10/cliff-notes-2-oct-2026"
         }
       ]
     },
@@ -92,9 +92,13 @@
         "size_bp": 25,
         "rate_after": 4.85
       },
-      "note": "Adam Boyton after the minutes: 'We continue to expect that a rate hike in November is more likely than not' (to 4.85%); cuts from November 2027",
-      "as_of": "2026-10-13",
+      "note": "After weaker September jobs data ANZ maintained its forecast of a 25bp November hike (to 4.85%), still 'more likely than not' ahead of Q3 CPI (28 Oct); cuts from November 2027",
+      "as_of": "2026-10-15",
       "sources": [
+        {
+          "label": "Investing.com via Yahoo, 15 Oct",
+          "url": "https://finance.yahoo.com/economy/policy/articles/australia-loses-39-300-jobs-013035431.html"
+        },
         {
           "label": "The Nightly, 13 Oct",
           "url": "https://thenightly.com.au/australia/reserve-bank-hints-at-another-interest-rate-rise-in-september-meeting-minutes-c-23009080"
@@ -102,10 +106,6 @@
         {
           "label": "ANZ, 6 Oct",
           "url": "https://www.anz.com.au/newsroom/media/2026/october/consumer-confidence-drop-after-rba-hike/"
-        },
-        {
-          "label": "Canstar, 1 Oct",
-          "url": "https://www.canstar.com.au/home-loans/interest-rate-forecast-australia/"
         }
       ]
     },
