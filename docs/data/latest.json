@@ -1,6 +1,6 @@
 {
   "as_at": "2026-10-15",
-  "generated_utc": "2026-10-15 11:27",
+  "generated_utc": "2026-10-15 20:46",
   "source": "ASX website",
   "cash_rate_target": 4.6,
   "target_as_of": "2026-10-14",
@@ -18,8 +18,8 @@
     },
     {
       "month": "2026-12-01",
-      "implied_yield": 4.715,
-      "target_equivalent": 4.715
+      "implied_yield": 4.685,
+      "target_equivalent": 4.685
     },
     {
       "month": "2027-01-01",

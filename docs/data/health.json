@@ -1,5 +1,5 @@
 {
-  "checked": "2026-10-15",
+  "checked": "2026-10-16",
   "warnings": [],
   "notes": [
     "Futures run to Mar 2028 but the last RBA meeting date on file is 14 Dec 2027; later meetings will appear once the RBA publishes them."
@@ -11,8 +11,8 @@
     "RBA bond yields (F2)": "2026-10-07",
     "RBA bond lines (F16)": "2026-10-07",
     "AUD/USD": "2026-10-15",
-    "US 2-year Treasury": "2026-10-13",
-    "US 10-year Treasury": "2026-10-13",
+    "US 2-year Treasury": "2026-10-14",
+    "US 10-year Treasury": "2026-10-14",
     "RBA CPI (G1)": "2026-06-30",
     "RBA unemployment (H5)": "2026-08-31",
     "US term premium (Kim-Wright)": "2026-10-09"
