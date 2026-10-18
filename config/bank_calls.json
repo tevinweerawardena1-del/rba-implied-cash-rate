@@ -65,9 +65,13 @@
         "size_bp": 25,
         "rate_after": 4.35
       },
-      "note": "Sally Auld after the minutes: 'We do not have any further tightening in our forecast'; peak 4.60%, risks tilted to modest tightening; next move a cut",
-      "as_of": "2026-10-13",
+      "note": "Jessie Cameron after weaker September jobs data: 'We continue to see the RBA on hold from here, but the risk still sits with a hike'; peak 4.60%; next move a cut",
+      "as_of": "2026-10-18",
       "sources": [
+        {
+          "label": "AAP via Yahoo, 18 Oct",
+          "url": "https://au.finance.yahoo.com/news/eyes-rba-rate-call-hints-010000338.html"
+        },
         {
           "label": "ABC, 13 Oct",
           "url": "https://abc.net.au/news/2026-10-13/asx-markets-business-live-news/107258880"
@@ -75,10 +79,6 @@
         {
           "label": "NAB, 9 Oct",
           "url": "https://www.nab.com.au/content/dam/nab-email-composer/nabmarketsresearch/economics/pdf/2026-10-09%20-%20What%20to%20Watch%20-%20Week%20of%2012%20October%202026.pdf"
-        },
-        {
-          "label": "Canstar, 1 Oct",
-          "url": "https://www.canstar.com.au/home-loans/interest-rate-forecast-australia/"
         }
       ]
     },
@@ -120,9 +120,13 @@
         "size_bp": 25,
         "rate_after": 4.35
       },
-      "note": "Shane Oliver: base case 4.60% is the peak and RBA holds in November, though another hike is 'a very high risk'; cuts not until late 2027",
-      "as_of": "2026-10-03",
+      "note": "AMP weekly update (My Bui) after September jobs data: 'We therefore expect the RBA to hold in November, albeit with a hawkish statement, rather than hike again'; Shane Oliver sees 4.60% as the peak, cuts not until late 2027",
+      "as_of": "2026-10-16",
       "sources": [
+        {
+          "label": "AMP weekly update, 16 Oct",
+          "url": "https://www.amp.com.au/resources/insights-hub/weekly-market-update-16-10-2026-amp"
+        },
         {
           "label": "Livewire (Shane Oliver), 3 Oct",
           "url": "https://www.livewiremarkets.com/wires/the-bond-vigilantes-are-back-and-shares-could-be-next"
@@ -130,10 +134,6 @@
         {
           "label": "Oliver's Insights, 1 Oct",
           "url": "https://www.sgw.net.au/olivers-insights/a-hawkish-hike-from-the-rba-to-4-6-this-is-likely-the-top-but-the-risk-of-another-hike-is-very-high"
-        },
-        {
-          "label": "MPA, 29 Sep",
-          "url": "https://www.mpamag.com/au/news/general/have-rates-peaked-brokers-and-economists-weigh-in/591555"
         }
       ]
     },
