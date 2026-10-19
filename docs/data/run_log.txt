@@ -37,7 +37,7 @@ RBA F2: 5 columns
    F16 header: ['Publication date', '16-Oct-2026', '16-Oct-2026', '16-Oct-2026']
    F16 header: ['Series ID', 'FCMYAPR15D', 'FCMYOCT15D', 'FCMYJUN16D']
 RBA F16: 52 nominal bonds, maturities 2015-04-15 to 2054-06-21
-FRED DEXUSAL: 13979 obs to 2026-10-09
+FRED DEXUSAL: 13983 obs to 2026-10-16
 RBA F11.1: 23 columns
    - 'A$1=USD': 2023-01-03 to 2026-10-19
    - 'Trade-weighted Index May 1970 = 100': 2023-01-03 to 2026-10-19
@@ -60,9 +60,9 @@ RBA F11.1: 23 columns
    - 'A$1=CHF': 2023-01-03 to 2026-10-19
    - 'A$1=PHP': 2023-01-03 to 2026-10-19
    - 'A$1=SDR': 2023-01-03 to 2026-10-19
-AUD/USD: FRED to 2026-10-09, RBA to 2026-10-19, combined to 2026-10-19
-FRED DGS2: 12590 obs to 2026-10-15
-FRED DGS10: 16182 obs to 2026-10-15
+AUD/USD: FRED to 2026-10-16, RBA to 2026-10-19, combined to 2026-10-19
+FRED DGS2: 12591 obs to 2026-10-16
+FRED DGS10: 16183 obs to 2026-10-16
 FRED THREEFY10: 9180 obs to 2026-10-09
 FRED THREEFYTP10: 9180 obs to 2026-10-09
 RBA G1: 20 columns
@@ -117,7 +117,7 @@ RBA H5 unemployment: using 'Unemployment rate' [Seasonally adjusted]
   2027-12-14: 4.760%  (-2.4bp, clean-month)
 Term premium: {'date': '2026-10-09', 'yield10': 5.2587, 'expected': 4.1858, 'tp_kw': 1.0729}
 Taylor: {'date': '2026-09-30', 'cash_rate': 4.6, 'taylor': 4.2, 'inflation': 3.6, 'inflation_asof': '2026-06-30', 'unemployment': 4.7} {'next_month': '2026-10-31', 'taylor_next_month': 4.2, 'smoothed_next_meeting': 4.569, 'smoothed_change_bp': -3.1, 'gap_bp': -40.0, 'rho_per_meeting': 0.922, 'inputs': {'inflation': 3.6, 'inflation_asof': '2026-06-30', 'unemployment': 4.7, 'unemployment_asof': '2026-09-30'}}
-Forwards 2652 days, fly 2715, real 62 quarters, US 6700
-Health: {"checked": "2026-10-19", "warnings": [], "notes": ["Futures run to Mar 2028 but the last RBA meeting date on file is 14 Dec 2027; later meetings will appear once the RBA publishes them."], "failed_steps": [], "last_dates": {"ASX futures": "2026-10-19", "RBA cash rate & bank bills (F1)": "2026-10-16", "RBA bond yields (F2)": "2026-10-14", "RBA bond lines (F16)": "2026-10-14", "AUD/USD": "2026-10-19", "US 2-year Treasury": "2026-10-15", "US 10-year Treasury": "2026-10-15", "RBA CPI (G1)": "2026-06-30", "RBA unemployment (H5)": "2026-09-30", "US term premium (Kim-Wright)": "2026-10-09"}}
+Forwards 2652 days, fly 2715, real 62 quarters, US 6701
+Health: {"checked": "2026-10-20", "warnings": [], "notes": ["Futures run to Mar 2028 but the last RBA meeting date on file is 14 Dec 2027; later meetings will appear once the RBA publishes them."], "failed_steps": [], "last_dates": {"ASX futures": "2026-10-19", "RBA cash rate & bank bills (F1)": "2026-10-16", "RBA bond yields (F2)": "2026-10-14", "RBA bond lines (F16)": "2026-10-14", "AUD/USD": "2026-10-19", "US 2-year Treasury": "2026-10-16", "US 10-year Treasury": "2026-10-16", "RBA CPI (G1)": "2026-06-30", "RBA unemployment (H5)": "2026-09-30", "US term premium (Kim-Wright)": "2026-10-09"}}
 Status: {"RBA meeting schedule": "ok", "ASX futures": "ok", "RBA F1": "ok", "RBA F2": "ok", "RBA F16": "ok", "FRED AUD/USD": "ok", "RBA AUD/USD (F11.1)": "ok", "FRED US 2y": "ok", "FRED US 10y": "ok", "FRED Kim-Wright 10y yield": "ok", "FRED Kim-Wright term premium": "ok", "RBA G1 (CPI)": "ok", "RBA H5 (unemployment)": "ok"}
-Wrote charts: horizons=468 money=953 bonds=2715 fx=2198
+Wrote charts: horizons=468 money=953 bonds=2715 fx=2197
