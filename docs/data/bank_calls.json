@@ -11,9 +11,13 @@
         "size_bp": 25,
         "rate_after": 4.35
       },
-      "note": "Ashwin Clarke after September jobs data: labour data 'supports our expectation' of a November hold, though risks tilted to a hike and the meeting is 'live'; next move a cut",
-      "as_of": "2026-10-15",
+      "note": "Luke Yeaman (19 Oct): CBA economists 'still expect the RBA to hold the cash rate at 4.60% in November', but 'further increases are becoming a bigger risk'; next move previously forecast as a cut",
+      "as_of": "2026-10-19",
       "sources": [
+        {
+          "label": "CommBank, 19 Oct",
+          "url": "https://www.commbank.com.au/articles/newsroom/2026/10/rba-november-interest-rate-hold-risks-build.html"
+        },
         {
           "label": "ABC, 15 Oct",
           "url": "https://www.abc.net.au/news/2026-10-15/unemployment-rate-september-2026-australia/107268870"
@@ -21,10 +25,6 @@
         {
           "label": "CommBank, 13 Oct",
           "url": "https://www.commbank.com.au/articles/newsroom/2026/10/rba-minutes-show-why-board-decided-it-could-not-wait-on-inflation.html"
-        },
-        {
-          "label": "ABC, 2 Oct",
-          "url": "https://www.abc.net.au/news/2026-10-02/cba-boss-talks-interest-rates-and-november-hike-possibility/107220010"
         }
       ]
     },
