@@ -1,18 +1,18 @@
 RBA schedule: {2026: 8, 2027: 8}
 ASX scrape attempt 1
-Futures as at 2026-10-16: 18 contracts
+Futures as at 2026-10-19: 18 contracts
 RBA F1: 17 columns
-   - 'Cash Rate Target': 2011-01-04 to 2026-10-15
+   - 'Cash Rate Target': 2011-01-04 to 2026-10-16
    - 'Change in the Cash Rate Target': 2011-11-02 to 2026-05-06
-   - 'Interbank Overnight Cash Rate': 2011-01-04 to 2026-10-15
-   - 'Highest Interbank Overnight Cash Rate': 2013-05-20 to 2026-10-15
-   - 'Lowest Interbank Overnight Cash Rate': 2013-05-20 to 2026-10-15
-   - 'Volume of Cash Market Transactions': 2013-05-20 to 2026-10-15
-   - 'Number of Cash Market Transactions': 2016-05-09 to 2026-10-15
-   - 'Total Return Index': 2011-01-04 to 2026-10-16
-   - 'EOD 1-month BABs/NCDs': 2011-01-04 to 2026-10-15
-   - 'EOD 3-month BABs/NCDs': 2011-01-04 to 2026-10-15
-   - 'EOD 6-month BABs/NCDs': 2011-01-04 to 2026-10-15
+   - 'Interbank Overnight Cash Rate': 2011-01-04 to 2026-10-16
+   - 'Highest Interbank Overnight Cash Rate': 2013-05-20 to 2026-10-16
+   - 'Lowest Interbank Overnight Cash Rate': 2013-05-20 to 2026-10-16
+   - 'Volume of Cash Market Transactions': 2013-05-20 to 2026-10-16
+   - 'Number of Cash Market Transactions': 2016-05-09 to 2026-10-16
+   - 'Total Return Index': 2011-01-04 to 2026-10-19
+   - 'EOD 1-month BABs/NCDs': 2011-01-04 to 2026-10-16
+   - 'EOD 3-month BABs/NCDs': 2011-01-04 to 2026-10-16
+   - 'EOD 6-month BABs/NCDs': 2011-01-04 to 2026-10-16
    - '1-month OIS': 2011-01-04 to 2022-12-01
    - '3-month OIS': 2011-01-04 to 2022-12-01
    - '6-month OIS': 2011-01-04 to 2022-12-01
@@ -39,28 +39,28 @@ RBA F2: 5 columns
 RBA F16: 52 nominal bonds, maturities 2015-04-15 to 2054-06-21
 FRED DEXUSAL: 13979 obs to 2026-10-09
 RBA F11.1: 23 columns
-   - 'A$1=USD': 2023-01-03 to 2026-10-16
-   - 'Trade-weighted Index May 1970 = 100': 2023-01-03 to 2026-10-16
-   - 'A$1=CNY': 2023-01-03 to 2026-10-16
-   - 'A$1=JPY': 2023-01-03 to 2026-10-16
-   - 'A$1=EUR': 2023-01-03 to 2026-10-16
-   - 'A$1=KRW': 2023-01-03 to 2026-10-16
-   - 'A$1=GBP': 2023-01-03 to 2026-10-16
-   - 'A$1=SGD': 2023-01-03 to 2026-10-16
-   - 'A$1=INR': 2023-01-03 to 2026-10-16
-   - 'A$1=THB': 2023-01-03 to 2026-10-16
-   - 'A$1=NZD': 2023-01-03 to 2026-10-16
-   - 'A$1=TWD': 2023-01-03 to 2026-10-16
-   - 'A$1=MYR': 2023-01-03 to 2026-10-16
-   - 'A$1=IDR': 2023-01-03 to 2026-10-16
-   - 'A$1=VND': 2023-01-03 to 2026-10-16
-   - 'A$1=PGK': 2026-01-07 to 2026-10-16
-   - 'A$1=HKD': 2023-01-03 to 2026-10-16
-   - 'A$1=CAD': 2023-12-21 to 2026-10-16
-   - 'A$1=CHF': 2023-01-03 to 2026-10-16
-   - 'A$1=PHP': 2023-01-03 to 2026-10-16
-   - 'A$1=SDR': 2023-01-03 to 2026-10-16
-AUD/USD: FRED to 2026-10-09, RBA to 2026-10-16, combined to 2026-10-16
+   - 'A$1=USD': 2023-01-03 to 2026-10-19
+   - 'Trade-weighted Index May 1970 = 100': 2023-01-03 to 2026-10-19
+   - 'A$1=CNY': 2023-01-03 to 2026-10-19
+   - 'A$1=JPY': 2023-01-03 to 2026-10-19
+   - 'A$1=EUR': 2023-01-03 to 2026-10-19
+   - 'A$1=KRW': 2023-01-03 to 2026-10-19
+   - 'A$1=GBP': 2023-01-03 to 2026-10-19
+   - 'A$1=SGD': 2023-01-03 to 2026-10-19
+   - 'A$1=INR': 2023-01-03 to 2026-10-19
+   - 'A$1=THB': 2023-01-03 to 2026-10-19
+   - 'A$1=NZD': 2023-01-03 to 2026-10-19
+   - 'A$1=TWD': 2023-01-03 to 2026-10-19
+   - 'A$1=MYR': 2023-01-03 to 2026-10-19
+   - 'A$1=IDR': 2023-01-03 to 2026-10-19
+   - 'A$1=VND': 2023-01-03 to 2026-10-19
+   - 'A$1=PGK': 2026-01-07 to 2026-10-19
+   - 'A$1=HKD': 2023-01-03 to 2026-10-19
+   - 'A$1=CAD': 2023-12-21 to 2026-10-19
+   - 'A$1=CHF': 2023-01-03 to 2026-10-19
+   - 'A$1=PHP': 2023-01-03 to 2026-10-19
+   - 'A$1=SDR': 2023-01-03 to 2026-10-19
+AUD/USD: FRED to 2026-10-09, RBA to 2026-10-19, combined to 2026-10-19
 FRED DGS2: 12590 obs to 2026-10-15
 FRED DGS10: 16182 obs to 2026-10-15
 FRED THREEFY10: 9180 obs to 2026-10-09
@@ -105,19 +105,19 @@ RBA G1: 20 columns
    - H5 'Private sector job vacancies' [Seasonally adjusted]: 1979-05-31 to 2026-08-31
    - H5 'Vacancies to labour force ratio' [Seasonally adjusted]: 1979-05-31 to 2026-08-31
 RBA H5 unemployment: using 'Unemployment rate' [Seasonally adjusted]
-  2026-11-03: 4.644%  (+4.4bp, formula)
-  2026-12-08: 4.705%  (+6.1bp, clean-month)
-  2027-02-09: 4.764%  (+5.9bp, formula)
-  2027-03-23: 4.785%  (+2.1bp, clean-month)
-  2027-05-04: 4.814%  (+2.9bp, formula)
-  2027-06-22: 4.805%  (-0.9bp, clean-month)
-  2027-08-10: 4.790%  (-1.5bp, formula)
-  2027-09-28: 4.790%  (-0.0bp, clean-month)
-  2027-11-02: 4.774%  (-1.6bp, formula)
-  2027-12-14: 4.745%  (-2.9bp, clean-month)
+  2026-11-03: 4.656%  (+5.6bp, formula)
+  2026-12-08: 4.720%  (+6.4bp, clean-month)
+  2027-02-09: 4.779%  (+5.9bp, formula)
+  2027-03-23: 4.800%  (+2.1bp, clean-month)
+  2027-05-04: 4.834%  (+3.4bp, formula)
+  2027-06-22: 4.815%  (-1.9bp, clean-month)
+  2027-08-10: 4.800%  (-1.5bp, formula)
+  2027-09-28: 4.800%  (-0.0bp, clean-month)
+  2027-11-02: 4.784%  (-1.6bp, formula)
+  2027-12-14: 4.760%  (-2.4bp, clean-month)
 Term premium: {'date': '2026-10-09', 'yield10': 5.2587, 'expected': 4.1858, 'tp_kw': 1.0729}
 Taylor: {'date': '2026-09-30', 'cash_rate': 4.6, 'taylor': 4.2, 'inflation': 3.6, 'inflation_asof': '2026-06-30', 'unemployment': 4.7} {'next_month': '2026-10-31', 'taylor_next_month': 4.2, 'smoothed_next_meeting': 4.569, 'smoothed_change_bp': -3.1, 'gap_bp': -40.0, 'rho_per_meeting': 0.922, 'inputs': {'inflation': 3.6, 'inflation_asof': '2026-06-30', 'unemployment': 4.7, 'unemployment_asof': '2026-09-30'}}
 Forwards 2652 days, fly 2715, real 62 quarters, US 6700
-Health: {"checked": "2026-10-19", "warnings": [], "notes": ["Futures run to Mar 2028 but the last RBA meeting date on file is 14 Dec 2027; later meetings will appear once the RBA publishes them."], "failed_steps": [], "last_dates": {"ASX futures": "2026-10-16", "RBA cash rate & bank bills (F1)": "2026-10-15", "RBA bond yields (F2)": "2026-10-14", "RBA bond lines (F16)": "2026-10-14", "AUD/USD": "2026-10-16", "US 2-year Treasury": "2026-10-15", "US 10-year Treasury": "2026-10-15", "RBA CPI (G1)": "2026-06-30", "RBA unemployment (H5)": "2026-09-30", "US term premium (Kim-Wright)": "2026-10-09"}}
+Health: {"checked": "2026-10-19", "warnings": [], "notes": ["Futures run to Mar 2028 but the last RBA meeting date on file is 14 Dec 2027; later meetings will appear once the RBA publishes them."], "failed_steps": [], "last_dates": {"ASX futures": "2026-10-19", "RBA cash rate & bank bills (F1)": "2026-10-16", "RBA bond yields (F2)": "2026-10-14", "RBA bond lines (F16)": "2026-10-14", "AUD/USD": "2026-10-19", "US 2-year Treasury": "2026-10-15", "US 10-year Treasury": "2026-10-15", "RBA CPI (G1)": "2026-06-30", "RBA unemployment (H5)": "2026-09-30", "US term premium (Kim-Wright)": "2026-10-09"}}
 Status: {"RBA meeting schedule": "ok", "ASX futures": "ok", "RBA F1": "ok", "RBA F2": "ok", "RBA F16": "ok", "FRED AUD/USD": "ok", "RBA AUD/USD (F11.1)": "ok", "FRED US 2y": "ok", "FRED US 10y": "ok", "FRED Kim-Wright 10y yield": "ok", "FRED Kim-Wright term premium": "ok", "RBA G1 (CPI)": "ok", "RBA H5 (unemployment)": "ok"}
-Wrote charts: horizons=467 money=952 bonds=2715 fx=2197
+Wrote charts: horizons=468 money=953 bonds=2715 fx=2198
