@@ -92,9 +92,13 @@
         "size_bp": 25,
         "rate_after": 4.85
       },
-      "note": "After weaker September jobs data ANZ maintained its forecast of a 25bp November hike (to 4.85%), still 'more likely than not' ahead of Q3 CPI (28 Oct); cuts from November 2027",
-      "as_of": "2026-10-15",
+      "note": "Sophia Angala (20 Oct, ANZ-Roy Morgan consumer confidence): 'we continue to expect the RBA to hike the cash rate by 25bp at its November meeting' (to 4.85%), citing upside inflation risks flagged in the September minutes; Q3 CPI (28 Oct) the key hurdle; cuts from November 2027",
+      "as_of": "2026-10-20",
       "sources": [
+        {
+          "label": "ABC, 20 Oct",
+          "url": "https://abc.net.au/news/2026-10-20/asx-markets-business-live-news-october-20-2026/107283924"
+        },
         {
           "label": "Investing.com via Yahoo, 15 Oct",
           "url": "https://finance.yahoo.com/economy/policy/articles/australia-loses-39-300-jobs-013035431.html"
@@ -102,10 +106,6 @@
         {
           "label": "The Nightly, 13 Oct",
           "url": "https://thenightly.com.au/australia/reserve-bank-hints-at-another-interest-rate-rise-in-september-meeting-minutes-c-23009080"
-        },
-        {
-          "label": "ANZ, 6 Oct",
-          "url": "https://www.anz.com.au/newsroom/media/2026/october/consumer-confidence-drop-after-rba-hike/"
         }
       ]
     },
