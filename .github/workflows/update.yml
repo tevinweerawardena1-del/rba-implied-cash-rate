@@ -25,9 +25,10 @@ concurrency:
 
 jobs:
   update:
-    # macOS runner: matches the setup already proven to scrape the ASX page.
-    # Free for public repos. Chrome comes preinstalled.
-    runs-on: macos-latest
+    # Ubuntu runner: Chrome + chromedriver come preinstalled. Switched from
+    # macos-latest after macOS jobs sat unassigned in the queue until cancelled
+    # (2026-10-21). If the ASX scrape is blocked here, the backup source is used.
+    runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
