@@ -11,9 +11,13 @@
         "size_bp": 25,
         "rate_after": 4.35
       },
-      "note": "Luke Yeaman (19 Oct): CBA economists 'still expect the RBA to hold the cash rate at 4.60% in November', but 'further increases are becoming a bigger risk'; next move previously forecast as a cut",
-      "as_of": "2026-10-19",
+      "note": "CBA strategist Joseph Capurso after Hauser's hawkish speech (21 Oct): 'If Hauser's aim was to reset expectations to a coin toss, he succeeded', but CBA still expects a hold at 4.60% in November; Yeaman (19 Oct) flagged further increases as 'a bigger risk'; next move previously forecast as a cut",
+      "as_of": "2026-10-21",
       "sources": [
+        {
+          "label": "Pound Sterling Live, 21 Oct",
+          "url": "https://www.poundsterlinglive.com/aud/23780-australian-dollar-supported-hauser-november-rba-hike"
+        },
         {
           "label": "CommBank, 19 Oct",
           "url": "https://www.commbank.com.au/articles/newsroom/2026/10/rba-november-interest-rate-hold-risks-build.html"
@@ -21,10 +25,6 @@
         {
           "label": "ABC, 15 Oct",
           "url": "https://www.abc.net.au/news/2026-10-15/unemployment-rate-september-2026-australia/107268870"
-        },
-        {
-          "label": "CommBank, 13 Oct",
-          "url": "https://www.commbank.com.au/articles/newsroom/2026/10/rba-minutes-show-why-board-decided-it-could-not-wait-on-inflation.html"
         }
       ]
     },
@@ -147,9 +147,13 @@
         "size_bp": 25,
         "rate_after": 4.85
       },
-      "note": "George Tharenou: hikes in September and November to a 4.85% peak; cuts from November 2027",
-      "as_of": "2026-09-17",
+      "note": "George Tharenou (21 Oct): Hauser's comments 'consistent with our view' of an explicit staff recommendation to hike; UBS forecasts a 25bp November hike to 4.85%, though a split board could deliver 'a hawkish hold' setting up December; cuts from November 2027",
+      "as_of": "2026-10-21",
       "sources": [
+        {
+          "label": "ABC, 21 Oct",
+          "url": "https://www.abc.net.au/news/2026-10-21/reserve-bank-hauser-warns-inflation-outlook-materially-worse/107288574"
+        },
         {
           "label": "Livewire, 17 Sep",
           "url": "https://www.livewiremarkets.com/wires/mortgage-holders-should-expect-two-more-interest-rate-hikes-not-one-ubs"
@@ -163,11 +167,20 @@
     {
       "bank": "Goldman Sachs",
       "next_meeting": "2026-11-03",
-      "call": "no change",
-      "next_change": null,
-      "note": "Goldman (Andrew Boak's team) continues to expect a hold at 4.60% in November, but says the minutes 'lowered the threshold for a further hike' depending on Q3 CPI (28 Oct); timing of first cut not published",
-      "as_of": "2026-10-14",
+      "call": "hike",
+      "next_change": {
+        "month": "2026-11",
+        "direction": "hike",
+        "size_bp": 25,
+        "rate_after": 4.85
+      },
+      "note": "Goldman (Andrew Boak's team) changed its call after Deputy Governor Hauser's 'clearly hawkish' speech (20 Oct): now expects a 25bp hike to 4.85% in November (previously a hold), citing a deteriorating inflation outlook; timing of first cut not published",
+      "as_of": "2026-10-21",
       "sources": [
+        {
+          "label": "investingLive, 21 Oct",
+          "url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-rba-s-hauser-puts-november-hike-in-play/"
+        },
         {
           "label": "investingLive, 14 Oct",
           "url": "https://investinglive.com/central-banks/goldman-sachs-says-rba-minutes-lower-bar-for-november-hike-with-three-hawkish-signals"
@@ -175,10 +188,6 @@
         {
           "label": "Business Recorder (Reuters), 13 Oct",
           "url": "https://www.brecorder.com/news/40443969/australia-dollar-finds-some-support-in-rba-hawks-kiwi-totters"
-        },
-        {
-          "label": "CNBC via Whatfinger, 30 Sep",
-          "url": "https://money.whatfinger.com/2026/09/30/australias-15-year-high-rate-likely-to-hold-from-here-goldman-sachs/"
         }
       ]
     },
