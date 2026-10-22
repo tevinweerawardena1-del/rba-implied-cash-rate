@@ -1,16 +1,7 @@
 {
   "_comment": "Major data and events calendar (AU and US rates), maintained by the daily 'Update data and events calendar' scheduled task. Each event: time = ISO datetime with UTC offset (release time), country = AU | US | another G10 code (NZ, CA, UK, EZ, JP, CH, NO, SE), event = name incl. reference period, expected = consensus ('' if none, shown as a dash), previous = prior reading ('' if none), priority = 1 (top-tier: RBA/FOMC decisions, CPI, unemployment, payrolls, WPI, AU GDP, national elections) | 2 (important: core measures, US GDP, PCE, employment change) | 3 (second-tier: RBA minutes, consumer sentiment/confidence, NAB business survey, PMIs, building approvals, household spending, PPI, ISM, state elections, major speeches), url = official release page. The page shows 10 events, almost all AU and US: among future events in the next 31 days it takes the 6 best AU, 2 best US and 2 best other-G10 events (priority first, then earliest), fills any shortfall from the remaining in-window events or later events, and lists them by time. Other G10 countries get only very major events: rate decisions and national elections (priority 1), headline CPI and unemployment/labour market reports (priority 2) - nothing smaller. Keep at least 14 future events (about 5-6 weeks ahead) and drop events once they have passed.",
-  "as_of": "2026-10-22",
+  "as_of": "2026-10-23",
   "events": [
-    {
-      "time": "2026-10-22T08:45:00+11:00",
-      "country": "NZ",
-      "event": "CPI Q3 (y/y)",
-      "expected": "3.9%",
-      "previous": "4.1%",
-      "priority": 2,
-      "url": "https://www.stats.govt.nz/indicators/consumers-price-index-cpi/"
-    },
     {
       "time": "2026-10-23T09:00:00+11:00",
       "country": "AU",
@@ -87,7 +78,7 @@
       "time": "2026-10-29T05:00:00+11:00",
       "country": "US",
       "event": "FOMC Decision (upper bound)",
-      "expected": "",
+      "expected": "4.00%",
       "previous": "4.00%",
       "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
       "priority": 1
@@ -150,7 +141,7 @@
       "time": "2026-10-30T14:00:00+11:00",
       "country": "JP",
       "event": "BoJ Rate Decision (time approx.)",
-      "expected": "",
+      "expected": "1.25%",
       "previous": "1.25%",
       "priority": 1,
       "url": "https://www.boj.or.jp/en/mopo/mpmsche_minu/index.htm"
@@ -190,15 +181,6 @@
       "previous": "2.2%",
       "url": "https://www.anz.com.au/newsroom/media/",
       "priority": 3
-    },
-    {
-      "time": "2026-11-02T21:00:00+11:00",
-      "country": "EZ",
-      "event": "HICP Oct flash (y/y)",
-      "expected": "",
-      "previous": "3.8%",
-      "url": "https://ec.europa.eu/eurostat/news/euro-indicators",
-      "priority": 2
     },
     {
       "time": "2026-11-03T02:00:00+11:00",
@@ -264,6 +246,15 @@
       "priority": 2
     },
     {
+      "time": "2026-11-04T21:00:00+11:00",
+      "country": "EZ",
+      "event": "HICP Oct flash (y/y)",
+      "expected": "",
+      "previous": "3.8%",
+      "url": "https://ec.europa.eu/eurostat/news/euro-indicators",
+      "priority": 2
+    },
+    {
       "time": "2026-11-05T11:30:00+11:00",
       "country": "AU",
       "event": "Trade Balance Sep",
@@ -271,6 +262,15 @@
       "previous": "A$0.5bn",
       "url": "https://www.abs.gov.au/statistics/economy/international-trade/international-trade-goods/latest-release",
       "priority": 3
+    },
+    {
+      "time": "2026-11-05T17:45:00+11:00",
+      "country": "AU",
+      "event": "Deputy Governor Hauser Speech (ANU)",
+      "expected": "",
+      "previous": "",
+      "priority": 3,
+      "url": "https://www.rba.gov.au/speeches/"
     },
     {
       "time": "2026-11-05T20:00:00+11:00",
@@ -379,6 +379,15 @@
       "previous": "3.1%",
       "url": "https://www150.statcan.gc.ca/n1/en/subjects/prices_and_price_indexes/consumer_price_indexes",
       "priority": 2
+    },
+    {
+      "time": "2026-11-17T10:00:00+11:00",
+      "country": "AU",
+      "event": "Governor Bullock Panel (ASIC Forum)",
+      "expected": "",
+      "previous": "",
+      "priority": 2,
+      "url": "https://www.rba.gov.au/speeches/"
     },
     {
       "time": "2026-11-17T11:30:00+11:00",
@@ -516,6 +525,15 @@
       "priority": 3
     },
     {
+      "time": "2026-12-01T19:15:00+11:00",
+      "country": "AU",
+      "event": "Governor Bullock Fireside Chat (ABE Dinner)",
+      "expected": "",
+      "previous": "",
+      "priority": 2,
+      "url": "https://www.rba.gov.au/speeches/"
+    },
+    {
       "time": "2026-12-02T02:00:00+11:00",
       "country": "US",
       "event": "ISM Manufacturing PMI Nov",
@@ -523,6 +541,15 @@
       "previous": "",
       "url": "https://www.ismworld.org/supply-management-news-and-reports/reports/ism-pmi-reports/",
       "priority": 3
+    },
+    {
+      "time": "2026-12-02T02:00:00+11:00",
+      "country": "US",
+      "event": "JOLTS Job Openings Oct",
+      "expected": "",
+      "previous": "",
+      "priority": 3,
+      "url": "https://www.bls.gov/jlt/"
     },
     {
       "time": "2026-12-02T11:30:00+11:00",
@@ -541,6 +568,33 @@
       "previous": "",
       "url": "https://www.abs.gov.au/statistics/economy/international-trade/international-trade-goods/latest-release",
       "priority": 3
+    },
+    {
+      "time": "2026-12-05T00:30:00+11:00",
+      "country": "US",
+      "event": "Nonfarm Payrolls Nov",
+      "expected": "",
+      "previous": "",
+      "priority": 1,
+      "url": "https://www.bls.gov/ces/"
+    },
+    {
+      "time": "2026-12-05T00:30:00+11:00",
+      "country": "US",
+      "event": "Unemployment Rate Nov",
+      "expected": "",
+      "previous": "",
+      "priority": 2,
+      "url": "https://www.bls.gov/cps/"
+    },
+    {
+      "time": "2026-12-08T14:30:00+11:00",
+      "country": "AU",
+      "event": "RBA Cash Rate Decision",
+      "expected": "",
+      "previous": "4.60%",
+      "priority": 1,
+      "url": "https://www.rba.gov.au/monetary-policy/int-rate-decisions/"
     }
   ]
 }
