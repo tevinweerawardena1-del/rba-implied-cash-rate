@@ -38,9 +38,13 @@
         "size_bp": 25,
         "rate_after": 4.85
       },
-      "note": "After September jobs data: 'we continue to expect a 25bp hike, taking the cash rate to 4.85%'; labour data 'unlikely to shift the dial for November', Q3 CPI the key hurdle; cuts from August 2027",
-      "as_of": "2026-10-15",
+      "note": "After Hauser's 'materially worse' inflation warning (21 Oct), Westpac still forecasting another 25bp increase in November to 4.85% (The Adviser, 22 Oct); Q3 CPI (28 Oct) the key hurdle; cuts from August 2027",
+      "as_of": "2026-10-22",
       "sources": [
+        {
+          "label": "The Adviser, 22 Oct",
+          "url": "https://www.theadviser.com.au/borrower/49115-nightmare-rba-s-inflation-warning-puts-another-hike-in-play"
+        },
         {
           "label": "Westpac via ActionForex, 15 Oct",
           "url": "https://www.actionforex.com/contributors/fundamental-analysis/657535-australia-september-labour-force-looking-shakier/"
@@ -48,10 +52,6 @@
         {
           "label": "The New Daily, 7 Oct",
           "url": "https://www.thenewdaily.com.au/themoneyedition/trending/2026/10/07/banks-split-on-next-rba-meeting-as-households-rattled-by-hikes"
-        },
-        {
-          "label": "investingLive, 5 Oct",
-          "url": "https://investinglive.com/news/australian-consumer-sentiment-slumps-after-rba-hike-as-westpac-tips-another-in-november/"
         }
       ]
     },
@@ -65,9 +65,13 @@
         "size_bp": 25,
         "rate_after": 4.35
       },
-      "note": "Jessie Cameron after weaker September jobs data: 'We continue to see the RBA on hold from here, but the risk still sits with a hike'; peak 4.60%; next move a cut",
-      "as_of": "2026-10-18",
+      "note": "After Hauser's hawkish speech (21 Oct), NAB still 'tentatively judge the hiking cycle finished' and anticipates an extended hold at 4.60% (The Adviser, 22 Oct); Cameron (18 Oct): risk 'still sits with a hike'; next move a cut",
+      "as_of": "2026-10-22",
       "sources": [
+        {
+          "label": "The Adviser, 22 Oct",
+          "url": "https://www.theadviser.com.au/borrower/49115-nightmare-rba-s-inflation-warning-puts-another-hike-in-play"
+        },
         {
           "label": "AAP via Yahoo, 18 Oct",
           "url": "https://au.finance.yahoo.com/news/eyes-rba-rate-call-hints-010000338.html"
@@ -75,10 +79,6 @@
         {
           "label": "ABC, 13 Oct",
           "url": "https://abc.net.au/news/2026-10-13/asx-markets-business-live-news/107258880"
-        },
-        {
-          "label": "NAB, 9 Oct",
-          "url": "https://www.nab.com.au/content/dam/nab-email-composer/nabmarketsresearch/economics/pdf/2026-10-09%20-%20What%20to%20Watch%20-%20Week%20of%2012%20October%202026.pdf"
         }
       ]
     },
@@ -92,9 +92,13 @@
         "size_bp": 25,
         "rate_after": 4.85
       },
-      "note": "Sophia Angala (20 Oct, ANZ-Roy Morgan consumer confidence): 'we continue to expect the RBA to hike the cash rate by 25bp at its November meeting' (to 4.85%), citing upside inflation risks flagged in the September minutes; Q3 CPI (28 Oct) the key hurdle; cuts from November 2027",
-      "as_of": "2026-10-20",
+      "note": "After Hauser's hawkish speech (21 Oct), ANZ still forecasting another 25bp increase in November to 4.85% (The Adviser, 22 Oct); Angala (20 Oct) cited upside inflation risks; Q3 CPI (28 Oct) the key hurdle; cuts from November 2027",
+      "as_of": "2026-10-22",
       "sources": [
+        {
+          "label": "The Adviser, 22 Oct",
+          "url": "https://www.theadviser.com.au/borrower/49115-nightmare-rba-s-inflation-warning-puts-another-hike-in-play"
+        },
         {
           "label": "ABC, 20 Oct",
           "url": "https://abc.net.au/news/2026-10-20/asx-markets-business-live-news-october-20-2026/107283924"
@@ -102,10 +106,6 @@
         {
           "label": "Investing.com via Yahoo, 15 Oct",
           "url": "https://finance.yahoo.com/economy/policy/articles/australia-loses-39-300-jobs-013035431.html"
-        },
-        {
-          "label": "The Nightly, 13 Oct",
-          "url": "https://thenightly.com.au/australia/reserve-bank-hints-at-another-interest-rate-rise-in-september-meeting-minutes-c-23009080"
         }
       ]
     },
