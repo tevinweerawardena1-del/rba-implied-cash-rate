@@ -548,11 +548,13 @@ const RANGE_SETS = {
   short: [["3M", 91], ["6M", 182], ["1Y", 365], ["2Y", 730], ["All", 0]],
   long: [["1Y", 365], ["3Y", 1096], ["5Y", 1826], ["10Y", 3653], ["All", 0]],
   // Daily market series: adds 3M and 6M to zoom into recent moves.
+  // Next-meeting pricing moves fast into a decision: adds 1W and 1M.
+  next: [["1W", 7], ["1M", 31], ["3M", 91], ["6M", 182], ["1Y", 365], ["2Y", 730], ["All", 0]],
   daily: [["3M", 91], ["6M", 182], ["1Y", 365], ["3Y", 1096], ["5Y", 1826], ["10Y", 3653], ["All", 0]],
 };
 // Default windows roll forward with the data (e.g. always the last 2 years), so
 // charts stay readable as history accumulates. "All" is still one click away.
-const CARD_RANGE = { horizons: ["short", 730], nextmeeting: ["short", 730], history: ["short", 91],
+const CARD_RANGE = { horizons: ["short", 730], nextmeeting: ["next", 730], history: ["short", 91],
   babspread: ["daily", 1096], bbsw: ["daily", 1096], acgb2: ["daily", 3653], slope: ["daily", 3653], fx: ["daily", 3653],
   real: ["long", 3653], taylor: ["daily", 3653], forwards: ["daily", 3653], fly: ["daily", 3653], us: ["daily", 3653], tp: ["daily", 3653] };
 
@@ -803,7 +805,14 @@ function renderNextMeeting() {
     label: (i) => [` ${bp(i.raw.y)} for ${fmtDate(i.raw.m)}`, ` ${probText(i.raw.y / 25).text} · ${i.raw.d} days away`],
   };
   o.scales.x.offset = false;
-  o.scales.x.max = ts(rows[rows.length - 1].as_at) + 21 * DAY;   // room for the latest decision label
+  // Room on the right for the latest decision label; less on the 1W/1M views so the bars stay wide.
+  const last = ts(rows[rows.length - 1].as_at), win = ranges.nextmeeting;
+  const pad = win && win <= 31 ? (win <= 7 ? 1 : 3) : 21;
+  o.scales.x.max = last + pad * DAY;
+  if (win && win <= 31) {
+    o.scales.x.min = from + 0.5 * DAY;
+    o.scales.x.time = { unit: "day", displayFormats: { day: "d MMM" } };
+  }
   o.scales.y.grid.color = (c) => (c.tick.value === 0 ? css("--ref") : css("--grid"));
   const strong = css("--series-1"), soft = css("--bar-soft");
   draw("nextChart", { type: "bar", options: o, data: { datasets: [{ label: "Next meeting", data,
