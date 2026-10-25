@@ -11,20 +11,20 @@
         "size_bp": 25,
         "rate_after": 4.35
       },
-      "note": "CBA strategist Joseph Capurso after Hauser's hawkish speech (21 Oct): 'If Hauser's aim was to reset expectations to a coin toss, he succeeded', but CBA still expects a hold at 4.60% in November; Yeaman (19 Oct) flagged further increases as 'a bigger risk'; next move previously forecast as a cut",
-      "as_of": "2026-10-21",
+      "note": "CBA (Savings.com.au, 23 Oct) still expects a hold at 4.60% in November but says the risk of another hike has risen; Trent Saunders: 'risks are firmly tilted to the upside' and the decision 'will depend heavily on' the Q3 CPI (28 Oct); next move previously forecast as a cut from August 2027",
+      "as_of": "2026-10-23",
       "sources": [
+        {
+          "label": "Savings.com.au, 23 Oct",
+          "url": "https://www.savings.com.au/news/stubborn-inflation-seen-ahead-of-key-rba-rates-decision"
+        },
+        {
+          "label": "CommBank, 22 Oct",
+          "url": "https://www.commbank.com.au/articles/newsroom/2026/10/inflation-cpi-rba-interest-rates-november.html"
+        },
         {
           "label": "Pound Sterling Live, 21 Oct",
           "url": "https://www.poundsterlinglive.com/aud/23780-australian-dollar-supported-hauser-november-rba-hike"
-        },
-        {
-          "label": "CommBank, 19 Oct",
-          "url": "https://www.commbank.com.au/articles/newsroom/2026/10/rba-november-interest-rate-hold-risks-build.html"
-        },
-        {
-          "label": "ABC, 15 Oct",
-          "url": "https://www.abc.net.au/news/2026-10-15/unemployment-rate-september-2026-australia/107268870"
         }
       ]
     },
@@ -38,9 +38,13 @@
         "size_bp": 25,
         "rate_after": 4.85
       },
-      "note": "After Hauser's 'materially worse' inflation warning (21 Oct), Westpac still forecasting another 25bp increase in November to 4.85% (The Adviser, 22 Oct); Q3 CPI (28 Oct) the key hurdle; cuts from August 2027",
-      "as_of": "2026-10-22",
+      "note": "Westpac's base case remains a 25bp November hike to 4.85% (Savings.com.au, 23 Oct); economists see inflation momentum 'meaningfully above the RBA's current expectations', forecasting Q3 trimmed mean 0.9% q/q; cuts from August 2027",
+      "as_of": "2026-10-23",
       "sources": [
+        {
+          "label": "Savings.com.au, 23 Oct",
+          "url": "https://www.savings.com.au/news/stubborn-inflation-seen-ahead-of-key-rba-rates-decision"
+        },
         {
           "label": "The Adviser, 22 Oct",
           "url": "https://www.theadviser.com.au/borrower/49115-nightmare-rba-s-inflation-warning-puts-another-hike-in-play"
@@ -48,10 +52,6 @@
         {
           "label": "Westpac via ActionForex, 15 Oct",
           "url": "https://www.actionforex.com/contributors/fundamental-analysis/657535-australia-september-labour-force-looking-shakier/"
-        },
-        {
-          "label": "The New Daily, 7 Oct",
-          "url": "https://www.thenewdaily.com.au/themoneyedition/trending/2026/10/07/banks-split-on-next-rba-meeting-as-households-rattled-by-hikes"
         }
       ]
     },
@@ -65,9 +65,13 @@
         "size_bp": 25,
         "rate_after": 4.35
       },
-      "note": "After Hauser's hawkish speech (21 Oct), NAB still 'tentatively judge the hiking cycle finished' and anticipates an extended hold at 4.60% (The Adviser, 22 Oct); Cameron (18 Oct): risk 'still sits with a hike'; next move a cut",
-      "as_of": "2026-10-22",
+      "note": "NAB still expects a hold at 4.60% in November (Savings.com.au, 23 Oct), forecasting Q3 trimmed mean 1.0% q/q; Nugent: 'fuel looks set to add to inflation again in Q4'; tentatively judges the hiking cycle finished, next move a cut",
+      "as_of": "2026-10-23",
       "sources": [
+        {
+          "label": "Savings.com.au, 23 Oct",
+          "url": "https://www.savings.com.au/news/stubborn-inflation-seen-ahead-of-key-rba-rates-decision"
+        },
         {
           "label": "The Adviser, 22 Oct",
           "url": "https://www.theadviser.com.au/borrower/49115-nightmare-rba-s-inflation-warning-puts-another-hike-in-play"
@@ -75,10 +79,6 @@
         {
           "label": "AAP via Yahoo, 18 Oct",
           "url": "https://au.finance.yahoo.com/news/eyes-rba-rate-call-hints-010000338.html"
-        },
-        {
-          "label": "ABC, 13 Oct",
-          "url": "https://abc.net.au/news/2026-10-13/asx-markets-business-live-news/107258880"
         }
       ]
     },
@@ -92,9 +92,13 @@
         "size_bp": 25,
         "rate_after": 4.85
       },
-      "note": "After Hauser's hawkish speech (21 Oct), ANZ still forecasting another 25bp increase in November to 4.85% (The Adviser, 22 Oct); Angala (20 Oct) cited upside inflation risks; Q3 CPI (28 Oct) the key hurdle; cuts from November 2027",
-      "as_of": "2026-10-22",
+      "note": "ANZ's base case remains a 25bp November hike to 4.85% (Savings.com.au, 23 Oct): a 1.0% q/q Q3 trimmed mean would support a follow-up to September's rise; Dunk sees the housing downturn bringing further disinflation; cuts from November 2027",
+      "as_of": "2026-10-23",
       "sources": [
+        {
+          "label": "Savings.com.au, 23 Oct",
+          "url": "https://www.savings.com.au/news/stubborn-inflation-seen-ahead-of-key-rba-rates-decision"
+        },
         {
           "label": "The Adviser, 22 Oct",
           "url": "https://www.theadviser.com.au/borrower/49115-nightmare-rba-s-inflation-warning-puts-another-hike-in-play"
@@ -102,10 +106,6 @@
         {
           "label": "ABC, 20 Oct",
           "url": "https://abc.net.au/news/2026-10-20/asx-markets-business-live-news-october-20-2026/107283924"
-        },
-        {
-          "label": "Investing.com via Yahoo, 15 Oct",
-          "url": "https://finance.yahoo.com/economy/policy/articles/australia-loses-39-300-jobs-013035431.html"
         }
       ]
     },
@@ -120,9 +120,13 @@
         "size_bp": 25,
         "rate_after": 4.35
       },
-      "note": "AMP weekly update (My Bui) after September jobs data: 'We therefore expect the RBA to hold in November, albeit with a hawkish statement, rather than hike again'; Shane Oliver sees 4.60% as the peak, cuts not until late 2027",
-      "as_of": "2026-10-16",
+      "note": "AMP weekly update (Diana Mousina, 23 Oct): 'we see the RBA debating the need for another rate increase in November but ultimately keeping rates unchanged'; 'We think the central bank is done' but risk of a hike in December or early 2027; a Q3 trimmed mean above 1% q/q would make a November hike likely; Oliver previously saw cuts not until late 2027",
+      "as_of": "2026-10-23",
       "sources": [
+        {
+          "label": "AMP weekly update, 23 Oct",
+          "url": "https://www.amp.com.au/resources/insights-hub/weekly-market-update-23-10-2026-amp"
+        },
         {
           "label": "AMP weekly update, 16 Oct",
           "url": "https://www.amp.com.au/resources/insights-hub/weekly-market-update-16-10-2026-amp"
@@ -130,10 +134,6 @@
         {
           "label": "Livewire (Shane Oliver), 3 Oct",
           "url": "https://www.livewiremarkets.com/wires/the-bond-vigilantes-are-back-and-shares-could-be-next"
-        },
-        {
-          "label": "Oliver's Insights, 1 Oct",
-          "url": "https://www.sgw.net.au/olivers-insights/a-hawkish-hike-from-the-rba-to-4-6-this-is-likely-the-top-but-the-risk-of-another-hike-is-very-high"
         }
       ]
     },
