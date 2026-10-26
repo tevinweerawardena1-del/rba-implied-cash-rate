@@ -6,7 +6,7 @@
       "time": "2026-10-28T01:00:00+11:00",
       "country": "US",
       "event": "Conference Board Consumer Confidence Oct",
-      "expected": "80.5",
+      "expected": "",
       "previous": "81.9",
       "priority": 3,
       "url": "https://www.conference-board.org/topics/consumer-confidence"
@@ -39,6 +39,15 @@
       "priority": 1
     },
     {
+      "time": "2026-10-28T11:30:00+11:00",
+      "country": "AU",
+      "event": "Trimmed Mean CPI Sep (y/y)",
+      "expected": "3.6%",
+      "previous": "3.6%",
+      "priority": 1,
+      "url": "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/latest-release"
+    },
+    {
       "time": "2026-10-28T12:00:00+11:00",
       "country": "NZ",
       "event": "RBNZ OCR Decision",
@@ -51,7 +60,7 @@
       "time": "2026-10-29T00:45:00+11:00",
       "country": "CA",
       "event": "BoC Rate Decision",
-      "expected": "",
+      "expected": "2.50%",
       "previous": "2.25%",
       "priority": 1,
       "url": "https://www.bankofcanada.ca/core-functions/monetary-policy/key-interest-rate/"
@@ -68,19 +77,19 @@
     {
       "time": "2026-10-29T23:30:00+11:00",
       "country": "US",
-      "event": "GDP Q3 Advance (annualised)",
-      "expected": "3.0%",
-      "previous": "2.2%",
-      "url": "https://www.bea.gov/data/gdp/gross-domestic-product",
+      "event": "Core PCE Sep (y/y)",
+      "expected": "3.1%",
+      "previous": "3.0%",
+      "url": "https://www.bea.gov/data/personal-consumption-expenditures-price-index-excluding-food-and-energy",
       "priority": 2
     },
     {
       "time": "2026-10-29T23:30:00+11:00",
       "country": "US",
-      "event": "Core PCE Sep (y/y)",
-      "expected": "3.1%",
-      "previous": "3.0%",
-      "url": "https://www.bea.gov/data/personal-consumption-expenditures-price-index-excluding-food-and-energy",
+      "event": "GDP Q3 Advance (annualised)",
+      "expected": "3.0%",
+      "previous": "2.2%",
+      "url": "https://www.bea.gov/data/gdp/gross-domestic-product",
       "priority": 2
     },
     {
@@ -132,7 +141,7 @@
       "time": "2026-10-30T23:30:00+11:00",
       "country": "US",
       "event": "Employment Cost Index Q3 (q/q)",
-      "expected": "0.8%",
+      "expected": "",
       "previous": "0.9%",
       "url": "https://www.bls.gov/eci/",
       "priority": 2
@@ -149,20 +158,20 @@
     {
       "time": "2026-11-02T11:30:00+11:00",
       "country": "AU",
-      "event": "Building Approvals Sep (m/m)",
-      "expected": "",
-      "previous": "-6.1%",
-      "priority": 3,
-      "url": "https://www.abs.gov.au/statistics/industry/building-and-construction/building-approvals-australia/latest-release"
-    },
-    {
-      "time": "2026-11-02T11:30:00+11:00",
-      "country": "AU",
       "event": "ANZ-Indeed Job Ads Oct (m/m)",
       "expected": "",
       "previous": "2.2%",
       "url": "https://www.anz.com.au/newsroom/media/",
       "priority": 3
+    },
+    {
+      "time": "2026-11-02T11:30:00+11:00",
+      "country": "AU",
+      "event": "Building Approvals Sep (m/m)",
+      "expected": "",
+      "previous": "-6.1%",
+      "priority": 3,
+      "url": "https://www.abs.gov.au/statistics/industry/building-and-construction/building-approvals-australia/latest-release"
     },
     {
       "time": "2026-11-03T02:00:00+11:00",
@@ -274,6 +283,15 @@
     },
     {
       "time": "2026-11-07T00:30:00+11:00",
+      "country": "CA",
+      "event": "Unemployment Rate Oct",
+      "expected": "",
+      "previous": "6.5%",
+      "url": "https://www150.statcan.gc.ca/n1/en/subjects/labour/labour_force_survey",
+      "priority": 2
+    },
+    {
+      "time": "2026-11-07T00:30:00+11:00",
       "country": "US",
       "event": "Nonfarm Payrolls Oct",
       "expected": "",
@@ -288,15 +306,6 @@
       "expected": "",
       "previous": "4.2%",
       "url": "https://www.bls.gov/cps/",
-      "priority": 2
-    },
-    {
-      "time": "2026-11-07T00:30:00+11:00",
-      "country": "CA",
-      "event": "Unemployment Rate Oct",
-      "expected": "",
-      "previous": "6.5%",
-      "url": "https://www150.statcan.gc.ca/n1/en/subjects/labour/labour_force_survey",
       "priority": 2
     },
     {
@@ -428,20 +437,20 @@
     {
       "time": "2026-11-19T11:30:00+11:00",
       "country": "AU",
-      "event": "Unemployment Rate Oct",
-      "expected": "",
-      "previous": "4.7%",
-      "url": "https://www.abs.gov.au/statistics/labour/employment-and-unemployment/labour-force-australia/latest-release",
-      "priority": 1
-    },
-    {
-      "time": "2026-11-19T11:30:00+11:00",
-      "country": "AU",
       "event": "Employment Change Oct",
       "expected": "",
       "previous": "-39.3k",
       "url": "https://www.abs.gov.au/statistics/labour/employment-and-unemployment/labour-force-australia/latest-release",
       "priority": 2
+    },
+    {
+      "time": "2026-11-19T11:30:00+11:00",
+      "country": "AU",
+      "event": "Unemployment Rate Oct",
+      "expected": "",
+      "previous": "4.7%",
+      "url": "https://www.abs.gov.au/statistics/labour/employment-and-unemployment/labour-force-australia/latest-release",
+      "priority": 1
     },
     {
       "time": "2026-11-20T10:30:00+11:00",
@@ -589,6 +598,15 @@
     },
     {
       "time": "2026-12-05T00:30:00+11:00",
+      "country": "CA",
+      "event": "Unemployment Rate Nov",
+      "expected": "",
+      "previous": "",
+      "priority": 2,
+      "url": "https://www150.statcan.gc.ca/n1/en/subjects/labour/labour_force_survey"
+    },
+    {
+      "time": "2026-12-05T00:30:00+11:00",
       "country": "US",
       "event": "Nonfarm Payrolls Nov",
       "expected": "",
@@ -604,15 +622,6 @@
       "previous": "",
       "priority": 2,
       "url": "https://www.bls.gov/cps/"
-    },
-    {
-      "time": "2026-12-05T00:30:00+11:00",
-      "country": "CA",
-      "event": "Unemployment Rate Nov",
-      "expected": "",
-      "previous": "",
-      "priority": 2,
-      "url": "https://www150.statcan.gc.ca/n1/en/subjects/labour/labour_force_survey"
     },
     {
       "time": "2026-12-08T14:30:00+11:00",
