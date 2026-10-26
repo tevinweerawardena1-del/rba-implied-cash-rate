@@ -23,7 +23,7 @@
     {
       "time": "2026-10-28T11:30:00+11:00",
       "country": "AU",
-      "event": "CPI Sep (y/y)",
+      "event": "Headline CPI Sep (y/y)",
       "expected": "4.2%",
       "previous": "4.0%",
       "url": "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/latest-release",
@@ -482,7 +482,7 @@
     {
       "time": "2026-11-25T11:30:00+11:00",
       "country": "AU",
-      "event": "CPI Oct (y/y)",
+      "event": "Headline CPI Oct (y/y)",
       "expected": "",
       "previous": "",
       "url": "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/latest-release",
