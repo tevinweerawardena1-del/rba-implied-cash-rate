@@ -65,9 +65,13 @@
         "size_bp": 25,
         "rate_after": 4.35
       },
-      "note": "NAB still expects a hold at 4.60% in November (Savings.com.au, 23 Oct), forecasting Q3 trimmed mean 1.0% q/q; Nugent: 'fuel looks set to add to inflation again in Q4'; tentatively judges the hiking cycle finished, next move a cut",
-      "as_of": "2026-10-23",
+      "note": "NAB (Taylor Nugent, AAP 24 Oct) still expects a hold at 4.60% in November despite forecasting a 1.0% q/q Q3 trimmed mean: 'There is enough evidence of below-trend growth and gradual easing in the labour market' to return inflation to target as the fuel shock fades; tentatively judges the hiking cycle finished, next move a cut (previously from August 2027)",
+      "as_of": "2026-10-24",
       "sources": [
+        {
+          "label": "AAP via Yahoo, 24 Oct",
+          "url": "https://au.finance.yahoo.com/news/rare-chance-see-bank-react-010000407.html"
+        },
         {
           "label": "Savings.com.au, 23 Oct",
           "url": "https://www.savings.com.au/news/stubborn-inflation-seen-ahead-of-key-rba-rates-decision"
@@ -75,10 +79,6 @@
         {
           "label": "The Adviser, 22 Oct",
           "url": "https://www.theadviser.com.au/borrower/49115-nightmare-rba-s-inflation-warning-puts-another-hike-in-play"
-        },
-        {
-          "label": "AAP via Yahoo, 18 Oct",
-          "url": "https://au.finance.yahoo.com/news/eyes-rba-rate-call-hints-010000338.html"
         }
       ]
     },
