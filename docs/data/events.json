@@ -1,16 +1,7 @@
 {
   "_comment": "Major data and events calendar (AU and US rates), maintained by the daily 'Update data and events calendar' scheduled task. Each event: time = ISO datetime with UTC offset (release time), country = AU | US | another G10 code (NZ, CA, UK, EZ, JP, CH, NO, SE), event = name incl. reference period, expected = consensus ('' if none, shown as a dash), previous = prior reading ('' if none), priority = 1 (top-tier: RBA/FOMC decisions, CPI, unemployment, payrolls, WPI, AU GDP, national elections) | 2 (important: core measures, US GDP, PCE, employment change) | 3 (second-tier: RBA minutes, consumer sentiment/confidence, NAB business survey, PMIs, building approvals, household spending, PPI, ISM, state elections, major speeches), url = official release page. The page shows 10 events, almost all AU and US: among future events in the next 31 days it takes the 6 best AU, 2 best US and 2 best other-G10 events (priority first, then earliest), fills any shortfall from the remaining in-window events or later events, and lists them by time. Other G10 countries get only very major events: rate decisions and national elections (priority 1), headline CPI and unemployment/labour market reports (priority 2) - nothing smaller. Keep at least 14 future events (about 5-6 weeks ahead) and drop events once they have passed.",
-  "as_of": "2026-10-27",
+  "as_of": "2026-10-28",
   "events": [
-    {
-      "time": "2026-10-28T01:00:00+11:00",
-      "country": "US",
-      "event": "Conference Board Consumer Confidence Oct",
-      "expected": "",
-      "previous": "81.9",
-      "priority": 3,
-      "url": "https://www.conference-board.org/topics/consumer-confidence"
-    },
     {
       "time": "2026-10-28T11:15:00+11:00",
       "country": "AU",
@@ -87,7 +78,7 @@
       "time": "2026-10-29T23:30:00+11:00",
       "country": "US",
       "event": "GDP Q3 Advance (annualised)",
-      "expected": "3.0%",
+      "expected": "",
       "previous": "2.2%",
       "url": "https://www.bea.gov/data/gdp/gross-domestic-product",
       "priority": 2
@@ -475,7 +466,7 @@
       "country": "US",
       "event": "Conference Board Consumer Confidence Nov",
       "expected": "",
-      "previous": "",
+      "previous": "91.7",
       "url": "https://www.conference-board.org/topics/consumer-confidence",
       "priority": 3
     },
@@ -487,6 +478,15 @@
       "previous": "",
       "url": "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/latest-release",
       "priority": 1
+    },
+    {
+      "time": "2026-11-25T11:30:00+11:00",
+      "country": "AU",
+      "event": "Trimmed Mean CPI Oct (y/y)",
+      "expected": "",
+      "previous": "",
+      "priority": 1,
+      "url": "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/latest-release"
     },
     {
       "time": "2026-11-26T00:30:00+11:00",
@@ -640,6 +640,15 @@
       "previous": "2.75%",
       "priority": 1,
       "url": "https://www.rbnz.govt.nz/monetary-policy/about-monetary-policy/monetary-policy-decisions"
+    },
+    {
+      "time": "2026-12-10T01:45:00+11:00",
+      "country": "CA",
+      "event": "BoC Rate Decision",
+      "expected": "",
+      "previous": "2.25%",
+      "priority": 1,
+      "url": "https://www.bankofcanada.ca/core-functions/monetary-policy/key-interest-rate/"
     }
   ]
 }
