@@ -4,16 +4,20 @@
     {
       "bank": "CBA",
       "next_meeting": "2026-11-03",
-      "call": "no change",
+      "call": "hike",
       "next_change": {
-        "month": "2027-08",
-        "direction": "cut",
+        "month": "2026-11",
+        "direction": "hike",
         "size_bp": 25,
-        "rate_after": 4.35
+        "rate_after": 4.85
       },
-      "note": "CBA's base case remains a hold at 4.60% in November but risks of a further hike are building (Aussie, 26 Oct); economists expect a 1.0% q/q Q3 trimmed mean and say the decision will depend heavily on the CPI (28 Oct) outcome and composition; next move previously forecast as a cut from August 2027",
-      "as_of": "2026-10-26",
+      "note": "CBA changed its call after the Q3 CPI (28 Oct): now expects a 25bp November hike to 4.85% (previously a hold); Belinda Allen calls it 'an insurance hike' against energy and AI-investment inflation pressures; expects holds in December and February; cuts pencilled in for August and November 2027, with large uncertainty on timing",
+      "as_of": "2026-10-28",
       "sources": [
+        {
+          "label": "CommBank, 28 Oct",
+          "url": "https://www.commbank.com.au/articles/newsroom/2026/10/commbank-november-rba-rate-hike-inflation-risks.html"
+        },
         {
           "label": "Aussie, 26 Oct",
           "url": "https://www.aussie.com.au/insights/news/expert-predictions-rba-rates/"
@@ -21,10 +25,6 @@
         {
           "label": "Savings.com.au, 23 Oct",
           "url": "https://www.savings.com.au/news/stubborn-inflation-seen-ahead-of-key-rba-rates-decision"
-        },
-        {
-          "label": "CommBank, 22 Oct",
-          "url": "https://www.commbank.com.au/articles/newsroom/2026/10/inflation-cpi-rba-interest-rates-november.html"
         }
       ]
     },
@@ -38,9 +38,13 @@
         "size_bp": 25,
         "rate_after": 4.85
       },
-      "note": "Westpac's base case remains a 25bp November hike to 4.85% (Aussie, 26 Oct); Luci Ellis: hike is the base case unless the Middle East conflict is resolved or energy costs fall significantly; forecasts Q3 trimmed mean 0.9% q/q and sees a much higher bar for any hike after November; cuts from August 2027",
-      "as_of": "2026-10-26",
+      "note": "Westpac reaffirmed after the Q3 CPI (28 Oct): 'We reaffirm our expectation that the RBA Monetary Policy Board will again increase the cash rate at the November meeting' (to 4.85%), with some external members possibly dissenting; further hikes not the base case but risk of another, most likely in February, has increased; previously saw cuts from August 2027",
+      "as_of": "2026-10-28",
       "sources": [
+        {
+          "label": "The Adviser, 28 Oct",
+          "url": "https://www.theadviser.com.au/borrower/49148-third-major-bank-now-tipping-november-hike-as-inflation-jumps"
+        },
         {
           "label": "Aussie, 26 Oct",
           "url": "https://www.aussie.com.au/insights/news/expert-predictions-rba-rates/"
@@ -48,26 +52,26 @@
         {
           "label": "Savings.com.au, 23 Oct",
           "url": "https://www.savings.com.au/news/stubborn-inflation-seen-ahead-of-key-rba-rates-decision"
-        },
-        {
-          "label": "The Adviser, 22 Oct",
-          "url": "https://www.theadviser.com.au/borrower/49115-nightmare-rba-s-inflation-warning-puts-another-hike-in-play"
         }
       ]
     },
     {
       "bank": "NAB",
       "next_meeting": "2026-11-03",
-      "call": "no change",
+      "call": "hike",
       "next_change": {
-        "month": "2027-08",
-        "direction": "cut",
+        "month": "2026-11",
+        "direction": "hike",
         "size_bp": 25,
-        "rate_after": 4.35
+        "rate_after": 4.85
       },
-      "note": "NAB still expects a hold at 4.60% in November, with a hike a risk rather than the base case (Aussie, 26 Oct); Sally Auld reads the Governor's emphasis on protecting labour market gains as a sign the Board may be done tightening for now; next move a cut (previously from August 2027)",
-      "as_of": "2026-10-26",
+      "note": "NAB changed its call after the Q3 CPI (28 Oct): 'We now believe that the RBA will deliver a 25bp hike in November' (to 4.85%, previously a hold); expects the RBA to likely pause after November but remain 'a long way from declaring victory on inflation'; cut timing not restated (previously from August 2027)",
+      "as_of": "2026-10-28",
       "sources": [
+        {
+          "label": "MarketScreener, 28 Oct",
+          "url": "https://www.marketscreener.com/news/rba-watch-nab-now-expects-the-rba-to-hike-in-november-ce785cd2d98ef32c"
+        },
         {
           "label": "Aussie, 26 Oct",
           "url": "https://www.aussie.com.au/insights/news/expert-predictions-rba-rates/"
@@ -75,10 +79,6 @@
         {
           "label": "AAP via Yahoo, 24 Oct",
           "url": "https://au.finance.yahoo.com/news/rare-chance-see-bank-react-010000407.html"
-        },
-        {
-          "label": "Savings.com.au, 23 Oct",
-          "url": "https://www.savings.com.au/news/stubborn-inflation-seen-ahead-of-key-rba-rates-decision"
         }
       ]
     },
@@ -92,9 +92,13 @@
         "size_bp": 25,
         "rate_after": 4.85
       },
-      "note": "ANZ's base case remains a 25bp November hike to 4.85% (Aussie, 26 Oct), reaffirmed 20 Oct: a Q3 trimmed mean above RBA forecasts makes a hike 'more likely than not'; cuts from November 2027",
-      "as_of": "2026-10-26",
+      "note": "ANZ reaffirmed after the Q3 CPI (28 Oct): 'Today's inflation data cements the case for the RBA to hike rates 25bp in November' (to 4.85%); expects upward revisions to RBA inflation forecasts in the November SoMP; previously saw cuts from November 2027",
+      "as_of": "2026-10-28",
       "sources": [
+        {
+          "label": "The Adviser, 28 Oct",
+          "url": "https://www.theadviser.com.au/borrower/49148-third-major-bank-now-tipping-november-hike-as-inflation-jumps"
+        },
         {
           "label": "Aussie, 26 Oct",
           "url": "https://www.aussie.com.au/insights/news/expert-predictions-rba-rates/"
@@ -102,10 +106,6 @@
         {
           "label": "Savings.com.au, 23 Oct",
           "url": "https://www.savings.com.au/news/stubborn-inflation-seen-ahead-of-key-rba-rates-decision"
-        },
-        {
-          "label": "The Adviser, 22 Oct",
-          "url": "https://www.theadviser.com.au/borrower/49115-nightmare-rba-s-inflation-warning-puts-another-hike-in-play"
         }
       ]
     },
@@ -147,9 +147,13 @@
         "size_bp": 25,
         "rate_after": 4.85
       },
-      "note": "George Tharenou (21 Oct): Hauser's comments 'consistent with our view' of an explicit staff recommendation to hike; UBS forecasts a 25bp November hike to 4.85%, though a split board could deliver 'a hawkish hold' setting up December; cuts from November 2027",
-      "as_of": "2026-10-21",
+      "note": "UBS (Stephen Wu, Tharenou's team, 28 Oct) reaffirmed a 25bp hike to 4.85%, most likely in November, with the 1.0% q/q Q3 trimmed mean the likely trigger; earlier (21 Oct) Tharenou flagged a split board could deliver 'a hawkish hold' setting up December; cuts previously seen from November 2027",
+      "as_of": "2026-10-28",
       "sources": [
+        {
+          "label": "ABC, 28 Oct",
+          "url": "https://www.abc.net.au/news/2026-10-28/asx-markets-business-live-news/107316614"
+        },
         {
           "label": "ABC, 21 Oct",
           "url": "https://www.abc.net.au/news/2026-10-21/reserve-bank-hauser-warns-inflation-outlook-materially-worse/107288574"
@@ -157,10 +161,6 @@
         {
           "label": "Livewire, 17 Sep",
           "url": "https://www.livewiremarkets.com/wires/mortgage-holders-should-expect-two-more-interest-rate-hikes-not-one-ubs"
-        },
-        {
-          "label": "GuruFocus, 17 Sep",
-          "url": "https://www.gurufocus.com/news/9087315/rba-expected-to-raise-rates-twice-more-forecasts-ubs"
         }
       ]
     },
