@@ -1,91 +1,90 @@
 curve,as_at,years,yield,name,maturity
-Latest,2026-10-21,0.498,4.858,Treasury Bond 136 4.75% 21-Apr-2027,2027-04-21
-Latest,2026-10-21,1.084,4.942,Treasury Bond 148 2.75% 21-Nov-2027,2027-11-21
-Latest,2026-10-21,1.582,4.938,Treasury Bond 149 2.25% 21-May-2028,2028-05-21
-Latest,2026-10-21,2.086,4.913,Treasury Bond 152 2.75% 21-Nov-2028,2028-11-21
-Latest,2026-10-21,2.5,4.907,Treasury Bond 138 3.25% 21-Apr-2029,2029-04-21
-Latest,2026-10-21,3.086,4.908,Treasury Bond 154 2.75% 21-Nov-2029,2029-11-21
-Latest,2026-10-21,3.581,4.91,Treasury Bond 155 2.50% 21-May-2030,2030-05-21
-Latest,2026-10-21,4.167,4.925,Treasury Bond 160 1.00% 21-Dec-2030,2030-12-21
-Latest,2026-10-21,4.665,4.944,Treasury Bond 157 1.50% 21-Jun-2031,2031-06-21
-Latest,2026-10-21,5.084,4.966,Treasury Bond 163 1.00% 21-Nov-2031,2031-11-21
-Latest,2026-10-21,5.582,5.005,Treasury Bond 158 1.25% 21-May-2032,2032-05-21
-Latest,2026-10-21,6.086,5.047,Treasury Bond 165 1.75% 21-Nov-2032,2032-11-21
-Latest,2026-10-21,6.5,5.068,Treasury Bond 140 4.50% 21-Apr-2033,2033-04-21
-Latest,2026-10-21,7.086,5.113,Treasury Bond 166 3.00% 21-Nov-2033,2033-11-21
-Latest,2026-10-21,7.581,5.145,Treasury Bond 167 3.75% 21-May-2034,2034-05-21
-Latest,2026-10-21,7.666,5.15,Treasury Bond 170 4.25% 21-Jun-2034,2034-06-21
-Latest,2026-10-21,8.167,5.186,Treasury Bond 168 3.50% 21-Dec-2034,2034-12-21
-Latest,2026-10-21,8.665,5.221,Treasury Bond 145 2.75% 21-Jun-2035,2035-06-21
-Latest,2026-10-21,9.166,5.241,Treasury Bond 171 4.25% 21-Dec-2035,2035-12-21
-Latest,2026-10-21,9.415,5.253,Treasury Bond 172 4.25% 21-Mar-2036,2036-03-21
-Latest,2026-10-21,9.667,5.264,Treasury Bond 175 5.00% 21-Jun-2036,2036-06-21
-Latest,2026-10-21,10.001,5.277,Treasury Bond 173 4.25% 21-Oct-2036,2036-10-21
-Latest,2026-10-21,10.5,5.3,Treasury Bond 144 3.75% 21-Apr-2037,2037-04-21
-Latest,2026-10-21,11.001,5.315,Treasury Bond 174 4.75% 21-Oct-2037,2037-10-21
-Latest,2026-10-21,11.581,5.336,Treasury Bond 176 5.00% 21-May-2038,2038-05-21
-Latest,2026-10-21,12.665,5.393,Treasury Bond 147 3.25% 21-Jun-2039,2039-06-21
-Latest,2026-10-21,14.582,5.466,Treasury Bond 156 2.75% 21-May-2041,2041-05-21
-Latest,2026-10-21,20.413,5.635,Treasury Bond 150 3.00% 21-Mar-2047,2047-03-21
-Latest,2026-10-21,24.665,5.724,Treasury Bond 162 1.75% 21-Jun-2051,2051-06-21
-Latest,2026-10-21,27.666,5.701,Treasury Bond 169 4.75% 21-Jun-2054,2054-06-21
-1 month earlier,2026-09-21,0.58,4.854,Treasury Bond 136 4.75% 21-Apr-2027,2027-04-21
-1 month earlier,2026-09-21,1.166,4.977,Treasury Bond 148 2.75% 21-Nov-2027,2027-11-21
-1 month earlier,2026-09-21,1.665,4.982,Treasury Bond 149 2.25% 21-May-2028,2028-05-21
-1 month earlier,2026-09-21,2.168,4.98,Treasury Bond 152 2.75% 21-Nov-2028,2028-11-21
-1 month earlier,2026-09-21,2.582,4.97,Treasury Bond 138 3.25% 21-Apr-2029,2029-04-21
-1 month earlier,2026-09-21,3.168,4.97,Treasury Bond 154 2.75% 21-Nov-2029,2029-11-21
-1 month earlier,2026-09-21,3.663,4.968,Treasury Bond 155 2.50% 21-May-2030,2030-05-21
-1 month earlier,2026-09-21,4.249,4.983,Treasury Bond 160 1.00% 21-Dec-2030,2030-12-21
-1 month earlier,2026-09-21,4.747,4.993,Treasury Bond 157 1.50% 21-Jun-2031,2031-06-21
-1 month earlier,2026-09-21,5.166,5.012,Treasury Bond 163 1.00% 21-Nov-2031,2031-11-21
-1 month earlier,2026-09-21,5.665,5.044,Treasury Bond 158 1.25% 21-May-2032,2032-05-21
-1 month earlier,2026-09-21,6.168,5.082,Treasury Bond 165 1.75% 21-Nov-2032,2032-11-21
-1 month earlier,2026-09-21,6.582,5.102,Treasury Bond 140 4.50% 21-Apr-2033,2033-04-21
-1 month earlier,2026-09-21,7.168,5.14,Treasury Bond 166 3.00% 21-Nov-2033,2033-11-21
-1 month earlier,2026-09-21,7.663,5.169,Treasury Bond 167 3.75% 21-May-2034,2034-05-21
-1 month earlier,2026-09-21,7.748,5.174,Treasury Bond 170 4.25% 21-Jun-2034,2034-06-21
-1 month earlier,2026-09-21,8.249,5.204,Treasury Bond 168 3.50% 21-Dec-2034,2034-12-21
-1 month earlier,2026-09-21,8.747,5.234,Treasury Bond 145 2.75% 21-Jun-2035,2035-06-21
-1 month earlier,2026-09-21,9.248,5.248,Treasury Bond 171 4.25% 21-Dec-2035,2035-12-21
-1 month earlier,2026-09-21,9.498,5.258,Treasury Bond 172 4.25% 21-Mar-2036,2036-03-21
-1 month earlier,2026-09-21,9.749,5.271,Treasury Bond 175 5.00% 21-Jun-2036,2036-06-21
-1 month earlier,2026-09-21,10.084,5.28,Treasury Bond 173 4.25% 21-Oct-2036,2036-10-21
-1 month earlier,2026-09-21,10.582,5.302,Treasury Bond 144 3.75% 21-Apr-2037,2037-04-21
-1 month earlier,2026-09-21,11.083,5.316,Treasury Bond 174 4.75% 21-Oct-2037,2037-10-21
-1 month earlier,2026-09-21,11.663,5.335,Treasury Bond 176 5.00% 21-May-2038,2038-05-21
-1 month earlier,2026-09-21,12.747,5.384,Treasury Bond 147 3.25% 21-Jun-2039,2039-06-21
-1 month earlier,2026-09-21,14.664,5.451,Treasury Bond 156 2.75% 21-May-2041,2041-05-21
-1 month earlier,2026-09-21,20.496,5.616,Treasury Bond 150 3.00% 21-Mar-2047,2047-03-21
-1 month earlier,2026-09-21,24.747,5.7,Treasury Bond 162 1.75% 21-Jun-2051,2051-06-21
-1 month earlier,2026-09-21,27.748,5.681,Treasury Bond 169 4.75% 21-Jun-2054,2054-06-21
-1 year earlier,2025-10-21,0.085,3.57,Treasury Bond 161 0.25% 21-Nov-2025,2025-11-21
-1 year earlier,2025-10-21,0.498,3.399,Treasury Bond 142 4.25% 21-Apr-2026,2026-04-21
-1 year earlier,2025-10-21,0.917,3.365,Treasury Bond 164 0.50% 21-Sep-2026,2026-09-21
-1 year earlier,2025-10-21,1.498,3.315,Treasury Bond 136 4.75% 21-Apr-2027,2027-04-21
-1 year earlier,2025-10-21,2.084,3.313,Treasury Bond 148 2.75% 21-Nov-2027,2027-11-21
-1 year earlier,2025-10-21,2.582,3.313,Treasury Bond 149 2.25% 21-May-2028,2028-05-21
-1 year earlier,2025-10-21,3.086,3.337,Treasury Bond 152 2.75% 21-Nov-2028,2028-11-21
-1 year earlier,2025-10-21,3.499,3.367,Treasury Bond 138 3.25% 21-Apr-2029,2029-04-21
-1 year earlier,2025-10-21,4.085,3.414,Treasury Bond 154 2.75% 21-Nov-2029,2029-11-21
-1 year earlier,2025-10-21,4.58,3.464,Treasury Bond 155 2.50% 21-May-2030,2030-05-21
-1 year earlier,2025-10-21,5.166,3.537,Treasury Bond 160 1.00% 21-Dec-2030,2030-12-21
-1 year earlier,2025-10-21,5.665,3.601,Treasury Bond 157 1.50% 21-Jun-2031,2031-06-21
-1 year earlier,2025-10-21,6.084,3.672,Treasury Bond 163 1.00% 21-Nov-2031,2031-11-21
-1 year earlier,2025-10-21,6.582,3.748,Treasury Bond 158 1.25% 21-May-2032,2032-05-21
-1 year earlier,2025-10-21,7.086,3.822,Treasury Bond 165 1.75% 21-Nov-2032,2032-11-21
-1 year earlier,2025-10-21,7.499,3.852,Treasury Bond 140 4.50% 21-Apr-2033,2033-04-21
-1 year earlier,2025-10-21,8.085,3.938,Treasury Bond 166 3.00% 21-Nov-2033,2033-11-21
-1 year earlier,2025-10-21,8.58,3.987,Treasury Bond 167 3.75% 21-May-2034,2034-05-21
-1 year earlier,2025-10-21,8.665,3.988,Treasury Bond 170 4.25% 21-Jun-2034,2034-06-21
-1 year earlier,2025-10-21,9.166,4.045,Treasury Bond 168 3.50% 21-Dec-2034,2034-12-21
-1 year earlier,2025-10-21,9.665,4.097,Treasury Bond 145 2.75% 21-Jun-2035,2035-06-21
-1 year earlier,2025-10-21,10.166,4.117,Treasury Bond 171 4.25% 21-Dec-2035,2035-12-21
-1 year earlier,2025-10-21,10.415,4.133,Treasury Bond 172 4.25% 21-Mar-2036,2036-03-21
-1 year earlier,2025-10-21,11.001,4.175,Treasury Bond 173 4.25% 21-Oct-2036,2036-10-21
-1 year earlier,2025-10-21,11.499,4.213,Treasury Bond 144 3.75% 21-Apr-2037,2037-04-21
-1 year earlier,2025-10-21,13.665,4.35,Treasury Bond 147 3.25% 21-Jun-2039,2039-06-21
-1 year earlier,2025-10-21,15.581,4.464,Treasury Bond 156 2.75% 21-May-2041,2041-05-21
-1 year earlier,2025-10-21,21.413,4.714,Treasury Bond 150 3.00% 21-Mar-2047,2047-03-21
-1 year earlier,2025-10-21,25.665,4.835,Treasury Bond 162 1.75% 21-Jun-2051,2051-06-21
-1 year earlier,2025-10-21,28.665,4.81,Treasury Bond 169 4.75% 21-Jun-2054,2054-06-21
+Latest,2026-10-28,0.479,4.929,Treasury Bond 136 4.75% 21-Apr-2027,2027-04-21
+Latest,2026-10-28,1.065,5.016,Treasury Bond 148 2.75% 21-Nov-2027,2027-11-21
+Latest,2026-10-28,1.563,4.982,Treasury Bond 149 2.25% 21-May-2028,2028-05-21
+Latest,2026-10-28,2.067,4.946,Treasury Bond 152 2.75% 21-Nov-2028,2028-11-21
+Latest,2026-10-28,2.48,4.92,Treasury Bond 138 3.25% 21-Apr-2029,2029-04-21
+Latest,2026-10-28,3.066,4.916,Treasury Bond 154 2.75% 21-Nov-2029,2029-11-21
+Latest,2026-10-28,3.562,4.913,Treasury Bond 155 2.50% 21-May-2030,2030-05-21
+Latest,2026-10-28,4.148,4.921,Treasury Bond 160 1.00% 21-Dec-2030,2030-12-21
+Latest,2026-10-28,4.646,4.931,Treasury Bond 157 1.50% 21-Jun-2031,2031-06-21
+Latest,2026-10-28,5.065,4.949,Treasury Bond 163 1.00% 21-Nov-2031,2031-11-21
+Latest,2026-10-28,5.563,4.979,Treasury Bond 158 1.25% 21-May-2032,2032-05-21
+Latest,2026-10-28,6.067,5.016,Treasury Bond 165 1.75% 21-Nov-2032,2032-11-21
+Latest,2026-10-28,6.48,5.031,Treasury Bond 140 4.50% 21-Apr-2033,2033-04-21
+Latest,2026-10-28,7.066,5.068,Treasury Bond 166 3.00% 21-Nov-2033,2033-11-21
+Latest,2026-10-28,7.562,5.097,Treasury Bond 167 3.75% 21-May-2034,2034-05-21
+Latest,2026-10-28,7.647,5.101,Treasury Bond 170 4.25% 21-Jun-2034,2034-06-21
+Latest,2026-10-28,8.148,5.132,Treasury Bond 168 3.50% 21-Dec-2034,2034-12-21
+Latest,2026-10-28,8.646,5.162,Treasury Bond 145 2.75% 21-Jun-2035,2035-06-21
+Latest,2026-10-28,9.147,5.177,Treasury Bond 171 4.25% 21-Dec-2035,2035-12-21
+Latest,2026-10-28,9.396,5.187,Treasury Bond 172 4.25% 21-Mar-2036,2036-03-21
+Latest,2026-10-28,9.648,5.196,Treasury Bond 175 5.00% 21-Jun-2036,2036-06-21
+Latest,2026-10-28,9.982,5.208,Treasury Bond 173 4.25% 21-Oct-2036,2036-10-21
+Latest,2026-10-28,10.48,5.228,Treasury Bond 144 3.75% 21-Apr-2037,2037-04-21
+Latest,2026-10-28,10.982,5.242,Treasury Bond 174 4.75% 21-Oct-2037,2037-10-21
+Latest,2026-10-28,11.562,5.262,Treasury Bond 176 5.00% 21-May-2038,2038-05-21
+Latest,2026-10-28,12.646,5.317,Treasury Bond 147 3.25% 21-Jun-2039,2039-06-21
+Latest,2026-10-28,14.563,5.389,Treasury Bond 156 2.75% 21-May-2041,2041-05-21
+Latest,2026-10-28,20.394,5.554,Treasury Bond 150 3.00% 21-Mar-2047,2047-03-21
+Latest,2026-10-28,24.646,5.638,Treasury Bond 162 1.75% 21-Jun-2051,2051-06-21
+Latest,2026-10-28,27.647,5.616,Treasury Bond 169 4.75% 21-Jun-2054,2054-06-21
+1 month earlier,2026-09-28,0.561,4.889,Treasury Bond 136 4.75% 21-Apr-2027,2027-04-21
+1 month earlier,2026-09-28,1.147,5.038,Treasury Bond 148 2.75% 21-Nov-2027,2027-11-21
+1 month earlier,2026-09-28,1.645,5.06,Treasury Bond 149 2.25% 21-May-2028,2028-05-21
+1 month earlier,2026-09-28,2.149,5.056,Treasury Bond 152 2.75% 21-Nov-2028,2028-11-21
+1 month earlier,2026-09-28,2.563,5.042,Treasury Bond 138 3.25% 21-Apr-2029,2029-04-21
+1 month earlier,2026-09-28,3.149,5.04,Treasury Bond 154 2.75% 21-Nov-2029,2029-11-21
+1 month earlier,2026-09-28,3.644,5.041,Treasury Bond 155 2.50% 21-May-2030,2030-05-21
+1 month earlier,2026-09-28,4.23,5.057,Treasury Bond 160 1.00% 21-Dec-2030,2030-12-21
+1 month earlier,2026-09-28,4.728,5.076,Treasury Bond 157 1.50% 21-Jun-2031,2031-06-21
+1 month earlier,2026-09-28,5.147,5.101,Treasury Bond 163 1.00% 21-Nov-2031,2031-11-21
+1 month earlier,2026-09-28,5.645,5.136,Treasury Bond 158 1.25% 21-May-2032,2032-05-21
+1 month earlier,2026-09-28,6.149,5.181,Treasury Bond 165 1.75% 21-Nov-2032,2032-11-21
+1 month earlier,2026-09-28,6.563,5.203,Treasury Bond 140 4.50% 21-Apr-2033,2033-04-21
+1 month earlier,2026-09-28,7.149,5.248,Treasury Bond 166 3.00% 21-Nov-2033,2033-11-21
+1 month earlier,2026-09-28,7.644,5.283,Treasury Bond 167 3.75% 21-May-2034,2034-05-21
+1 month earlier,2026-09-28,7.729,5.291,Treasury Bond 170 4.25% 21-Jun-2034,2034-06-21
+1 month earlier,2026-09-28,8.23,5.324,Treasury Bond 168 3.50% 21-Dec-2034,2034-12-21
+1 month earlier,2026-09-28,8.728,5.359,Treasury Bond 145 2.75% 21-Jun-2035,2035-06-21
+1 month earlier,2026-09-28,9.229,5.381,Treasury Bond 171 4.25% 21-Dec-2035,2035-12-21
+1 month earlier,2026-09-28,9.478,5.394,Treasury Bond 172 4.25% 21-Mar-2036,2036-03-21
+1 month earlier,2026-09-28,9.73,5.406,Treasury Bond 175 5.00% 21-Jun-2036,2036-06-21
+1 month earlier,2026-09-28,10.064,5.416,Treasury Bond 173 4.25% 21-Oct-2036,2036-10-21
+1 month earlier,2026-09-28,10.563,5.438,Treasury Bond 144 3.75% 21-Apr-2037,2037-04-21
+1 month earlier,2026-09-28,11.064,5.452,Treasury Bond 174 4.75% 21-Oct-2037,2037-10-21
+1 month earlier,2026-09-28,11.644,5.471,Treasury Bond 176 5.00% 21-May-2038,2038-05-21
+1 month earlier,2026-09-28,12.728,5.523,Treasury Bond 147 3.25% 21-Jun-2039,2039-06-21
+1 month earlier,2026-09-28,14.645,5.593,Treasury Bond 156 2.75% 21-May-2041,2041-05-21
+1 month earlier,2026-09-28,20.476,5.748,Treasury Bond 150 3.00% 21-Mar-2047,2047-03-21
+1 month earlier,2026-09-28,24.728,5.829,Treasury Bond 162 1.75% 21-Jun-2051,2051-06-21
+1 month earlier,2026-09-28,27.729,5.813,Treasury Bond 169 4.75% 21-Jun-2054,2054-06-21
+1 year earlier,2025-10-28,0.479,3.485,Treasury Bond 142 4.25% 21-Apr-2026,2026-04-21
+1 year earlier,2025-10-28,0.898,3.467,Treasury Bond 164 0.50% 21-Sep-2026,2026-09-21
+1 year earlier,2025-10-28,1.478,3.422,Treasury Bond 136 4.75% 21-Apr-2027,2027-04-21
+1 year earlier,2025-10-28,2.064,3.423,Treasury Bond 148 2.75% 21-Nov-2027,2027-11-21
+1 year earlier,2025-10-28,2.563,3.426,Treasury Bond 149 2.25% 21-May-2028,2028-05-21
+1 year earlier,2025-10-28,3.066,3.449,Treasury Bond 152 2.75% 21-Nov-2028,2028-11-21
+1 year earlier,2025-10-28,3.48,3.478,Treasury Bond 138 3.25% 21-Apr-2029,2029-04-21
+1 year earlier,2025-10-28,4.066,3.516,Treasury Bond 154 2.75% 21-Nov-2029,2029-11-21
+1 year earlier,2025-10-28,4.561,3.562,Treasury Bond 155 2.50% 21-May-2030,2030-05-21
+1 year earlier,2025-10-28,5.147,3.631,Treasury Bond 160 1.00% 21-Dec-2030,2030-12-21
+1 year earlier,2025-10-28,5.645,3.686,Treasury Bond 157 1.50% 21-Jun-2031,2031-06-21
+1 year earlier,2025-10-28,6.064,3.752,Treasury Bond 163 1.00% 21-Nov-2031,2031-11-21
+1 year earlier,2025-10-28,6.563,3.824,Treasury Bond 158 1.25% 21-May-2032,2032-05-21
+1 year earlier,2025-10-28,7.066,3.889,Treasury Bond 165 1.75% 21-Nov-2032,2032-11-21
+1 year earlier,2025-10-28,7.48,3.921,Treasury Bond 140 4.50% 21-Apr-2033,2033-04-21
+1 year earlier,2025-10-28,8.066,4.0,Treasury Bond 166 3.00% 21-Nov-2033,2033-11-21
+1 year earlier,2025-10-28,8.561,4.048,Treasury Bond 167 3.75% 21-May-2034,2034-05-21
+1 year earlier,2025-10-28,8.646,4.052,Treasury Bond 170 4.25% 21-Jun-2034,2034-06-21
+1 year earlier,2025-10-28,9.147,4.104,Treasury Bond 168 3.50% 21-Dec-2034,2034-12-21
+1 year earlier,2025-10-28,9.645,4.154,Treasury Bond 145 2.75% 21-Jun-2035,2035-06-21
+1 year earlier,2025-10-28,10.146,4.172,Treasury Bond 171 4.25% 21-Dec-2035,2035-12-21
+1 year earlier,2025-10-28,10.396,4.188,Treasury Bond 172 4.25% 21-Mar-2036,2036-03-21
+1 year earlier,2025-10-28,10.982,4.229,Treasury Bond 173 4.25% 21-Oct-2036,2036-10-21
+1 year earlier,2025-10-28,11.48,4.267,Treasury Bond 144 3.75% 21-Apr-2037,2037-04-21
+1 year earlier,2025-10-28,13.645,4.398,Treasury Bond 147 3.25% 21-Jun-2039,2039-06-21
+1 year earlier,2025-10-28,15.562,4.507,Treasury Bond 156 2.75% 21-May-2041,2041-05-21
+1 year earlier,2025-10-28,21.394,4.749,Treasury Bond 150 3.00% 21-Mar-2047,2047-03-21
+1 year earlier,2025-10-28,25.645,4.866,Treasury Bond 162 1.75% 21-Jun-2051,2051-06-21
+1 year earlier,2025-10-28,28.646,4.84,Treasury Bond 169 4.75% 21-Jun-2054,2054-06-21
