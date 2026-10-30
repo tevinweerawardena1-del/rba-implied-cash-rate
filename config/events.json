@@ -1,52 +1,7 @@
 {
   "_comment": "Major data and events calendar (AU and US rates), maintained by the daily 'Update data and events calendar' scheduled task. Each event: time = ISO datetime with UTC offset (release time), country = AU | US | another G10 code (NZ, CA, UK, EZ, JP, CH, NO, SE), event = name incl. reference period, expected = consensus ('' if none, shown as a dash), previous = prior reading ('' if none), priority = 1 (top-tier: RBA/FOMC decisions, CPI, unemployment, payrolls, WPI, AU GDP, national elections) | 2 (important: core measures, US GDP, PCE, employment change) | 3 (second-tier: RBA minutes, consumer sentiment/confidence, NAB business survey, PMIs, building approvals, household spending, PPI, ISM, state elections, major speeches), url = official release page. The page shows 10 events, almost all AU and US: among future events in the next 31 days it takes the 6 best AU, 2 best US and 2 best other-G10 events (priority first, then earliest), fills any shortfall from the remaining in-window events or later events, and lists them by time. Other G10 countries get only very major events: rate decisions and national elections (priority 1), headline CPI and unemployment/labour market reports (priority 2) - nothing smaller. Keep at least 14 future events (about 5-6 weeks ahead) and drop events once they have passed.",
-  "as_of": "2026-10-30",
+  "as_of": "2026-10-31",
   "events": [
-    {
-      "time": "2026-10-30T10:30:00+11:00",
-      "country": "JP",
-      "event": "Unemployment Rate Sep",
-      "expected": "",
-      "previous": "2.5%",
-      "url": "https://www.stat.go.jp/english/data/roudou/",
-      "priority": 2
-    },
-    {
-      "time": "2026-10-30T11:30:00+11:00",
-      "country": "AU",
-      "event": "PPI Q3 (q/q)",
-      "expected": "",
-      "previous": "1.3%",
-      "priority": 3,
-      "url": "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/producer-price-indexes-australia/latest-release"
-    },
-    {
-      "time": "2026-10-30T11:30:00+11:00",
-      "country": "AU",
-      "event": "Private Sector Credit Sep (m/m)",
-      "expected": "",
-      "previous": "0.6%",
-      "url": "https://www.rba.gov.au/statistics/frequency/fin-agg/",
-      "priority": 3
-    },
-    {
-      "time": "2026-10-30T14:00:00+11:00",
-      "country": "JP",
-      "event": "BoJ Rate Decision (time approx.)",
-      "expected": "1.25%",
-      "previous": "1.25%",
-      "priority": 1,
-      "url": "https://www.boj.or.jp/en/mopo/mpmsche_minu/index.htm"
-    },
-    {
-      "time": "2026-10-30T23:30:00+11:00",
-      "country": "US",
-      "event": "Employment Cost Index Q3 (q/q)",
-      "expected": "",
-      "previous": "0.9%",
-      "url": "https://www.bls.gov/eci/",
-      "priority": 2
-    },
     {
       "time": "2026-11-02T09:00:00+11:00",
       "country": "AU",
@@ -78,7 +33,7 @@
       "time": "2026-11-03T02:00:00+11:00",
       "country": "US",
       "event": "ISM Manufacturing PMI Oct",
-      "expected": "",
+      "expected": "54.7",
       "previous": "54.5",
       "priority": 3,
       "url": "https://www.ismworld.org/supply-management-news-and-reports/reports/ism-pmi-reports/"
@@ -96,7 +51,7 @@
       "time": "2026-11-04T02:00:00+11:00",
       "country": "US",
       "event": "JOLTS Job Openings Sep",
-      "expected": "",
+      "expected": "7.1m",
       "previous": "7.1m",
       "url": "https://www.bls.gov/jlt/",
       "priority": 3
@@ -132,7 +87,7 @@
       "time": "2026-11-04T19:30:00+11:00",
       "country": "SE",
       "event": "Riksbank Rate Decision",
-      "expected": "",
+      "expected": "2.00%",
       "previous": "1.75%",
       "url": "https://www.riksbank.se/en-gb/monetary-policy/",
       "priority": 2
@@ -168,7 +123,7 @@
       "time": "2026-11-05T20:00:00+11:00",
       "country": "NO",
       "event": "Norges Bank Rate Decision",
-      "expected": "",
+      "expected": "4.50%",
       "previous": "4.50%",
       "url": "https://www.norges-bank.no/en/news-events/calendar/policy-rate-decisions/",
       "priority": 2
@@ -186,7 +141,7 @@
       "time": "2026-11-07T00:30:00+11:00",
       "country": "CA",
       "event": "Unemployment Rate Oct",
-      "expected": "",
+      "expected": "6.5%",
       "previous": "6.5%",
       "url": "https://www150.statcan.gc.ca/n1/en/subjects/labour/labour_force_survey",
       "priority": 2
@@ -204,7 +159,7 @@
       "time": "2026-11-07T00:30:00+11:00",
       "country": "US",
       "event": "Unemployment Rate Oct",
-      "expected": "",
+      "expected": "4.2%",
       "previous": "4.2%",
       "url": "https://www.bls.gov/cps/",
       "priority": 2
@@ -430,7 +385,7 @@
       "country": "AU",
       "event": "Private Sector Credit Oct (m/m)",
       "expected": "",
-      "previous": "",
+      "previous": "0.6%",
       "priority": 3,
       "url": "https://www.rba.gov.au/statistics/frequency/fin-agg/"
     },
@@ -448,7 +403,7 @@
       "country": "JP",
       "event": "Unemployment Rate Oct",
       "expected": "",
-      "previous": "",
+      "previous": "2.4%",
       "priority": 2,
       "url": "https://www.stat.go.jp/english/data/roudou/"
     },
