@@ -11,20 +11,20 @@
         "size_bp": 25,
         "rate_after": 4.85
       },
-      "note": "CBA reaffirmed (30 Oct-1 Nov): 25bp November hike to 4.85%, possibly not unanimous; base case is one hike then an extended hold, with no moves in December or February; Belinda Allen expects higher RBA inflation forecasts and weaker growth; cuts pencilled in for August and November 2027 'if enough progress has been made'",
-      "as_of": "2026-11-01",
+      "note": "CBA reaffirmed (3 Nov): 'A 25bp hike is widely expected by Australian economists and market participants, including ourselves' (to 4.85%); base case is one hike then an extended hold, though a further December hike can't be ruled out (Yahoo Finance, 1 Nov); cuts pencilled in from August 2027",
+      "as_of": "2026-11-03",
       "sources": [
+        {
+          "label": "ABC, 3 Nov",
+          "url": "https://www.abc.net.au/news/2026-11-03/rba-interest-rates-markets-live-coverage/107338216"
+        },
+        {
+          "label": "Yahoo Finance, 1 Nov",
+          "url": "https://au.finance.yahoo.com/news/mortgage-pressure-mounts-as-aussie-banks-flag-the-real-question-ahead-of-rba-meeting-050000008.html"
+        },
         {
           "label": "The Bull, 1 Nov",
           "url": "https://thebull.com.au/news/big-four-expecting-rate-hike-at-november-rba-meet-but-what-follows/"
-        },
-        {
-          "label": "Savings.com.au, 30 Oct",
-          "url": "https://www.savings.com.au/news/economists-debate-whether-november-rate-hike-will-be-the-last"
-        },
-        {
-          "label": "CommBank, 28 Oct",
-          "url": "https://www.commbank.com.au/articles/newsroom/2026/10/commbank-november-rba-rate-hike-inflation-risks.html"
         }
       ]
     },
@@ -38,9 +38,13 @@
         "size_bp": 25,
         "rate_after": 4.85
       },
-      "note": "Westpac reaffirmed (30 Oct-1 Nov): Luci Ellis: 'We are expecting the RBA to hike next week' (to 4.85%) and 'I don't think they're going to go again after that'; hold in December, with rising risk of a February hike; 'further hikes beyond next week are not currently our base case'; previously saw cuts from August 2027",
-      "as_of": "2026-11-01",
+      "note": "Westpac reaffirmed (2 Nov): hike in November to 4.85%; Luci Ellis: 'I don't think they're going to go again after that'; hold in December, with rising risk of a February hike; 'further hikes beyond next week are not currently our base case'; easing seen from August 2027",
+      "as_of": "2026-11-02",
       "sources": [
+        {
+          "label": "Canstar, 2 Nov",
+          "url": "https://www.canstar.com.au/home-loans/interest-rate-forecast-australia/"
+        },
         {
           "label": "The Bull, 1 Nov",
           "url": "https://thebull.com.au/news/big-four-expecting-rate-hike-at-november-rba-meet-but-what-follows/"
@@ -48,10 +52,6 @@
         {
           "label": "Savings.com.au, 30 Oct",
           "url": "https://www.savings.com.au/news/economists-debate-whether-november-rate-hike-will-be-the-last"
-        },
-        {
-          "label": "The Adviser, 28 Oct",
-          "url": "https://www.theadviser.com.au/borrower/49148-third-major-bank-now-tipping-november-hike-as-inflation-jumps"
         }
       ]
     },
@@ -65,20 +65,20 @@
         "size_bp": 25,
         "rate_after": 4.85
       },
-      "note": "NAB reaffirmed (30 Oct): 25bp November hike to 4.85%; expects a pause after November, with the RBA 'a long way from declaring victory on inflation'; cut timing not restated (previously from August 2027)",
-      "as_of": "2026-10-30",
+      "note": "NAB reaffirmed (2 Nov): 25bp November hike to 4.85%; expects a pause after November, with the RBA 'a long way from declaring victory on inflation'; cuts seen from August 2027",
+      "as_of": "2026-11-02",
       "sources": [
+        {
+          "label": "Canstar, 2 Nov",
+          "url": "https://www.canstar.com.au/home-loans/interest-rate-forecast-australia/"
+        },
+        {
+          "label": "Yahoo Finance, 1 Nov",
+          "url": "https://au.finance.yahoo.com/news/mortgage-pressure-mounts-as-aussie-banks-flag-the-real-question-ahead-of-rba-meeting-050000008.html"
+        },
         {
           "label": "Savings.com.au, 30 Oct",
           "url": "https://www.savings.com.au/news/economists-debate-whether-november-rate-hike-will-be-the-last"
-        },
-        {
-          "label": "MarketScreener, 28 Oct",
-          "url": "https://www.marketscreener.com/news/rba-watch-nab-now-expects-the-rba-to-hike-in-november-ce785cd2d98ef32c"
-        },
-        {
-          "label": "Aussie, 26 Oct",
-          "url": "https://www.aussie.com.au/insights/news/expert-predictions-rba-rates/"
         }
       ]
     },
@@ -92,20 +92,20 @@
         "size_bp": 25,
         "rate_after": 4.85
       },
-      "note": "ANZ reaffirmed (30 Oct): a 'necessary increase' of 25bp in November to 4.85%; sees a 'material risk' of a further hike to 5.10% in December or February; previously saw cuts from November 2027",
-      "as_of": "2026-10-30",
+      "note": "ANZ reaffirmed (1-2 Nov): 25bp November hike to 4.85%; 'the real question isn't next week's RBA Board decision but what happens at the December and February meetings', with a 'material risk that the cash rate reaches 5.10 per cent in either December or February'; cuts seen from November 2027",
+      "as_of": "2026-11-02",
       "sources": [
+        {
+          "label": "Canstar, 2 Nov",
+          "url": "https://www.canstar.com.au/home-loans/interest-rate-forecast-australia/"
+        },
+        {
+          "label": "Yahoo Finance, 1 Nov",
+          "url": "https://au.finance.yahoo.com/news/mortgage-pressure-mounts-as-aussie-banks-flag-the-real-question-ahead-of-rba-meeting-050000008.html"
+        },
         {
           "label": "Savings.com.au, 30 Oct",
           "url": "https://www.savings.com.au/news/economists-debate-whether-november-rate-hike-will-be-the-last"
-        },
-        {
-          "label": "The Adviser, 28 Oct",
-          "url": "https://www.theadviser.com.au/borrower/49148-third-major-bank-now-tipping-november-hike-as-inflation-jumps"
-        },
-        {
-          "label": "Aussie, 26 Oct",
-          "url": "https://www.aussie.com.au/insights/news/expert-predictions-rba-rates/"
         }
       ]
     },
