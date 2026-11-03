@@ -3,17 +3,21 @@
   "banks": [
     {
       "bank": "CBA",
-      "next_meeting": "2026-11-03",
-      "call": "hike",
+      "next_meeting": "2026-12-08",
+      "call": "no change",
       "next_change": {
-        "month": "2026-11",
-        "direction": "hike",
+        "month": "2027-08",
+        "direction": "cut",
         "size_bp": 25,
-        "rate_after": 4.85
+        "rate_after": 4.6
       },
-      "note": "CBA reaffirmed (3 Nov): 'A 25bp hike is widely expected by Australian economists and market participants, including ourselves' (to 4.85%); base case is one hike then an extended hold, though a further December hike can't be ruled out (Yahoo Finance, 1 Nov); cuts pencilled in from August 2027",
+      "note": "CommBank (3 Nov): 'expects the cash rate to remain at 4.85% in December'; Belinda Allen says the RBA 'will ultimately keep rates on hold' into 2027, with the risk of 'further tightening' in 2027; forecasts two 25bp cuts in August and November 2027, to 4.35%",
       "as_of": "2026-11-03",
       "sources": [
+        {
+          "label": "CommBank, 3 Nov",
+          "url": "https://www.commbank.com.au/articles/newsroom/2026/11/commbank-november-rba-cash-rate-increase-analysis.html"
+        },
         {
           "label": "ABC, 3 Nov",
           "url": "https://www.abc.net.au/news/2026-11-03/rba-interest-rates-markets-live-coverage/107338216"
@@ -21,107 +25,108 @@
         {
           "label": "Yahoo Finance, 1 Nov",
           "url": "https://au.finance.yahoo.com/news/mortgage-pressure-mounts-as-aussie-banks-flag-the-real-question-ahead-of-rba-meeting-050000008.html"
-        },
-        {
-          "label": "The Bull, 1 Nov",
-          "url": "https://thebull.com.au/news/big-four-expecting-rate-hike-at-november-rba-meet-but-what-follows/"
         }
       ]
     },
     {
       "bank": "Westpac",
-      "next_meeting": "2026-11-03",
-      "call": "hike",
+      "next_meeting": "2026-12-08",
+      "call": "no change",
       "next_change": {
-        "month": "2026-11",
-        "direction": "hike",
+        "month": "2027-08",
+        "direction": "cut",
         "size_bp": 25,
-        "rate_after": 4.85
+        "rate_after": 4.6
       },
-      "note": "Westpac reaffirmed (2 Nov): hike in November to 4.85%; Luci Ellis: 'I don't think they're going to go again after that'; hold in December, with rising risk of a February hike; 'further hikes beyond next week are not currently our base case'; easing seen from August 2027",
-      "as_of": "2026-11-02",
+      "note": "Westpac (3 Nov): 6-3 vote confirms 'our current view that the MPB will keep rates on hold in December'; 4.85% 'likely the peak of the cycle', with February 'the next most likely timing for a hike, should one eventuate'; cuts seen from August 2027 (Canstar, 3 Nov)",
+      "as_of": "2026-11-03",
       "sources": [
         {
-          "label": "Canstar, 2 Nov",
-          "url": "https://www.canstar.com.au/home-loans/interest-rate-forecast-australia/"
+          "label": "Westpac via ActionForex, 3 Nov",
+          "url": "https://www.actionforex.com/contributors/fundamental-analysis/659614-rba-hikes-cash-rate-to-new-high-of-4-85-a-december-pause-likely/"
+        },
+        {
+          "label": "Canstar, 3 Nov",
+          "url": "https://www.canstar.com.au/home-loans/when-will-interest-rates-go-down"
         },
         {
           "label": "The Bull, 1 Nov",
           "url": "https://thebull.com.au/news/big-four-expecting-rate-hike-at-november-rba-meet-but-what-follows/"
-        },
-        {
-          "label": "Savings.com.au, 30 Oct",
-          "url": "https://www.savings.com.au/news/economists-debate-whether-november-rate-hike-will-be-the-last"
         }
       ]
     },
     {
       "bank": "NAB",
-      "next_meeting": "2026-11-03",
-      "call": "hike",
+      "next_meeting": "2026-12-08",
+      "call": "no change",
       "next_change": {
-        "month": "2026-11",
-        "direction": "hike",
+        "month": "2027-08",
+        "direction": "cut",
         "size_bp": 25,
-        "rate_after": 4.85
+        "rate_after": 4.6
       },
-      "note": "NAB reaffirmed (2 Nov): 25bp November hike to 4.85%; expects a pause after November, with the RBA 'a long way from declaring victory on inflation'; cuts seen from August 2027",
-      "as_of": "2026-11-02",
+      "note": "Sally Auld (3 Nov): 'we are not forecasting further policy tightening from here', though the RBA will be 'sensitive (and responsive)' to any upside inflation surprise; cuts seen from August 2027 (Canstar, 3 Nov)",
+      "as_of": "2026-11-03",
       "sources": [
         {
-          "label": "Canstar, 2 Nov",
-          "url": "https://www.canstar.com.au/home-loans/interest-rate-forecast-australia/"
+          "label": "Reuters via AOL, 3 Nov",
+          "url": "https://www.aol.com/articles/australias-central-bank-lifts-rates-033706000.html"
+        },
+        {
+          "label": "Canstar, 3 Nov",
+          "url": "https://www.canstar.com.au/home-loans/when-will-interest-rates-go-down"
         },
         {
           "label": "Yahoo Finance, 1 Nov",
           "url": "https://au.finance.yahoo.com/news/mortgage-pressure-mounts-as-aussie-banks-flag-the-real-question-ahead-of-rba-meeting-050000008.html"
-        },
-        {
-          "label": "Savings.com.au, 30 Oct",
-          "url": "https://www.savings.com.au/news/economists-debate-whether-november-rate-hike-will-be-the-last"
         }
       ]
     },
     {
       "bank": "ANZ",
-      "next_meeting": "2026-11-03",
-      "call": "hike",
+      "next_meeting": "2026-12-08",
+      "call": "no change",
       "next_change": {
-        "month": "2026-11",
-        "direction": "hike",
+        "month": "2027-11",
+        "direction": "cut",
         "size_bp": 25,
-        "rate_after": 4.85
+        "rate_after": 4.6
       },
-      "note": "ANZ reaffirmed (1-2 Nov): 25bp November hike to 4.85%; 'the real question isn't next week's RBA Board decision but what happens at the December and February meetings', with a 'material risk that the cash rate reaches 5.10 per cent in either December or February'; cuts seen from November 2027",
-      "as_of": "2026-11-02",
+      "note": "Adam Boyton (3 Nov): 'we are at, or close to, the cash rate peak and we are not forecasting another increase', with inflation risks possibly skewed lower; before the decision ANZ had flagged a material risk of 5.10% by December or February; cuts seen from November 2027 (Canstar, 3 Nov)",
+      "as_of": "2026-11-03",
       "sources": [
         {
-          "label": "Canstar, 2 Nov",
-          "url": "https://www.canstar.com.au/home-loans/interest-rate-forecast-australia/"
+          "label": "Reuters via AOL, 3 Nov",
+          "url": "https://www.aol.com/articles/australias-central-bank-lifts-rates-033706000.html"
+        },
+        {
+          "label": "Canstar, 3 Nov",
+          "url": "https://www.canstar.com.au/home-loans/when-will-interest-rates-go-down"
         },
         {
           "label": "Yahoo Finance, 1 Nov",
           "url": "https://au.finance.yahoo.com/news/mortgage-pressure-mounts-as-aussie-banks-flag-the-real-question-ahead-of-rba-meeting-050000008.html"
-        },
-        {
-          "label": "Savings.com.au, 30 Oct",
-          "url": "https://www.savings.com.au/news/economists-debate-whether-november-rate-hike-will-be-the-last"
         }
       ]
     },
     {
       "bank": "AMP",
-      "next_meeting": "2026-11-03",
-      "call": "hike",
+      "next_meeting": "2026-12-08",
+      "call": "no change",
       "next_change": {
-        "month": "2026-11",
-        "direction": "hike",
+        "month": "2027-11",
+        "label": "Dec qtr 2027",
+        "direction": "cut",
         "size_bp": 25,
-        "rate_after": 4.85
+        "rate_after": 4.6
       },
-      "note": "AMP changed its call after the Q3 CPI (Shane Oliver, 30 Oct): RBA 'is expected to hike the cash rate by 0.25% for the fifth time this year, taking it to 4.85%' (previously a hold), possibly not unanimous; 'still a high risk of a sixth hike to 5.1%' but base case is '4.85% will be the peak with an extended hold out to the December quarter next year'",
-      "as_of": "2026-10-30",
+      "note": "Shane Oliver (3 Nov, pre-decision): November's move 'should be enough to keep the bank on hold for the time being'; 30 Oct update: base case is '4.85% will be the peak with an extended hold out to the December quarter next year', when rates are likely to start falling, with a high risk of a sixth hike to 5.1%. Cut size assumed 25bp",
+      "as_of": "2026-11-03",
       "sources": [
+        {
+          "label": "investingLive, 3 Nov",
+          "url": "https://investinglive.com/central-banks/rba-set-for-fifth-hike-of-2026-to-4-85-three-views-on-what-comes-next/"
+        },
         {
           "label": "AMP weekly update, 30 Oct",
           "url": "https://www.amp.com.au/resources/insights-hub/weekly-market-update-30-10-2026-amp"
@@ -129,26 +134,21 @@
         {
           "label": "AMP weekly update, 23 Oct",
           "url": "https://www.amp.com.au/resources/insights-hub/weekly-market-update-23-10-2026-amp"
-        },
-        {
-          "label": "AMP weekly update, 16 Oct",
-          "url": "https://www.amp.com.au/resources/insights-hub/weekly-market-update-16-10-2026-amp"
         }
       ]
     },
     {
       "bank": "UBS",
-      "next_meeting": "2026-11-03",
-      "call": "hike",
-      "next_change": {
-        "month": "2026-11",
-        "direction": "hike",
-        "size_bp": 25,
-        "rate_after": 4.85
-      },
-      "note": "UBS (Stephen Wu, Tharenou's team, 28 Oct) reaffirmed a 25bp hike to 4.85%, most likely in November, with the 1.0% q/q Q3 trimmed mean the likely trigger; earlier (21 Oct) Tharenou flagged a split board could deliver 'a hawkish hold' setting up December; cuts previously seen from November 2027",
-      "as_of": "2026-10-28",
+      "next_meeting": "2026-12-08",
+      "call": "no change",
+      "next_change": null,
+      "note": "George Tharenou (3 Nov): statement 'clearly dovish' after the 6-3 vote and dropped tightening bias; 'UBS thinks the RBA will now remain on hold' (ABC); timing of first cut not reaffirmed since the decision (earlier view: from November 2027)",
+      "as_of": "2026-11-03",
       "sources": [
+        {
+          "label": "ABC, 3 Nov",
+          "url": "https://www.abc.net.au/news/2026-11-03/rba-interest-rates-markets-live-coverage/107338216"
+        },
         {
           "label": "ABC, 28 Oct",
           "url": "https://www.abc.net.au/news/2026-10-28/asx-markets-business-live-news/107316614"
@@ -156,24 +156,15 @@
         {
           "label": "ABC, 21 Oct",
           "url": "https://www.abc.net.au/news/2026-10-21/reserve-bank-hauser-warns-inflation-outlook-materially-worse/107288574"
-        },
-        {
-          "label": "Livewire, 17 Sep",
-          "url": "https://www.livewiremarkets.com/wires/mortgage-holders-should-expect-two-more-interest-rate-hikes-not-one-ubs"
         }
       ]
     },
     {
       "bank": "Goldman Sachs",
-      "next_meeting": "2026-11-03",
-      "call": "hike",
-      "next_change": {
-        "month": "2026-11",
-        "direction": "hike",
-        "size_bp": 25,
-        "rate_after": 4.85
-      },
-      "note": "Goldman (Andrew Boak's team) changed its call after Deputy Governor Hauser's 'clearly hawkish' speech (20 Oct): now expects a 25bp hike to 4.85% in November (previously a hold), citing a deteriorating inflation outlook; timing of first cut not published",
+      "next_meeting": "2026-12-08",
+      "call": null,
+      "next_change": null,
+      "note": "Goldman's (Andrew Boak's team) November hike call was delivered; no public view on December or the timing of its next change found since the decision",
       "as_of": "2026-10-21",
       "sources": [
         {
@@ -192,17 +183,16 @@
     },
     {
       "bank": "Pendal",
-      "next_meeting": "2026-11-03",
-      "call": "hike",
-      "next_change": {
-        "month": "2026-11",
-        "direction": "hike",
-        "size_bp": 25,
-        "rate_after": 4.85
-      },
-      "note": "Steve Campbell (head of cash strategies): November 'another likely hike'; RBA 'unlikely to stop at a single hike'",
-      "as_of": "2026-09-29",
+      "next_meeting": "2026-12-08",
+      "call": null,
+      "next_change": null,
+      "note": "Steve Campbell (3 Nov): no explicit December call; 'Further tightening can't be ruled out, particularly if Middle East hostilities continue', while noting 'The bond market is saying that the RBA may be done'",
+      "as_of": "2026-11-03",
       "sources": [
+        {
+          "label": "Pendal, 3 Nov",
+          "url": "https://pendalgroup.com/education-and-resources/cup-day-hike-split-field-is-the-rba-done/"
+        },
         {
           "label": "Pendal, 29 Sep",
           "url": "https://pendalgroup.com/education-and-resources/steve-campbell-why-the-rba-changed-course-on-rates-and-whats-next/"
