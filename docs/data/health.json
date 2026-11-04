@@ -1,16 +1,16 @@
 {
-  "checked": "2026-11-04",
+  "checked": "2026-11-05",
   "warnings": [],
   "notes": [
     "Futures run to Apr 2028 but the last RBA meeting date on file is 14 Dec 2027; later meetings will appear once the RBA publishes them."
   ],
   "failed_steps": [],
   "last_dates": {
-    "ASX futures": "2026-11-03",
+    "ASX futures": "2026-11-04",
     "RBA cash rate & bank bills (F1)": "2026-11-03",
     "RBA bond yields (F2)": "2026-10-28",
     "RBA bond lines (F16)": "2026-10-28",
-    "AUD/USD": "2026-11-03",
+    "AUD/USD": "2026-11-04",
     "US 2-year Treasury": "2026-11-02",
     "US 10-year Treasury": "2026-11-02",
     "RBA CPI (G1)": "2026-09-30",
