@@ -11,9 +11,13 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "CommBank (3 Nov): 'expects the cash rate to remain at 4.85% in December'; Belinda Allen says the RBA 'will ultimately keep rates on hold' into 2027, with the risk of 'further tightening' in 2027; forecasts two 25bp cuts in August and November 2027, to 4.35%",
-      "as_of": "2026-11-03",
+      "note": "Belinda Allen (Broker News, 4 Nov): 'we think the RBA will remain on edge as we enter 2027, but keep rates on hold', though 'the willingness to hike again is retained'; 'We continue to pencil in two rate cuts in late 2027, in August and November'. CommBank (3 Nov) expects 4.85% to hold in December",
+      "as_of": "2026-11-04",
       "sources": [
+        {
+          "label": "Broker News, 4 Nov",
+          "url": "https://www.brokernews.com.au/news/breaking-news/the-market-reacts-to-the-rbas-fifth-interest-rate-hike-of-2026-290253.aspx"
+        },
         {
           "label": "CommBank, 3 Nov",
           "url": "https://www.commbank.com.au/articles/newsroom/2026/11/commbank-november-rba-cash-rate-increase-analysis.html"
@@ -21,10 +25,6 @@
         {
           "label": "ABC, 3 Nov",
           "url": "https://www.abc.net.au/news/2026-11-03/rba-interest-rates-markets-live-coverage/107338216"
-        },
-        {
-          "label": "Yahoo Finance, 1 Nov",
-          "url": "https://au.finance.yahoo.com/news/mortgage-pressure-mounts-as-aussie-banks-flag-the-real-question-ahead-of-rba-meeting-050000008.html"
         }
       ]
     },
@@ -92,9 +92,13 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "Adam Boyton (3 Nov): 'we are at, or close to, the cash rate peak and we are not forecasting another increase', with inflation risks possibly skewed lower; before the decision ANZ had flagged a material risk of 5.10% by December or February; cuts seen from November 2027 (Canstar, 3 Nov)",
-      "as_of": "2026-11-03",
+      "note": "ANZ (Australian Morning Focus, via FNArena, 4 Nov): 'we are at or close to the cash rate peak, and we are not forecasting another increase in rates', while the post-meeting statement 'remains hawkish on the inflation front'; before the decision ANZ had flagged a material risk of 5.10% by December or February; cuts seen from November 2027 (Canstar, 3 Nov)",
+      "as_of": "2026-11-04",
       "sources": [
+        {
+          "label": "FNArena, 4 Nov",
+          "url": "https://fnarena.com/2026/11/04/the-overnight-report-us-mid-term-d-day/"
+        },
         {
           "label": "Reuters via AOL, 3 Nov",
           "url": "https://www.aol.com/articles/australias-central-bank-lifts-rates-033706000.html"
@@ -102,10 +106,6 @@
         {
           "label": "Canstar, 3 Nov",
           "url": "https://www.canstar.com.au/home-loans/when-will-interest-rates-go-down"
-        },
-        {
-          "label": "Yahoo Finance, 1 Nov",
-          "url": "https://au.finance.yahoo.com/news/mortgage-pressure-mounts-as-aussie-banks-flag-the-real-question-ahead-of-rba-meeting-050000008.html"
         }
       ]
     },
@@ -141,10 +141,20 @@
       "bank": "UBS",
       "next_meeting": "2026-12-08",
       "call": "no change",
-      "next_change": null,
-      "note": "George Tharenou (3 Nov): statement 'clearly dovish' after the 6-3 vote and dropped tightening bias; 'UBS thinks the RBA will now remain on hold' (ABC); timing of first cut not reaffirmed since the decision (earlier view: from November 2027)",
-      "as_of": "2026-11-03",
+      "next_change": {
+        "month": "2027-11",
+        "label": "Late 2027",
+        "direction": "cut",
+        "size_bp": 25,
+        "rate_after": 4.6
+      },
+      "note": "George Tharenou (Reuters, 4 Nov): expects the RBA 'to hold the cash rate at 4.85% for a sustained period until late 2027'; 'the risk of an additional hike has now reduced', and if the RBA does hike again 'the more likely timing remains in Feb-27'. Cut direction and November timing from UBS's earlier view (first cut from November 2027); size assumed 25bp",
+      "as_of": "2026-11-04",
       "sources": [
+        {
+          "label": "Business Recorder (Reuters), 4 Nov",
+          "url": "https://www.brecorder.com/news/40447365/kiwi-in-brief-skid-after-weak-jobs-data-aussie-pressured-by-dovish-rba-turn"
+        },
         {
           "label": "ABC, 3 Nov",
           "url": "https://www.abc.net.au/news/2026-11-03/rba-interest-rates-markets-live-coverage/107338216"
@@ -152,10 +162,6 @@
         {
           "label": "ABC, 28 Oct",
           "url": "https://www.abc.net.au/news/2026-10-28/asx-markets-business-live-news/107316614"
-        },
-        {
-          "label": "ABC, 21 Oct",
-          "url": "https://www.abc.net.au/news/2026-10-21/reserve-bank-hauser-warns-inflation-outlook-materially-worse/107288574"
         }
       ]
     },
