@@ -1,57 +1,12 @@
 {
   "_comment": "Major data and events calendar (AU and US rates), maintained by the daily 'Update data and events calendar' scheduled task. Each event: time = ISO datetime with UTC offset (release time), country = AU | US | another G10 code (NZ, CA, UK, EZ, JP, CH, NO, SE), event = name incl. reference period, expected = consensus ('' if none, shown as a dash), previous = prior reading ('' if none), priority = 1 (top-tier: RBA/FOMC decisions, CPI, unemployment, payrolls, WPI, AU GDP, national elections) | 2 (important: core measures, US GDP, PCE, employment change) | 3 (second-tier: RBA minutes, consumer sentiment/confidence, NAB business survey, PMIs, building approvals, household spending, PPI, ISM, state elections, major speeches), url = official release page. The page shows 10 events, almost all AU and US: among future events in the next 31 days it takes the 6 best AU, 2 best US and 2 best other-G10 events (priority first, then earliest), fills any shortfall from the remaining in-window events or later events, and lists them by time. Other G10 countries get only very major events: rate decisions and national elections (priority 1), headline CPI and unemployment/labour market reports (priority 2) - nothing smaller. Keep at least 14 future events (about 5-6 weeks ahead) and drop events once they have passed.",
-  "as_of": "2026-11-04",
+  "as_of": "2026-11-05",
   "events": [
-    {
-      "time": "2026-11-04T08:45:00+11:00",
-      "country": "NZ",
-      "event": "Unemployment Rate Q3",
-      "expected": "",
-      "previous": "5.6%",
-      "url": "https://www.stats.govt.nz/indicators/unemployment-rate/",
-      "priority": 2
-    },
-    {
-      "time": "2026-11-04T10:00:00+11:00",
-      "country": "US",
-      "event": "Midterm Elections (first polls close)",
-      "expected": "",
-      "previous": "",
-      "priority": 1,
-      "url": "https://www.usa.gov/midterm-elections"
-    },
-    {
-      "time": "2026-11-04T11:30:00+11:00",
-      "country": "AU",
-      "event": "Household Spending Sep (m/m)",
-      "expected": "",
-      "previous": "0.0%",
-      "url": "https://www.abs.gov.au/statistics/economy/finance/monthly-household-spending-indicator/latest-release",
-      "priority": 3
-    },
-    {
-      "time": "2026-11-04T19:30:00+11:00",
-      "country": "SE",
-      "event": "Riksbank Rate Decision",
-      "expected": "2.00%",
-      "previous": "1.75%",
-      "url": "https://www.riksbank.se/en-gb/monetary-policy/",
-      "priority": 2
-    },
-    {
-      "time": "2026-11-04T21:00:00+11:00",
-      "country": "EZ",
-      "event": "HICP Oct flash (y/y)",
-      "expected": "3.9%",
-      "previous": "3.8%",
-      "url": "https://ec.europa.eu/eurostat/news/euro-indicators",
-      "priority": 2
-    },
     {
       "time": "2026-11-05T11:30:00+11:00",
       "country": "AU",
       "event": "Trade Balance Sep",
-      "expected": "",
+      "expected": "A$1.0bn",
       "previous": "A$0.5bn",
       "url": "https://www.abs.gov.au/statistics/economy/international-trade/international-trade-goods/latest-release",
       "priority": 3
@@ -87,7 +42,7 @@
       "time": "2026-11-07T00:30:00+11:00",
       "country": "CA",
       "event": "Unemployment Rate Oct",
-      "expected": "",
+      "expected": "6.5%",
       "previous": "6.5%",
       "url": "https://www150.statcan.gc.ca/n1/en/subjects/labour/labour_force_survey",
       "priority": 2
@@ -96,7 +51,7 @@
       "time": "2026-11-07T00:30:00+11:00",
       "country": "US",
       "event": "Nonfarm Payrolls Oct",
-      "expected": "",
+      "expected": "+65k",
       "previous": "+29k",
       "url": "https://www.bls.gov/ces/",
       "priority": 1
@@ -331,7 +286,7 @@
       "country": "AU",
       "event": "Household Spending Oct (m/m)",
       "expected": "",
-      "previous": "",
+      "previous": "0.6%",
       "url": "https://www.abs.gov.au/statistics/economy/finance/monthly-household-spending-indicator/latest-release",
       "priority": 3
     },
@@ -385,7 +340,7 @@
       "country": "EZ",
       "event": "HICP Nov flash (y/y)",
       "expected": "",
-      "previous": "",
+      "previous": "4.0%",
       "priority": 2,
       "url": "https://ec.europa.eu/eurostat/news/euro-indicators"
     },
@@ -556,7 +511,7 @@
       "country": "SE",
       "event": "Riksbank Rate Decision",
       "expected": "",
-      "previous": "1.75%",
+      "previous": "2.00%",
       "url": "https://www.riksbank.se/en-gb/monetary-policy/",
       "priority": 2
     },
@@ -568,6 +523,24 @@
       "previous": "",
       "url": "https://www.census.gov/retail/index.html",
       "priority": 3
+    },
+    {
+      "time": "2026-12-17T11:30:00+11:00",
+      "country": "AU",
+      "event": "Employment Change Nov",
+      "expected": "",
+      "previous": "",
+      "url": "https://www.abs.gov.au/statistics/labour/employment-and-unemployment/labour-force-australia/latest-release",
+      "priority": 2
+    },
+    {
+      "time": "2026-12-17T11:30:00+11:00",
+      "country": "AU",
+      "event": "Unemployment Rate Nov",
+      "expected": "",
+      "previous": "",
+      "url": "https://www.abs.gov.au/statistics/labour/employment-and-unemployment/labour-force-australia/latest-release",
+      "priority": 1
     },
     {
       "time": "2026-12-17T20:00:00+11:00",
