@@ -1,9 +1,9 @@
 {
   "as_at": "2026-11-04",
-  "generated_utc": "2026-11-04 22:01",
+  "generated_utc": "2026-11-05 01:11",
   "source": "ASX website",
-  "cash_rate_target": 4.6,
-  "target_as_of": "2026-11-03",
+  "cash_rate_target": 4.85,
+  "target_as_of": "2026-11-04",
   "ibocr_spread_bp": 0.0,
   "futures": [
     {
@@ -99,23 +99,13 @@
   ],
   "meetings": [
     {
-      "decision_date": "2026-11-03",
-      "effective_date": "2026-11-04",
-      "implied_rate": 4.8444,
-      "rate_before": 4.6,
-      "change_bp": 24.44,
-      "cumulative_bp": 24.44,
-      "move_fraction": 0.9778,
-      "method": "formula"
-    },
-    {
       "decision_date": "2026-12-08",
       "effective_date": "2026-12-09",
       "implied_rate": 4.87,
-      "rate_before": 4.8444,
-      "change_bp": 2.56,
-      "cumulative_bp": 27.0,
-      "move_fraction": 0.1022,
+      "rate_before": 4.85,
+      "change_bp": 2.0,
+      "cumulative_bp": 2.0,
+      "move_fraction": 0.08,
       "method": "clean-month"
     },
     {
@@ -124,7 +114,7 @@
       "implied_rate": 4.9216,
       "rate_before": 4.87,
       "change_bp": 5.16,
-      "cumulative_bp": 32.16,
+      "cumulative_bp": 7.16,
       "move_fraction": 0.2063,
       "method": "formula"
     },
@@ -134,7 +124,7 @@
       "implied_rate": 4.925,
       "rate_before": 4.9216,
       "change_bp": 0.34,
-      "cumulative_bp": 32.5,
+      "cumulative_bp": 7.5,
       "move_fraction": 0.0137,
       "method": "clean-month"
     },
@@ -144,7 +134,7 @@
       "implied_rate": 4.9135,
       "rate_before": 4.925,
       "change_bp": -1.15,
-      "cumulative_bp": 31.35,
+      "cumulative_bp": 6.35,
       "move_fraction": -0.0459,
       "method": "formula"
     },
@@ -154,7 +144,7 @@
       "implied_rate": 4.865,
       "rate_before": 4.9135,
       "change_bp": -4.85,
-      "cumulative_bp": 26.5,
+      "cumulative_bp": 1.5,
       "move_fraction": -0.1941,
       "method": "clean-month"
     },
@@ -164,7 +154,7 @@
       "implied_rate": 4.806,
       "rate_before": 4.865,
       "change_bp": -5.9,
-      "cumulative_bp": 20.6,
+      "cumulative_bp": -4.4,
       "move_fraction": -0.2362,
       "method": "formula"
     },
@@ -174,7 +164,7 @@
       "implied_rate": 4.775,
       "rate_before": 4.806,
       "change_bp": -3.1,
-      "cumulative_bp": 17.5,
+      "cumulative_bp": -7.5,
       "move_fraction": -0.1238,
       "method": "clean-month"
     },
@@ -184,7 +174,7 @@
       "implied_rate": 4.7161,
       "rate_before": 4.775,
       "change_bp": -5.89,
-      "cumulative_bp": 11.61,
+      "cumulative_bp": -13.39,
       "move_fraction": -0.2357,
       "method": "formula"
     },
@@ -194,7 +184,7 @@
       "implied_rate": 4.685,
       "rate_before": 4.7161,
       "change_bp": -3.11,
-      "cumulative_bp": 8.5,
+      "cumulative_bp": -16.5,
       "move_fraction": -0.1243,
       "method": "clean-month"
     }
