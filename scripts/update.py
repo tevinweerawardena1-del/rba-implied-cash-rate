@@ -17,7 +17,7 @@ import argparse
 import json
 import sys
 import traceback
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 from pathlib import Path
 
@@ -25,7 +25,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import sources as src  # noqa: E402
-from build import (daily_analytics, decisions, holds, month_end_curves,  # noqa: E402
+from build import (daily_analytics, decisions, holds, extend_target, month_end_curves,  # noqa: E402
                    outcome_probabilities, rate_inputs, align, yield_curves,
                    merge_meetings, health_check, forwards_series, real_cash_rate,
                    taylor_series, taylor_projection, term_premium_series)
@@ -136,6 +136,19 @@ def run(backfill: bool):
         notes.append("Daily RBA data unavailable; used the monthly table.")
     if not target:
         raise RuntimeError("No cash rate target available from the RBA")
+    # F1 lags an RBA decision by a day or more. Bring in the new target from the
+    # RBA cash rate page (updated on decision day) and config/cash_rate_decisions.json.
+    announced = {}
+    page = try_step("RBA cash rate page", status, src.fetch_cash_rate_page) or {}
+    announced.update(page)
+    for d in json.loads((ROOT / "config" / "cash_rate_decisions.json").read_text()).get("decisions", []):
+        eff = date.fromisoformat(d["decision_date"]) + timedelta(days=1)
+        announced.setdefault(eff, float(d["rate"]))
+    before = f1_last = target.last_date
+    target = extend_target(target, announced)
+    if target.last_date != before:
+        print(f"Cash rate target extended past F1 ({before}) to {target.last_date}: "
+              f"{target.on_or_before(target.last_date)[1]}%")
     bab = {k: (src.pick(f1, f"{k}-month", "bab") or src.pick(f1, "bank accepted", f"{k} month")
                or src.pick(f1, f"{k} month", "bab"))
            for k in (1, 3, 6)}
@@ -259,7 +272,7 @@ def run(backfill: bool):
     # ---- 4. Health ---------------------------------------------------------
     bond_last = max((b["series"].last_date for b in bond_list if b["series"]), default=None)
     last_dates = {"ASX futures": as_at,
-                  "RBA cash rate & bank bills (F1)": target.last_date,
+                  "RBA cash rate & bank bills (F1)": f1_last,
                   "RBA bond yields (F2)": acgb2.last_date,
                   "RBA bond lines (F16)": bond_last,
                   "AUD/USD": audusd.last_date,
@@ -279,7 +292,7 @@ def run(backfill: bool):
         "as_at": as_at.isoformat(),
         "health": health,
         "asof": {"futures": as_at.isoformat(),
-                 "f1": target.last_date.isoformat() if target.last_date else None,
+                 "f1": f1_last.isoformat() if f1_last else None,
                  "money": money[-1]["date"] if money else None,
                  "bonds": bonds[-1]["date"] if bonds else None,
                  "ycurve": curves_by_maturity[0]["as_at"] if curves_by_maturity else None,

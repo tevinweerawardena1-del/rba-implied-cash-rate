@@ -35,6 +35,18 @@ def rate_inputs(target: Series, ibocr: Series, as_at: date):
     return tgt, target_as_of, spread
 
 
+def extend_target(target: Series, announced: dict[date, float]) -> Series:
+    """Add announced target changes (keyed by effective date) that RBA table F1
+    doesn't have yet. Points on or before F1's last date are left to F1."""
+    last = target.last_date
+    extra = {d: v for d, v in announced.items() if last is None or d > last}
+    if not extra:
+        return target
+    data = dict(zip(target.dates, target.values))
+    data.update(extra)
+    return Series(data)
+
+
 def decisions(target: Series, start: date) -> list[dict]:
     """Cash rate target changes, dated by the decision (day before effective)."""
     out, prev = [], None

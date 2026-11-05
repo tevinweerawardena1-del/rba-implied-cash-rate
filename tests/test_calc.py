@@ -369,3 +369,22 @@ def test_holds_are_meetings_without_a_change():
     changes = [{"date": "2026-09-29", "change_bp": 25, "rate": 4.6}]
     out = holds(meetings, changes, date(2026, 10, 12))
     assert out == [{"date": "2026-08-11", "change_bp": 0}]   # Sep hiked, Nov not yet held
+
+
+def test_extend_target_adds_announced_change_after_f1():
+    from datetime import date
+    from build import extend_target
+    from sources import Series
+    f1 = Series({date(2026, 9, 30): 4.60, date(2026, 11, 3): 4.60})
+    out = extend_target(f1, {date(2026, 11, 4): 4.85, date(2026, 9, 30): 4.60})
+    assert out.last_date == date(2026, 11, 4) and out.on_or_before(date(2026, 11, 4))[1] == 4.85
+    assert extend_target(f1, {date(2026, 10, 1): 9.99}).last_date == date(2026, 11, 3)  # F1 wins
+
+
+def test_parse_cash_rate_page():
+    from datetime import date
+    from sources import parse_cash_rate_page
+    html = """<table><tr><th>Effective Date</th><th>Change % points</th><th>Cash rate target %</th></tr>
+    <tr><th scope="row">4 Nov 2026</th><td>+0.25</td><td>4.85</td><td><a>Statement</a></td></tr>
+    <tr><th scope="row">30 Sep 2026</th><td>+0.25</td><td>4.60</td></tr></table>"""
+    assert parse_cash_rate_page(html) == {date(2026, 11, 4): 4.85, date(2026, 9, 30): 4.60}

@@ -1,0 +1,6 @@
+{
+  "_comment": "Announced RBA cash rate decisions, used when RBA table F1 hasn't caught up yet (it lags the announcement by a day or more). decision_date = the RBA announcement date (the new target takes effect the next day); rate = the new cash rate target in %. The daily update also reads the RBA cash rate page, so this list is a backup: add each decision here on the day it's announced. Entries older than F1's latest date are ignored.",
+  "decisions": [
+    { "decision_date": "2026-11-03", "rate": 4.85, "source": "https://www.rba.gov.au/statistics/cash-rate/" }
+  ]
+}

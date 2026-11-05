@@ -213,6 +213,36 @@ def parse_rba_table(text: str) -> dict[str, dict[date, float]]:
     return cols
 
 
+RBA_CASH_RATE_PAGE = "https://www.rba.gov.au/statistics/cash-rate/"
+_CR_ROW = re.compile(r"(\d{1,2} [A-Z][a-z]{2,8} \d{4})\s+([+\-\u2212]?\d+\.\d+)\s+(\d+\.\d+)")
+
+
+def parse_cash_rate_page(html: str) -> dict[date, float]:
+    """RBA 'Cash Rate Target' page: {effective date: target %}. Updated on
+    decision day, so it is ahead of table F1."""
+    out: dict[date, float] = {}
+    for row in re.findall(r"<tr[^>]*>(.*?)</tr>", html, flags=re.S | re.I):
+        text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", row)).strip()
+        m = _CR_ROW.search(text)
+        if not m:
+            continue
+        for fmt in ("%d %b %Y", "%d %B %Y"):
+            try:
+                out[datetime.strptime(m.group(1), fmt).date()] = float(m.group(3))
+                break
+            except ValueError:
+                continue
+    return out
+
+
+def fetch_cash_rate_page() -> dict[date, float]:
+    got = parse_cash_rate_page(http_get(RBA_CASH_RATE_PAGE))
+    if not got:
+        raise RuntimeError("no rows parsed from the RBA cash rate page")
+    print(f"RBA cash rate page: latest {max(got)} = {got[max(got)]}%")
+    return got
+
+
 def fetch_rba(code: str) -> dict[str, dict[date, float]]:
     cols = parse_rba_table(http_get(RBA_CSV.format(code=code)))
     print(f"RBA {code.upper()}: {len(cols)} columns")
