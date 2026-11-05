@@ -4,9 +4,7 @@
   "notes": [
     "Futures run to Apr 2028 but the last RBA meeting date on file is 14 Dec 2027; later meetings will appear once the RBA publishes them."
   ],
-  "failed_steps": [
-    "ASX futures"
-  ],
+  "failed_steps": [],
   "last_dates": {
     "ASX futures": "2026-11-05",
     "RBA cash rate & bank bills (F1)": "2026-11-04",
