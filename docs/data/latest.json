@@ -1,6 +1,6 @@
 {
-  "as_at": "2026-11-04",
-  "generated_utc": "2026-11-05 01:23",
+  "as_at": "2026-11-05",
+  "generated_utc": "2026-11-05 12:44",
   "source": "ASX website",
   "cash_rate_target": 4.85,
   "target_as_of": "2026-11-04",
@@ -13,13 +13,13 @@
     },
     {
       "month": "2026-12-01",
-      "implied_yield": 4.86,
-      "target_equivalent": 4.86
+      "implied_yield": 4.855,
+      "target_equivalent": 4.855
     },
     {
       "month": "2027-01-01",
-      "implied_yield": 4.87,
-      "target_equivalent": 4.87
+      "implied_yield": 4.86,
+      "target_equivalent": 4.86
     },
     {
       "month": "2027-02-01",
@@ -28,164 +28,164 @@
     },
     {
       "month": "2027-03-01",
-      "implied_yield": 4.925,
-      "target_equivalent": 4.925
+      "implied_yield": 4.92,
+      "target_equivalent": 4.92
     },
     {
       "month": "2027-04-01",
-      "implied_yield": 4.925,
-      "target_equivalent": 4.925
+      "implied_yield": 4.91,
+      "target_equivalent": 4.91
     },
     {
       "month": "2027-05-01",
-      "implied_yield": 4.915,
-      "target_equivalent": 4.915
+      "implied_yield": 4.895,
+      "target_equivalent": 4.895
     },
     {
       "month": "2027-06-01",
-      "implied_yield": 4.9,
-      "target_equivalent": 4.9
+      "implied_yield": 4.88,
+      "target_equivalent": 4.88
     },
     {
       "month": "2027-07-01",
-      "implied_yield": 4.865,
-      "target_equivalent": 4.865
+      "implied_yield": 4.84,
+      "target_equivalent": 4.84
     },
     {
       "month": "2027-08-01",
-      "implied_yield": 4.825,
-      "target_equivalent": 4.825
-    },
-    {
-      "month": "2027-09-01",
       "implied_yield": 4.795,
       "target_equivalent": 4.795
     },
     {
+      "month": "2027-09-01",
+      "implied_yield": 4.765,
+      "target_equivalent": 4.765
+    },
+    {
       "month": "2027-10-01",
-      "implied_yield": 4.775,
-      "target_equivalent": 4.775
+      "implied_yield": 4.74,
+      "target_equivalent": 4.74
     },
     {
       "month": "2027-11-01",
-      "implied_yield": 4.72,
-      "target_equivalent": 4.72
-    },
-    {
-      "month": "2027-12-01",
-      "implied_yield": 4.69,
-      "target_equivalent": 4.69
-    },
-    {
-      "month": "2028-01-01",
       "implied_yield": 4.685,
       "target_equivalent": 4.685
     },
     {
+      "month": "2027-12-01",
+      "implied_yield": 4.65,
+      "target_equivalent": 4.65
+    },
+    {
+      "month": "2028-01-01",
+      "implied_yield": 4.64,
+      "target_equivalent": 4.64
+    },
+    {
       "month": "2028-02-01",
-      "implied_yield": 4.635,
-      "target_equivalent": 4.635
+      "implied_yield": 4.585,
+      "target_equivalent": 4.585
     },
     {
       "month": "2028-03-01",
-      "implied_yield": 4.625,
-      "target_equivalent": 4.625
+      "implied_yield": 4.575,
+      "target_equivalent": 4.575
     },
     {
       "month": "2028-04-01",
-      "implied_yield": 4.585,
-      "target_equivalent": 4.585
+      "implied_yield": 4.53,
+      "target_equivalent": 4.53
     }
   ],
   "meetings": [
     {
       "decision_date": "2026-12-08",
       "effective_date": "2026-12-09",
-      "implied_rate": 4.87,
+      "implied_rate": 4.86,
       "rate_before": 4.85,
-      "change_bp": 2.0,
-      "cumulative_bp": 2.0,
-      "move_fraction": 0.08,
+      "change_bp": 1.0,
+      "cumulative_bp": 1.0,
+      "move_fraction": 0.04,
       "method": "clean-month"
     },
     {
       "decision_date": "2027-02-09",
       "effective_date": "2027-02-10",
-      "implied_rate": 4.9216,
-      "rate_before": 4.87,
-      "change_bp": 5.16,
-      "cumulative_bp": 7.16,
-      "move_fraction": 0.2063,
+      "implied_rate": 4.9263,
+      "rate_before": 4.86,
+      "change_bp": 6.63,
+      "cumulative_bp": 7.63,
+      "move_fraction": 0.2653,
       "method": "formula"
     },
     {
       "decision_date": "2027-03-23",
       "effective_date": "2027-03-24",
-      "implied_rate": 4.925,
-      "rate_before": 4.9216,
-      "change_bp": 0.34,
-      "cumulative_bp": 7.5,
-      "move_fraction": 0.0137,
+      "implied_rate": 4.91,
+      "rate_before": 4.9263,
+      "change_bp": -1.63,
+      "cumulative_bp": 6.0,
+      "move_fraction": -0.0653,
       "method": "clean-month"
     },
     {
       "decision_date": "2027-05-04",
       "effective_date": "2027-05-05",
-      "implied_rate": 4.9135,
-      "rate_before": 4.925,
-      "change_bp": -1.15,
-      "cumulative_bp": 6.35,
-      "move_fraction": -0.0459,
+      "implied_rate": 4.8928,
+      "rate_before": 4.91,
+      "change_bp": -1.72,
+      "cumulative_bp": 4.28,
+      "move_fraction": -0.0689,
       "method": "formula"
     },
     {
       "decision_date": "2027-06-22",
       "effective_date": "2027-06-23",
-      "implied_rate": 4.865,
-      "rate_before": 4.9135,
-      "change_bp": -4.85,
-      "cumulative_bp": 1.5,
-      "move_fraction": -0.1941,
+      "implied_rate": 4.84,
+      "rate_before": 4.8928,
+      "change_bp": -5.28,
+      "cumulative_bp": -1.0,
+      "move_fraction": -0.2111,
       "method": "clean-month"
     },
     {
       "decision_date": "2027-08-10",
       "effective_date": "2027-08-11",
-      "implied_rate": 4.806,
-      "rate_before": 4.865,
-      "change_bp": -5.9,
-      "cumulative_bp": -4.4,
-      "move_fraction": -0.2362,
+      "implied_rate": 4.7736,
+      "rate_before": 4.84,
+      "change_bp": -6.64,
+      "cumulative_bp": -7.64,
+      "move_fraction": -0.2657,
       "method": "formula"
     },
     {
       "decision_date": "2027-09-28",
       "effective_date": "2027-09-29",
-      "implied_rate": 4.775,
-      "rate_before": 4.806,
-      "change_bp": -3.1,
-      "cumulative_bp": -7.5,
-      "move_fraction": -0.1238,
+      "implied_rate": 4.74,
+      "rate_before": 4.7736,
+      "change_bp": -3.36,
+      "cumulative_bp": -11.0,
+      "move_fraction": -0.1343,
       "method": "clean-month"
     },
     {
       "decision_date": "2027-11-02",
       "effective_date": "2027-11-03",
-      "implied_rate": 4.7161,
-      "rate_before": 4.775,
+      "implied_rate": 4.6811,
+      "rate_before": 4.74,
       "change_bp": -5.89,
-      "cumulative_bp": -13.39,
+      "cumulative_bp": -16.89,
       "move_fraction": -0.2357,
       "method": "formula"
     },
     {
       "decision_date": "2027-12-14",
       "effective_date": "2027-12-15",
-      "implied_rate": 4.685,
-      "rate_before": 4.7161,
-      "change_bp": -3.11,
-      "cumulative_bp": -16.5,
-      "move_fraction": -0.1243,
+      "implied_rate": 4.64,
+      "rate_before": 4.6811,
+      "change_bp": -4.11,
+      "cumulative_bp": -21.0,
+      "move_fraction": -0.1643,
       "method": "clean-month"
     }
   ],
