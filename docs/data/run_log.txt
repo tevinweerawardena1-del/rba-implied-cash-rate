@@ -1,6 +1,77 @@
 RBA schedule: {2026: 8, 2027: 8}
-ASX scrape attempt 1
-Futures as at 2026-11-05: 18 contracts
+ASX futures failed: SessionNotCreatedException: Message: session not created
+from chrome not reachable; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#sessionnotcreatedexception
+Stacktrace:
+#0 0x5b26ca6640aa <unknown>
+#1 0x5b26c9f97702 <unknown>
+#2 0x5b26c9f8ac7c <unknown>
+#3 0x5b26c9fcc83b <unknown>
+#4 0x5b26c9fc83da <unknown>
+#5 0x5b26c9fc5d44 <unknown>
+#6 0x5b26ca005f51 <unknown>
+#7 0x5b26ca0059fc <unknown>
+#8 0x5b26c9fd0a07 <unknown>
+#9 0x5b26c9fcfd1e <unknown>
+#10 0x5b26c9fd07f1 <unknown>
+#11 0x5b26ca626c5c <unknown>
+#12 0x5b26ca625475 <unknown>
+#13 0x5b26ca6107f8 <unknown>
+#14 0x5b26ca6260ca <unknown>
+#15 0x5b26ca5f93f9 <unknown>
+#16 0x5b26ca64e848 <unknown>
+#17 0x5b26ca64e9e5 <unknown>
+#18 0x5b26ca662a43 <unknown>
+#19 0x7cc64c0abe6b <unknown>
+#20 0x7cc64c13f55c <unknown>
+
+Traceback (most recent call last):
+  File "/home/runner/work/rba-implied-cash-rate/rba-implied-cash-rate/scripts/update.py", line 78, in try_step
+    out = fn()
+          ^^^^
+  File "/home/runner/work/rba-implied-cash-rate/rba-implied-cash-rate/scripts/sources.py", line 136, in scrape_asx
+    driver = webdriver.Chrome(options=opts)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/selenium/webdriver/chrome/webdriver.py", line 45, in __init__
+    super().__init__(
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/selenium/webdriver/chromium/webdriver.py", line 66, in __init__
+    super().__init__(command_executor=executor, options=self.options)
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/selenium/webdriver/common/webdriver.py", line 25, in __init__
+    super().__init__(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/selenium/webdriver/remote/webdriver.py", line 356, in __init__
+    self.start_session(capabilities)
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/selenium/webdriver/remote/webdriver.py", line 461, in start_session
+    response = self.execute(Command.NEW_SESSION, caps)["value"]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/selenium/webdriver/remote/webdriver.py", line 566, in execute
+    self.error_handler.check_response(response)
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/selenium/webdriver/remote/errorhandler.py", line 234, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.SessionNotCreatedException: Message: session not created
+from chrome not reachable; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#sessionnotcreatedexception
+Stacktrace:
+#0 0x5b26ca6640aa <unknown>
+#1 0x5b26c9f97702 <unknown>
+#2 0x5b26c9f8ac7c <unknown>
+#3 0x5b26c9fcc83b <unknown>
+#4 0x5b26c9fc83da <unknown>
+#5 0x5b26c9fc5d44 <unknown>
+#6 0x5b26ca005f51 <unknown>
+#7 0x5b26ca0059fc <unknown>
+#8 0x5b26c9fd0a07 <unknown>
+#9 0x5b26c9fcfd1e <unknown>
+#10 0x5b26c9fd07f1 <unknown>
+#11 0x5b26ca626c5c <unknown>
+#12 0x5b26ca625475 <unknown>
+#13 0x5b26ca6107f8 <unknown>
+#14 0x5b26ca6260ca <unknown>
+#15 0x5b26ca5f93f9 <unknown>
+#16 0x5b26ca64e848 <unknown>
+#17 0x5b26ca64e9e5 <unknown>
+#18 0x5b26ca662a43 <unknown>
+#19 0x7cc64c0abe6b <unknown>
+#20 0x7cc64c13f55c <unknown>
+
+Futures as at 2026-11-04: 18 contracts
 RBA F1: 17 columns
    - 'Cash Rate Target': 2011-01-04 to 2026-11-04
    - 'Change in the Cash Rate Target': 2011-11-02 to 2026-11-04
@@ -118,6 +189,6 @@ RBA H5 unemployment: using 'Unemployment rate' [Seasonally adjusted]
 Term premium: {'date': '2026-10-30', 'yield10': 4.9304, 'expected': 4.0215, 'tp_kw': 0.9089}
 Taylor: {'date': '2026-09-30', 'cash_rate': 4.6, 'taylor': 4.35, 'inflation': 3.7, 'inflation_asof': '2026-09-30', 'unemployment': 4.7} {'next_month': '2026-10-31', 'taylor_next_month': 4.35, 'smoothed_next_meeting': 4.811, 'smoothed_change_bp': -3.9, 'gap_bp': -50.0, 'rho_per_meeting': 0.922, 'inputs': {'inflation': 3.7, 'inflation_asof': '2026-09-30', 'unemployment': 4.7, 'unemployment_asof': '2026-09-30'}}
 Forwards 2662 days, fly 2725, real 63 quarters, US 6713
-Health: {"checked": "2026-11-05", "warnings": [], "notes": ["Futures run to Apr 2028 but the last RBA meeting date on file is 14 Dec 2027; later meetings will appear once the RBA publishes them."], "failed_steps": [], "last_dates": {"ASX futures": "2026-11-05", "RBA cash rate & bank bills (F1)": "2026-11-04", "RBA bond yields (F2)": "2026-10-28", "RBA bond lines (F16)": "2026-10-28", "AUD/USD": "2026-11-05", "US 2-year Treasury": "2026-11-03", "US 10-year Treasury": "2026-11-03", "RBA CPI (G1)": "2026-09-30", "RBA unemployment (H5)": "2026-09-30", "US term premium (Kim-Wright)": "2026-10-30"}}
-Status: {"RBA meeting schedule": "ok", "ASX futures": "ok", "RBA F1": "ok", "RBA cash rate page": "ok", "RBA F2": "ok", "RBA F16": "ok", "FRED AUD/USD": "ok", "RBA AUD/USD (F11.1)": "ok", "FRED US 2y": "ok", "FRED US 10y": "ok", "FRED Kim-Wright 10y yield": "ok", "FRED Kim-Wright term premium": "ok", "RBA G1 (CPI)": "ok", "RBA H5 (unemployment)": "ok"}
+Health: {"checked": "2026-11-06", "warnings": [], "notes": ["Futures run to Apr 2028 but the last RBA meeting date on file is 14 Dec 2027; later meetings will appear once the RBA publishes them."], "failed_steps": ["ASX futures"], "last_dates": {"ASX futures": "2026-11-05", "RBA cash rate & bank bills (F1)": "2026-11-04", "RBA bond yields (F2)": "2026-10-28", "RBA bond lines (F16)": "2026-10-28", "AUD/USD": "2026-11-05", "US 2-year Treasury": "2026-11-03", "US 10-year Treasury": "2026-11-03", "RBA CPI (G1)": "2026-09-30", "RBA unemployment (H5)": "2026-09-30", "US term premium (Kim-Wright)": "2026-10-30"}}
+Status: {"RBA meeting schedule": "ok", "ASX futures": "failed: SessionNotCreatedException", "futures backup": "ok", "RBA F1": "ok", "RBA cash rate page": "ok", "RBA F2": "ok", "RBA F16": "ok", "FRED AUD/USD": "ok", "RBA AUD/USD (F11.1)": "ok", "FRED US 2y": "ok", "FRED US 10y": "ok", "FRED Kim-Wright 10y yield": "ok", "FRED Kim-Wright term premium": "ok", "RBA G1 (CPI)": "ok", "RBA H5 (unemployment)": "ok"}
 Wrote charts: horizons=481 money=966 bonds=2725 fx=2210
