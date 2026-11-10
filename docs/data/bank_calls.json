@@ -38,9 +38,13 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "Westpac (3 Nov): 6-3 vote confirms 'our current view that the MPB will keep rates on hold in December'; 4.85% 'likely the peak of the cycle', with February 'the next most likely timing for a hike, should one eventuate'; cuts seen from August 2027 (Canstar, 3 Nov)",
-      "as_of": "2026-11-03",
+      "note": "Luci Ellis (Broker Daily, 4 Nov): base case is a December pause, with coming decisions 'between holding and hiking'; February is 'the next most likely timing for a hike, should one eventuate', a risk rather than the base case. Westpac (3 Nov): 4.85% 'likely the peak of the cycle'; cuts seen from August 2027 (Canstar, 3 Nov)",
+      "as_of": "2026-11-04",
       "sources": [
+        {
+          "label": "Broker Daily, 4 Nov",
+          "url": "https://www.brokerdaily.au/lender/22204-where-will-rates-go-from-here"
+        },
         {
           "label": "Westpac via ActionForex, 3 Nov",
           "url": "https://www.actionforex.com/contributors/fundamental-analysis/659614-rba-hikes-cash-rate-to-new-high-of-4-85-a-december-pause-likely/"
@@ -48,10 +52,6 @@
         {
           "label": "Canstar, 3 Nov",
           "url": "https://www.canstar.com.au/home-loans/when-will-interest-rates-go-down"
-        },
-        {
-          "label": "The Bull, 1 Nov",
-          "url": "https://thebull.com.au/news/big-four-expecting-rate-hike-at-november-rba-meet-but-what-follows/"
         }
       ]
     },
@@ -65,9 +65,13 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "Sally Auld (3 Nov): 'we are not forecasting further policy tightening from here', though the RBA will be 'sensitive (and responsive)' to any upside inflation surprise; cuts seen from August 2027 (Canstar, 3 Nov)",
-      "as_of": "2026-11-03",
+      "note": "Sally Auld and Taylor Nugent (Broker Daily, 4 Nov): policy is now restrictive and 'All else equal, this set up probably argues for a near-term pause'; 'we are not forecasting further policy tightening from here', though the RBA would respond to an upside inflation surprise; cuts seen from August 2027 (Canstar, 3 Nov)",
+      "as_of": "2026-11-04",
       "sources": [
+        {
+          "label": "Broker Daily, 4 Nov",
+          "url": "https://www.brokerdaily.au/lender/22204-where-will-rates-go-from-here"
+        },
         {
           "label": "Reuters via AOL, 3 Nov",
           "url": "https://www.aol.com/articles/australias-central-bank-lifts-rates-033706000.html"
@@ -75,10 +79,6 @@
         {
           "label": "Canstar, 3 Nov",
           "url": "https://www.canstar.com.au/home-loans/when-will-interest-rates-go-down"
-        },
-        {
-          "label": "Yahoo Finance, 1 Nov",
-          "url": "https://au.finance.yahoo.com/news/mortgage-pressure-mounts-as-aussie-banks-flag-the-real-question-ahead-of-rba-meeting-050000008.html"
         }
       ]
     },
@@ -115,14 +115,18 @@
       "call": "no change",
       "next_change": {
         "month": "2027-11",
-        "label": "Dec qtr 2027",
+        "label": "Late 2027",
         "direction": "cut",
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "Shane Oliver (3 Nov, pre-decision): November's move 'should be enough to keep the bank on hold for the time being'; 30 Oct update: base case is '4.85% will be the peak with an extended hold out to the December quarter next year', when rates are likely to start falling, with a high risk of a sixth hike to 5.1%. Cut size assumed 25bp",
-      "as_of": "2026-11-03",
+      "note": "Shane Oliver (6 Nov): RBA 'will pause in December' after three members voted to hold, though 'the risk of another rate hike remains high'; expects rates on hold 'for an extended period, ahead of eventually being able to start cutting rates but not until late next year'. Month and 25bp cut size assumed",
+      "as_of": "2026-11-06",
       "sources": [
+        {
+          "label": "AMP weekly update, 6 Nov",
+          "url": "https://www.amp.com.au/resources/insights-hub/weekly-market-update-6-11-2026-amp"
+        },
         {
           "label": "investingLive, 3 Nov",
           "url": "https://investinglive.com/central-banks/rba-set-for-fifth-hike-of-2026-to-4-85-three-views-on-what-comes-next/"
@@ -130,10 +134,6 @@
         {
           "label": "AMP weekly update, 30 Oct",
           "url": "https://www.amp.com.au/resources/insights-hub/weekly-market-update-30-10-2026-amp"
-        },
-        {
-          "label": "AMP weekly update, 23 Oct",
-          "url": "https://www.amp.com.au/resources/insights-hub/weekly-market-update-23-10-2026-amp"
         }
       ]
     },
