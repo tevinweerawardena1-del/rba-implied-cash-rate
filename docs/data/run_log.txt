@@ -64,8 +64,8 @@ RBA F11.1: 23 columns
 AUD/USD: FRED to 2026-11-06, RBA to 2026-11-10, combined to 2026-11-10
 FRED DGS2: 12606 obs to 2026-11-06
 FRED DGS10: 16198 obs to 2026-11-06
-FRED THREEFY10: 9194 obs to 2026-10-30
-FRED THREEFYTP10: 9194 obs to 2026-10-30
+FRED THREEFY10: 9199 obs to 2026-11-06
+FRED THREEFYTP10: 9199 obs to 2026-11-06
 RBA G1: 20 columns
    - 'Consumer price index': 1922-06-30 to 2026-09-30
    - 'Year-ended inflation': 1923-06-30 to 2026-09-30
@@ -115,9 +115,9 @@ RBA H5 unemployment: using 'Unemployment rate' [Seasonally adjusted]
   2027-09-28: 4.670%  (-4.9bp, clean-month)
   2027-11-02: 4.611%  (-5.9bp, formula)
   2027-12-14: 4.575%  (-3.6bp, clean-month)
-Term premium: {'date': '2026-10-30', 'yield10': 4.9304, 'expected': 4.0215, 'tp_kw': 0.9089}
+Term premium: {'date': '2026-11-06', 'yield10': 4.8869, 'expected': 4.0131, 'tp_kw': 0.8738}
 Taylor: {'date': '2026-09-30', 'cash_rate': 4.6, 'taylor': 4.35, 'inflation': 3.7, 'inflation_asof': '2026-09-30', 'unemployment': 4.7} {'next_month': '2026-10-31', 'taylor_next_month': 4.35, 'smoothed_next_meeting': 4.811, 'smoothed_change_bp': -3.9, 'gap_bp': -50.0, 'rho_per_meeting': 0.922, 'inputs': {'inflation': 3.7, 'inflation_asof': '2026-09-30', 'unemployment': 4.7, 'unemployment_asof': '2026-09-30'}}
 Forwards 2667 days, fly 2730, real 63 quarters, US 6716
-Health: {"checked": "2026-11-11", "warnings": [], "notes": ["Futures run to Apr 2028 but the last RBA meeting date on file is 14 Dec 2027; later meetings will appear once the RBA publishes them."], "failed_steps": [], "last_dates": {"ASX futures": "2026-11-10", "RBA cash rate & bank bills (F1)": "2026-11-09", "RBA bond yields (F2)": "2026-11-04", "RBA bond lines (F16)": "2026-11-04", "AUD/USD": "2026-11-10", "US 2-year Treasury": "2026-11-06", "US 10-year Treasury": "2026-11-06", "RBA CPI (G1)": "2026-09-30", "RBA unemployment (H5)": "2026-09-30", "US term premium (Kim-Wright)": "2026-10-30"}}
+Health: {"checked": "2026-11-11", "warnings": [], "notes": ["Futures run to Apr 2028 but the last RBA meeting date on file is 14 Dec 2027; later meetings will appear once the RBA publishes them."], "failed_steps": [], "last_dates": {"ASX futures": "2026-11-10", "RBA cash rate & bank bills (F1)": "2026-11-09", "RBA bond yields (F2)": "2026-11-04", "RBA bond lines (F16)": "2026-11-04", "AUD/USD": "2026-11-10", "US 2-year Treasury": "2026-11-06", "US 10-year Treasury": "2026-11-06", "RBA CPI (G1)": "2026-09-30", "RBA unemployment (H5)": "2026-09-30", "US term premium (Kim-Wright)": "2026-11-06"}}
 Status: {"RBA meeting schedule": "ok", "ASX futures": "ok", "RBA F1": "ok", "RBA cash rate page": "ok", "RBA F2": "ok", "RBA F16": "ok", "FRED AUD/USD": "ok", "RBA AUD/USD (F11.1)": "ok", "FRED US 2y": "ok", "FRED US 10y": "ok", "FRED Kim-Wright 10y yield": "ok", "FRED Kim-Wright term premium": "ok", "RBA G1 (CPI)": "ok", "RBA H5 (unemployment)": "ok"}
 Wrote charts: horizons=484 money=969 bonds=2730 fx=2213
