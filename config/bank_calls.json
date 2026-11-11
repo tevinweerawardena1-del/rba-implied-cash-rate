@@ -38,16 +38,16 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "Luci Ellis (Broker Daily, 4 Nov): base case is a December pause, with coming decisions 'between holding and hiking'; February is 'the next most likely timing for a hike, should one eventuate', a risk rather than the base case. Westpac (3 Nov): 4.85% 'likely the peak of the cycle'; cuts seen from August 2027 (Canstar, 3 Nov)",
-      "as_of": "2026-11-04",
+      "note": "Westpac Cliff Notes (Wells and Clarke, 6 Nov): 'February represents the next plausible opportunity for another hike, but we see this only as a risk', implying a December hold; Luci Ellis (Broker Daily, 4 Nov): coming decisions 'between holding and hiking'. Westpac (3 Nov): 4.85% 'likely the peak of the cycle'; cuts seen from August 2027 (Canstar, 3 Nov)",
+      "as_of": "2026-11-06",
       "sources": [
+        {
+          "label": "Westpac Cliff Notes, 6 Nov",
+          "url": "https://www.westpaciq.com.au/economics/2026/11/cliff-notes-06-nov-2026"
+        },
         {
           "label": "Broker Daily, 4 Nov",
           "url": "https://www.brokerdaily.au/lender/22204-where-will-rates-go-from-here"
-        },
-        {
-          "label": "Westpac via ActionForex, 3 Nov",
-          "url": "https://www.actionforex.com/contributors/fundamental-analysis/659614-rba-hikes-cash-rate-to-new-high-of-4-85-a-december-pause-likely/"
         },
         {
           "label": "Canstar, 3 Nov",
