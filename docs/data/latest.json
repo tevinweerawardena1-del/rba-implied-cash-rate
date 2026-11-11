@@ -1,9 +1,9 @@
 {
   "as_at": "2026-11-10",
-  "generated_utc": "2026-11-10 21:56",
+  "generated_utc": "2026-11-11 01:07",
   "source": "ASX website",
   "cash_rate_target": 4.85,
-  "target_as_of": "2026-11-09",
+  "target_as_of": "2026-11-10",
   "ibocr_spread_bp": 0.0,
   "futures": [
     {
