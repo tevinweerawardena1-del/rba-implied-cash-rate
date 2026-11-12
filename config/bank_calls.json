@@ -38,9 +38,13 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "Westpac Cliff Notes (Wells and Clarke, 6 Nov): 'February represents the next plausible opportunity for another hike, but we see this only as a risk', implying a December hold; Luci Ellis (Broker Daily, 4 Nov): coming decisions 'between holding and hiking'. Westpac (3 Nov): 4.85% 'likely the peak of the cycle'; cuts seen from August 2027 (Canstar, 3 Nov)",
-      "as_of": "2026-11-06",
+      "note": "Westpac (investingLive, 10 Nov, on its consumer sentiment survey): expects the RBA 'to pause at its December 7-8 meeting to assess the impact of its tightening' and 'does not expect a hike in February either', though 'high inflation will continue to test the bank's resolve'. Westpac Cliff Notes (6 Nov) saw February only as a risk; 4.85% 'likely the peak of the cycle'; cuts seen from August 2027 (Canstar, 3 Nov)",
+      "as_of": "2026-11-10",
       "sources": [
+        {
+          "label": "investingLive, 10 Nov",
+          "url": "https://investinglive.com/news/australian-consumer-sentiment-sinks-to-four-year-low-as-rates-and-living-costs-bite/"
+        },
         {
           "label": "Westpac Cliff Notes, 6 Nov",
           "url": "https://www.westpaciq.com.au/economics/2026/11/cliff-notes-06-nov-2026"
@@ -48,10 +52,6 @@
         {
           "label": "Broker Daily, 4 Nov",
           "url": "https://www.brokerdaily.au/lender/22204-where-will-rates-go-from-here"
-        },
-        {
-          "label": "Canstar, 3 Nov",
-          "url": "https://www.canstar.com.au/home-loans/when-will-interest-rates-go-down"
         }
       ]
     },
@@ -92,9 +92,13 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "ANZ (Australian Morning Focus, via FNArena, 4 Nov): 'we are at or close to the cash rate peak, and we are not forecasting another increase in rates', while the post-meeting statement 'remains hawkish on the inflation front'; before the decision ANZ had flagged a material risk of 5.10% by December or February; cuts seen from November 2027 (Canstar, 3 Nov)",
-      "as_of": "2026-11-04",
+      "note": "ANZ (Siddhant Kalra, via investingLive, 12 Nov): hike expectations have cooled as growth slows and 'the case for another hike fades', but with trimmed mean at 3.7% the RBA will stay cautious and not signal a peak; the coming months 'are likely to be about patience rather than action', with a shift to lower rates 'some way off'. ANZ (4 Nov): 'we are not forecasting another increase in rates'; cuts seen from November 2027 (Canstar, 3 Nov)",
+      "as_of": "2026-11-12",
       "sources": [
+        {
+          "label": "investingLive, 12 Nov",
+          "url": "https://investinglive.com/central-banks/anz-says-rba-hike-bets-have-cooled-but-3-7-core-inflation-will-keep-it-cautious/"
+        },
         {
           "label": "FNArena, 4 Nov",
           "url": "https://fnarena.com/2026/11/04/the-overnight-report-us-mid-term-d-day/"
@@ -102,10 +106,6 @@
         {
           "label": "Reuters via AOL, 3 Nov",
           "url": "https://www.aol.com/articles/australias-central-bank-lifts-rates-033706000.html"
-        },
-        {
-          "label": "Canstar, 3 Nov",
-          "url": "https://www.canstar.com.au/home-loans/when-will-interest-rates-go-down"
         }
       ]
     },
