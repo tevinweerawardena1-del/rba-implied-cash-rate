@@ -11,9 +11,13 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "Belinda Allen (Broker News, 4 Nov): 'we think the RBA will remain on edge as we enter 2027, but keep rates on hold', though 'the willingness to hike again is retained'; 'We continue to pencil in two rate cuts in late 2027, in August and November'. CommBank (3 Nov) expects 4.85% to hold in December",
-      "as_of": "2026-11-04",
+      "note": "CBA economics (ABC, 16 Nov, ahead of wages and jobs data): 'We see the RBA on hold in December', with the risk of further tightening in 2027 if inflation surprises to the upside and activity does not slow. Belinda Allen (4 Nov): 'We continue to pencil in two rate cuts in late 2027, in August and November'",
+      "as_of": "2026-11-16",
       "sources": [
+        {
+          "label": "ABC, 16 Nov",
+          "url": "https://www.abc.net.au/news/2026-11-16/asx-markets-business-live-news-nov-16/107388134"
+        },
         {
           "label": "Broker News, 4 Nov",
           "url": "https://www.brokernews.com.au/news/breaking-news/the-market-reacts-to-the-rbas-fifth-interest-rate-hike-of-2026-290253.aspx"
@@ -21,10 +25,6 @@
         {
           "label": "CommBank, 3 Nov",
           "url": "https://www.commbank.com.au/articles/newsroom/2026/11/commbank-november-rba-cash-rate-increase-analysis.html"
-        },
-        {
-          "label": "ABC, 3 Nov",
-          "url": "https://www.abc.net.au/news/2026-11-03/rba-interest-rates-markets-live-coverage/107338216"
         }
       ]
     },
@@ -38,9 +38,13 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "Westpac (investingLive, 10 Nov, on its consumer sentiment survey): expects the RBA 'to pause at its December 7-8 meeting to assess the impact of its tightening' and 'does not expect a hike in February either', though 'high inflation will continue to test the bank's resolve'. Westpac Cliff Notes (6 Nov) saw February only as a risk; 4.85% 'likely the peak of the cycle'; cuts seen from August 2027 (Canstar, 3 Nov)",
-      "as_of": "2026-11-10",
+      "note": "Luci Ellis (Westpac, 13 Nov, 'An RBA peak of greater conviction'): Bullock's 'take stock' comment read as 'a signal that the MPB would pause at the December meeting'; 'A rate hike in February 2027 cannot be ruled out but it is looking even less likely'; Westpac already 'believed the RBA cash rate was likely at a peak'. November Market Outlook has 'a move to cuts pencilled in for the second half of 2027'; cuts seen from August 2027 (Canstar, 3 Nov)",
+      "as_of": "2026-11-13",
       "sources": [
+        {
+          "label": "Westpac, 13 Nov",
+          "url": "https://www.westpaciq.com.au/economics/2026/11/lucis-weekly-note-13-november-2026"
+        },
         {
           "label": "investingLive, 10 Nov",
           "url": "https://investinglive.com/news/australian-consumer-sentiment-sinks-to-four-year-low-as-rates-and-living-costs-bite/"
@@ -48,10 +52,6 @@
         {
           "label": "Westpac Cliff Notes, 6 Nov",
           "url": "https://www.westpaciq.com.au/economics/2026/11/cliff-notes-06-nov-2026"
-        },
-        {
-          "label": "Broker Daily, 4 Nov",
-          "url": "https://www.brokerdaily.au/lender/22204-where-will-rates-go-from-here"
         }
       ]
     },
@@ -148,9 +148,13 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "George Tharenou (Reuters, 4 Nov): expects the RBA 'to hold the cash rate at 4.85% for a sustained period until late 2027'; 'the risk of an additional hike has now reduced', and if the RBA does hike again 'the more likely timing remains in Feb-27'. Cut direction and November timing from UBS's earlier view (first cut from November 2027); size assumed 25bp",
-      "as_of": "2026-11-04",
+      "note": "George Tharenou (investingLive, 13 Nov): central case is an extended hold with policy restrictive through much of 2027 and no cuts until 'late 2027 or 2028', as 'the AI boom is giving Australia the inflation now and the productivity later'; February flagged as a possible hike if inflation surprises to the upside, and a near-term move is more likely a hike than a cut. November cut timing from UBS's earlier view; size assumed 25bp",
+      "as_of": "2026-11-13",
       "sources": [
+        {
+          "label": "investingLive (via SwingFish), 13 Nov",
+          "url": "https://www.swingfish.trade/blog/market-news/ubs-sees-no-rba-cuts-until-late-2027-as-ai-boom-fuels-inflation-growth-slowing-to-1-4-442144/"
+        },
         {
           "label": "Business Recorder (Reuters), 4 Nov",
           "url": "https://www.brecorder.com/news/40447365/kiwi-in-brief-skid-after-weak-jobs-data-aussie-pressured-by-dovish-rba-turn"
@@ -158,10 +162,6 @@
         {
           "label": "ABC, 3 Nov",
           "url": "https://www.abc.net.au/news/2026-11-03/rba-interest-rates-markets-live-coverage/107338216"
-        },
-        {
-          "label": "ABC, 28 Oct",
-          "url": "https://www.abc.net.au/news/2026-10-28/asx-markets-business-live-news/107316614"
         }
       ]
     },
