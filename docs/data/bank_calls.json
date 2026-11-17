@@ -11,9 +11,13 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "CBA economics (ABC, 16 Nov, ahead of wages and jobs data): 'We see the RBA on hold in December', with the risk of further tightening in 2027 if inflation surprises to the upside and activity does not slow. Belinda Allen (4 Nov): 'We continue to pencil in two rate cuts in late 2027, in August and November'",
-      "as_of": "2026-11-16",
+      "note": "Belinda Allen (CommBank, 17 Nov, after split November vote): 'We judge December will not be a live meeting after two back-to-back interest rate hikes'; 'February does remain live but much will depend on the path of inflation and the economy over coming months', with near-term risks still toward a higher cash rate. Two cuts still pencilled in for August and November 2027",
+      "as_of": "2026-11-17",
       "sources": [
+        {
+          "label": "CommBank, 17 Nov",
+          "url": "https://www.commbank.com.au/articles/newsroom/2026/11/rba-rate-pause-split-vote-december-2026.html"
+        },
         {
           "label": "ABC, 16 Nov",
           "url": "https://www.abc.net.au/news/2026-11-16/asx-markets-business-live-news-nov-16/107388134"
@@ -21,10 +25,6 @@
         {
           "label": "Broker News, 4 Nov",
           "url": "https://www.brokernews.com.au/news/breaking-news/the-market-reacts-to-the-rbas-fifth-interest-rate-hike-of-2026-290253.aspx"
-        },
-        {
-          "label": "CommBank, 3 Nov",
-          "url": "https://www.commbank.com.au/articles/newsroom/2026/11/commbank-november-rba-cash-rate-increase-analysis.html"
         }
       ]
     },
@@ -65,9 +65,13 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "Sally Auld and Taylor Nugent (Broker Daily, 4 Nov): policy is now restrictive and 'All else equal, this set up probably argues for a near-term pause'; 'we are not forecasting further policy tightening from here', though the RBA would respond to an upside inflation surprise; cuts seen from August 2027 (Canstar, 3 Nov)",
-      "as_of": "2026-11-04",
+      "note": "Sally Auld (NAB, 9 Nov): 'We think the RBA are done', with the RBA having signalled it could pause, though another increase isn't impossible with inflation the key risk. Earlier (Broker Daily, 4 Nov): 'we are not forecasting further policy tightening from here'; cuts seen from August 2027 (Canstar, 3 Nov)",
+      "as_of": "2026-11-09",
       "sources": [
+        {
+          "label": "NAB, 9 Nov",
+          "url": "https://www.nab.com.au/news/economy-markets/rba-rate-rises-may-be-over-but-global-risks-remain"
+        },
         {
           "label": "Broker Daily, 4 Nov",
           "url": "https://www.brokerdaily.au/lender/22204-where-will-rates-go-from-here"
@@ -75,10 +79,6 @@
         {
           "label": "Reuters via AOL, 3 Nov",
           "url": "https://www.aol.com/articles/australias-central-bank-lifts-rates-033706000.html"
-        },
-        {
-          "label": "Canstar, 3 Nov",
-          "url": "https://www.canstar.com.au/home-loans/when-will-interest-rates-go-down"
         }
       ]
     },
@@ -92,9 +92,13 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "ANZ (Siddhant Kalra, via investingLive, 12 Nov): hike expectations have cooled as growth slows and 'the case for another hike fades', but with trimmed mean at 3.7% the RBA will stay cautious and not signal a peak; the coming months 'are likely to be about patience rather than action', with a shift to lower rates 'some way off'. ANZ (4 Nov): 'we are not forecasting another increase in rates'; cuts seen from November 2027 (Canstar, 3 Nov)",
-      "as_of": "2026-11-12",
+      "note": "ANZ (Grafa citing Capital Brief, 17 Nov, after RBA minutes): ANZ says the cash rate has peaked at 4.85%; Adam Boyton expects it to stay there 'for some time', with ANZ Research forecasting no change until the end of 2027, though a further rise 'cannot be entirely ruled out'. Cuts seen from November 2027 (Canstar, 3 Nov)",
+      "as_of": "2026-11-17",
       "sources": [
+        {
+          "label": "Grafa, 17 Nov",
+          "url": "https://grafa.com/en/news/australia/banks-call-4-85-rate-peak-despite-bullock-s-inflation-warning"
+        },
         {
           "label": "investingLive, 12 Nov",
           "url": "https://investinglive.com/central-banks/anz-says-rba-hike-bets-have-cooled-but-3-7-core-inflation-will-keep-it-cautious/"
@@ -102,10 +106,6 @@
         {
           "label": "FNArena, 4 Nov",
           "url": "https://fnarena.com/2026/11/04/the-overnight-report-us-mid-term-d-day/"
-        },
-        {
-          "label": "Reuters via AOL, 3 Nov",
-          "url": "https://www.aol.com/articles/australias-central-bank-lifts-rates-033706000.html"
         }
       ]
     },
@@ -168,11 +168,15 @@
     {
       "bank": "Goldman Sachs",
       "next_meeting": "2026-12-08",
-      "call": null,
+      "call": "no change",
       "next_change": null,
-      "note": "Goldman's (Andrew Boak's team) November hike call was delivered; no public view on December or the timing of its next change found since the decision",
-      "as_of": "2026-10-21",
+      "note": "Goldman Sachs (Grafa citing Capital Brief, 17 Nov, after RBA minutes): says the cash rate has peaked at 4.85% and the minutes were broadly consistent with the post-meeting press conference. December hold inferred from the peak call; no published timing for its next change",
+      "as_of": "2026-11-17",
       "sources": [
+        {
+          "label": "Grafa, 17 Nov",
+          "url": "https://grafa.com/en/news/australia/banks-call-4-85-rate-peak-despite-bullock-s-inflation-warning"
+        },
         {
           "label": "investingLive, 21 Oct",
           "url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-rba-s-hauser-puts-november-hike-in-play/"
@@ -180,10 +184,6 @@
         {
           "label": "investingLive, 14 Oct",
           "url": "https://investinglive.com/central-banks/goldman-sachs-says-rba-minutes-lower-bar-for-november-hike-with-three-hawkish-signals"
-        },
-        {
-          "label": "Business Recorder (Reuters), 13 Oct",
-          "url": "https://www.brecorder.com/news/40443969/australia-dollar-finds-some-support-in-rba-hawks-kiwi-totters"
         }
       ]
     },
