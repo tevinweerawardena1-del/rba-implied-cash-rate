@@ -1,5 +1,4 @@
 RBA schedule: {2026: 8, 2027: 8}
-Error sending stats to Plausible: error sending request for url (https://plausible.io/api/event)
 ASX scrape attempt 1
 Futures as at 2026-11-18: 18 contracts
 RBA F1: 17 columns
