@@ -11,9 +11,13 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "Belinda Allen (CommBank, 17 Nov, after split November vote): 'We judge December will not be a live meeting after two back-to-back interest rate hikes'; 'February does remain live but much will depend on the path of inflation and the economy over coming months', with near-term risks still toward a higher cash rate. Two cuts still pencilled in for August and November 2027",
-      "as_of": "2026-11-17",
+      "note": "Ashwin Clarke (CommBank, ABC 18 Nov, after Q3 wages): data 'reinforces our view that the RBA will be on edge', with 'some data to go to the December meeting'; expects growth to slow enough 'to stay the RBA's hand in H1 2027', 'allowing them to remain on hold before cutting rates twice in late 2027'. Belinda Allen (17 Nov): 'We judge December will not be a live meeting'; February remains live. Cuts pencilled in for August and November 2027",
+      "as_of": "2026-11-18",
       "sources": [
+        {
+          "label": "ABC, 18 Nov",
+          "url": "https://www.abc.net.au/news/2026-11-18/asx-markets-business-live-news-nvidia/107396692"
+        },
         {
           "label": "CommBank, 17 Nov",
           "url": "https://www.commbank.com.au/articles/newsroom/2026/11/rba-rate-pause-split-vote-december-2026.html"
@@ -21,10 +25,6 @@
         {
           "label": "ABC, 16 Nov",
           "url": "https://www.abc.net.au/news/2026-11-16/asx-markets-business-live-news-nov-16/107388134"
-        },
-        {
-          "label": "Broker News, 4 Nov",
-          "url": "https://www.brokernews.com.au/news/breaking-news/the-market-reacts-to-the-rbas-fifth-interest-rate-hike-of-2026-290253.aspx"
         }
       ]
     },
@@ -192,9 +192,13 @@
       "next_meeting": "2026-12-08",
       "call": null,
       "next_change": null,
-      "note": "Steve Campbell (3 Nov): no explicit December call; 'Further tightening can't be ruled out, particularly if Middle East hostilities continue', while noting 'The bond market is saying that the RBA may be done'",
-      "as_of": "2026-11-03",
+      "note": "Tim Hext (19 Nov): no explicit December call; 'The Reserve Bank is achieving much earlier than expected what it set out to do with the five rate hikes this year' and 'will be cautious until inflation starts turning'; notes markets price a full cut by August 2027 and 'If rate cuts begin next year the cycle will be deeper than just two cuts'. No own timing published. Earlier, Steve Campbell (3 Nov): 'Further tightening can't be ruled out'",
+      "as_of": "2026-11-19",
       "sources": [
+        {
+          "label": "Pendal, 19 Nov",
+          "url": "https://pendalgroup.com/education-and-resources/tim-hext-unemployment-keeps-going-up-are-rate-cuts-next/"
+        },
         {
           "label": "Pendal, 3 Nov",
           "url": "https://pendalgroup.com/education-and-resources/cup-day-hike-split-field-is-the-rba-done/"
