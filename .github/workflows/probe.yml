@@ -1,0 +1,17 @@
+name: Probe ABS API
+on: workflow_dispatch
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          set -x
+          curl -sS -m 60 -H "Accept: text/csv" "https://data.api.abs.gov.au/rest/data/ABS,LF,1.0.0/M13.3.1599.20.AUS.M?startPeriod=2026-06&format=csvfilewithlabels" | head -20 || true
+          curl -sS -m 90 "https://data.api.abs.gov.au/rest/dataflow/ABS" -o df.xml || true
+          grep -o 'id="[^"]*CPI[^"]*"[^>]*' df.xml | head -40 || true
+          python3 - <<'PY'
+          import re
+          s=open('df.xml',encoding='utf-8',errors='ignore').read()
+          for m in re.finditer(r'<structure:Dataflow[^>]*id="([^"]*CPI[^"]*)"[^>]*version="([^"]*)".*?<common:Name xml:lang="en">([^<]*)<', s, re.S):
+              print("DF", m.group(1), m.group(2), m.group(3))
+          PY
