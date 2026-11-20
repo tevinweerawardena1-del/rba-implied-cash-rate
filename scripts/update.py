@@ -25,7 +25,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import sources as src  # noqa: E402
-from build import (daily_analytics, decisions, holds, extend_target, month_end_curves,  # noqa: E402
+from build import (daily_analytics, decisions, holds, extend_target, extend_series, month_end_curves,  # noqa: E402
                    outcome_probabilities, rate_inputs, align, yield_curves,
                    merge_meetings, health_check, forwards_series, real_cash_rate,
                    taylor_series, taylor_projection, term_premium_series)
@@ -194,6 +194,26 @@ def run(backfill: bool):
                     or src.pick(g1, "year-ended", "inflation", exclude=("trimmed", "weighted", "excluding", "tradable", "non-tradable", "seasonally")))
     cpi_trimmed = src.pick(g1, "year-ended", "trimmed mean")
     unemp = try_step("RBA H5 (unemployment)", status, src.fetch_unemployment) or src.Series()
+    rba_cpi_last, rba_unemp_last = cpi_trimmed.last_date if cpi_trimmed else None, unemp.last_date
+    # RBA H5/G1 lag the ABS releases. Extend them with the ABS Data API on release day,
+    # then with any figures added by hand to config/macro_releases.json.
+    abs_u = try_step("ABS unemployment (Labour Force)", status, src.fetch_abs_unemployment)
+    if abs_u:
+        unemp = extend_series(unemp, abs_u)
+    abs_cpi = try_step("ABS monthly CPI", status, src.fetch_abs_cpi) or {}
+    if abs_cpi.get("trimmed"):
+        cpi_trimmed = extend_series(cpi_trimmed or src.Series(), abs_cpi["trimmed"])
+    if abs_cpi.get("headline"):
+        cpi_headline = extend_series(cpi_headline or src.Series(), abs_cpi["headline"])
+    manual = json.loads((ROOT / "config" / "macro_releases.json").read_text())
+    def _manual(k):
+        return {src._month_end(*map(int, x["month"].split("-"))): float(x["value"]) for x in manual.get(k, [])}
+    unemp = extend_series(unemp, _manual("unemployment_rate"))
+    cpi_trimmed = extend_series(cpi_trimmed or src.Series(), _manual("trimmed_mean_yy"))
+    cpi_headline = extend_series(cpi_headline or src.Series(), _manual("headline_cpi_yy"))
+    print(f"Unemployment to {unemp.last_date} ({unemp.values[-1] if unemp else None}%), "
+          f"trimmed mean to {cpi_trimmed.last_date} ({cpi_trimmed.values[-1] if cpi_trimmed else None}%) "
+          f"[RBA H5 to {rba_unemp_last}, G1 to {rba_cpi_last}]")
 
     # ---- 3. Analytics ----------------------------------------------------
     meeting_rows, horizon_rows = daily_analytics(fh, target, ibocr, meetings)
@@ -278,8 +298,8 @@ def run(backfill: bool):
                   "AUD/USD": audusd.last_date,
                   "US 2-year Treasury": ust2.last_date,
                   "US 10-year Treasury": ust10.last_date,
-                  "RBA CPI (G1)": cpi_headline.last_date,
-                  "RBA unemployment (H5)": unemp.last_date,
+                  "CPI (RBA G1 / ABS)": cpi_trimmed.last_date,
+                  "Unemployment (RBA H5 / ABS)": unemp.last_date,
                   "US term premium (Kim-Wright)": kw_tp10.last_date}
     today = datetime.now(ZoneInfo("Australia/Sydney")).date()
     health = health_check(today, last_dates, meetings, last_month)

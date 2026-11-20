@@ -388,3 +388,13 @@ def test_parse_cash_rate_page():
     <tr><th scope="row">4 Nov 2026</th><td>+0.25</td><td>4.85</td><td><a>Statement</a></td></tr>
     <tr><th scope="row">30 Sep 2026</th><td>+0.25</td><td>4.60</td></tr></table>"""
     assert parse_cash_rate_page(html) == {date(2026, 11, 4): 4.85, date(2026, 9, 30): 4.60}
+
+
+def test_extend_series_appends_only_newer_points():
+    from datetime import date
+    from build import extend_series
+    from sources import Series
+    h5 = Series({date(2026, 8, 31): 4.7, date(2026, 9, 30): 4.7})
+    out = extend_series(h5, Series({date(2026, 9, 30): 4.74, date(2026, 10, 31): 4.9}))
+    assert out.on_or_before(date(2026, 9, 30))[1] == 4.7      # RBA value kept
+    assert out.last_date == date(2026, 10, 31) and out.values[-1] == 4.9

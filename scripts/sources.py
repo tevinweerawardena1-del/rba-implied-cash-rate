@@ -213,6 +213,46 @@ def parse_rba_table(text: str) -> dict[str, dict[date, float]]:
     return cols
 
 
+ABS_API = "https://data.api.abs.gov.au/rest/data/ABS,{flow}/{key}?startPeriod={start}&format=csv"
+# Labour Force: unemployment rate (M13), persons, 15+, seasonally adjusted, Australia, monthly.
+ABS_UNEMPLOYMENT = ("LF,1.0.0", "M13.3.1599.20.AUS.M")
+# Monthly CPI: year-ended % change (3), trimmed mean (999902, seasonally adjusted) and
+# all groups (10001, original), Australia (50), monthly.
+ABS_CPI = ("CPI,2.0.0", "3.999902+10001.10+20.50.M")
+
+
+def _month_end(y: int, m: int) -> date:
+    nxt = date(y + (m == 12), m % 12 + 1, 1)
+    return date.fromordinal(nxt.toordinal() - 1)
+
+
+def fetch_abs(flow: str, key: str, start: str = "2010-01") -> pd.DataFrame:
+    df = pd.read_csv(io.StringIO(http_get(ABS_API.format(flow=flow, key=key, start=start))))
+    df = df.dropna(subset=["OBS_VALUE"])
+    df["date"] = [_month_end(*map(int, str(p).split("-")[:2])) for p in df["TIME_PERIOD"]]
+    return df
+
+
+def fetch_abs_unemployment() -> Series:
+    df = fetch_abs(*ABS_UNEMPLOYMENT)
+    s = Series({d: round(float(v), 1) for d, v in zip(df["date"], df["OBS_VALUE"])})
+    print(f"ABS unemployment rate: {s.last_date} = {s.values[-1]}%")
+    return s
+
+
+def fetch_abs_cpi() -> dict[str, Series]:
+    """{'trimmed': trimmed mean y/y (SA), 'headline': all groups y/y (original)}."""
+    df = fetch_abs(*ABS_CPI)
+    out = {}
+    for name, idx, ts in (("trimmed", "999902", "20"), ("headline", "10001", "10")):
+        sub = df[(df["INDEX"].astype(str) == idx) & (df["TSEST"].astype(str) == ts)]
+        out[name] = Series({d: float(v) for d, v in zip(sub["date"], sub["OBS_VALUE"])})
+        print(f"ABS CPI {name}: {out[name].last_date} = {out[name].values[-1] if out[name] else None}")
+    if not out["trimmed"]:
+        raise RuntimeError("ABS CPI: no trimmed mean rows")
+    return out
+
+
 RBA_CASH_RATE_PAGE = "https://www.rba.gov.au/statistics/cash-rate/"
 _CR_ROW = re.compile(r"(\d{1,2} [A-Z][a-z]{2,8} \d{4})\s+([+\-\u2212]?\d+\.\d+)\s+(\d+\.\d+)")
 

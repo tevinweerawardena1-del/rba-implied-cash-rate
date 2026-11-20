@@ -35,6 +35,19 @@ def rate_inputs(target: Series, ibocr: Series, as_at: date):
     return tgt, target_as_of, spread
 
 
+def extend_series(base: Series, newer: dict[date, float] | Series) -> Series:
+    """Add points from a more timely source that come after base's last date."""
+    if isinstance(newer, Series):
+        newer = dict(zip(newer.dates, newer.values))
+    last = base.last_date
+    extra = {d: v for d, v in newer.items() if last is None or d > last}
+    if not extra:
+        return base
+    data = dict(zip(base.dates, base.values))
+    data.update(extra)
+    return Series(data)
+
+
 def extend_target(target: Series, announced: dict[date, float]) -> Series:
     """Add announced target changes (keyed by effective date) that RBA table F1
     doesn't have yet. Points on or before F1's last date are left to F1."""
@@ -201,10 +214,10 @@ def merge_meetings(config_dates: list[date], scraped: dict[int, list[date]] | No
 STALE_AFTER = {"ASX futures": 6, "RBA cash rate & bank bills (F1)": 8,
                "RBA bond yields (F2)": 28, "RBA bond lines (F16)": 28, "AUD/USD": 6,
                "US 2-year Treasury": 10, "US 10-year Treasury": 10,
-               # Quarterly CPI arrives about 4 weeks after each quarter ends.
-               "RBA CPI (G1)": 135,
-               # Monthly labour force, released ~3 weeks after month end.
-               "RBA unemployment (H5)": 60,
+               # Monthly CPI (ABS) arrives ~4 weeks after month end; RBA G1 is the backup.
+               "CPI (RBA G1 / ABS)": 65,
+               # Monthly labour force (ABS), released ~3 weeks after month end.
+               "Unemployment (RBA H5 / ABS)": 55,
                # The Fed Board updates the Kim-Wright series weekly.
                "US term premium (Kim-Wright)": 21}
 
