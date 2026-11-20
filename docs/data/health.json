@@ -13,8 +13,8 @@
     "AUD/USD": "2026-11-19",
     "US 2-year Treasury": "2026-11-18",
     "US 10-year Treasury": "2026-11-18",
-    "RBA CPI (G1)": "2026-09-30",
-    "RBA unemployment (H5)": "2026-10-31",
+    "CPI (RBA G1 / ABS)": "2026-09-30",
+    "Unemployment (RBA H5 / ABS)": "2026-10-31",
     "US term premium (Kim-Wright)": "2026-11-13"
   }
 }
