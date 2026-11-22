@@ -11,9 +11,13 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "Ashwin Clarke (CommBank, ABC 18 Nov, after Q3 wages): data 'reinforces our view that the RBA will be on edge', with 'some data to go to the December meeting'; expects growth to slow enough 'to stay the RBA's hand in H1 2027', 'allowing them to remain on hold before cutting rates twice in late 2027'. Belinda Allen (17 Nov): 'We judge December will not be a live meeting'; February remains live. Cuts pencilled in for August and November 2027",
-      "as_of": "2026-11-18",
+      "note": "Belinda Allen (CommBank, MPA 19 Nov, after October jobs data with unemployment at 4.9%): 'An on-hold decision in December is locked in for the RBA'; the data 'does tip the balance closer to even' between the next move being a hike or cut. Cuts remain pencilled in for August and November 2027. Earlier, Ashwin Clarke (18 Nov): growth to slow enough 'to stay the RBA's hand in H1 2027'",
+      "as_of": "2026-11-19",
       "sources": [
+        {
+          "label": "MPA, 19 Nov",
+          "url": "https://www.mpamag.com/au/news/general/rba-doves-handed-a-lifeline-as-unemployment-spikes/597994"
+        },
         {
           "label": "ABC, 18 Nov",
           "url": "https://www.abc.net.au/news/2026-11-18/asx-markets-business-live-news-nvidia/107396692"
@@ -21,10 +25,6 @@
         {
           "label": "CommBank, 17 Nov",
           "url": "https://www.commbank.com.au/articles/newsroom/2026/11/rba-rate-pause-split-vote-december-2026.html"
-        },
-        {
-          "label": "ABC, 16 Nov",
-          "url": "https://www.abc.net.au/news/2026-11-16/asx-markets-business-live-news-nov-16/107388134"
         }
       ]
     },
@@ -38,9 +38,13 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "Luci Ellis (Westpac, 13 Nov, 'An RBA peak of greater conviction'): Bullock's 'take stock' comment read as 'a signal that the MPB would pause at the December meeting'; 'A rate hike in February 2027 cannot be ruled out but it is looking even less likely'; Westpac already 'believed the RBA cash rate was likely at a peak'. November Market Outlook has 'a move to cuts pencilled in for the second half of 2027'; cuts seen from August 2027 (Canstar, 3 Nov)",
-      "as_of": "2026-11-13",
+      "note": "Westpac (Pound Sterling Live, 20 Nov, after October jobs data with unemployment at 4.9%): 'The data directly challenges the RBA's assessment that the labour market is \"a little tight\", reinforcing our view that it is done hiking'; peak unemployment forecast raised to 5.2% by mid-2027. Luci Ellis (13 Nov): RBA likely to pause in December; 'A rate hike in February 2027 cannot be ruled out but it is looking even less likely'. Cuts seen from August 2027 (Canstar via PropertyUpdate, 20 Nov)",
+      "as_of": "2026-11-20",
       "sources": [
+        {
+          "label": "Pound Sterling Live, 20 Nov",
+          "url": "https://www.poundsterlinglive.com/aud/23904-australian-dollar-forecast-2027-labour-market-turning-point-pound-to-aud"
+        },
         {
           "label": "Westpac, 13 Nov",
           "url": "https://www.westpaciq.com.au/economics/2026/11/lucis-weekly-note-13-november-2026"
@@ -48,10 +52,6 @@
         {
           "label": "investingLive, 10 Nov",
           "url": "https://investinglive.com/news/australian-consumer-sentiment-sinks-to-four-year-low-as-rates-and-living-costs-bite/"
-        },
-        {
-          "label": "Westpac Cliff Notes, 6 Nov",
-          "url": "https://www.westpaciq.com.au/economics/2026/11/cliff-notes-06-nov-2026"
         }
       ]
     },
@@ -65,9 +65,13 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "Sally Auld (NAB, 9 Nov): 'We think the RBA are done', with the RBA having signalled it could pause, though another increase isn't impossible with inflation the key risk. Earlier (Broker Daily, 4 Nov): 'we are not forecasting further policy tightening from here'; cuts seen from August 2027 (Canstar, 3 Nov)",
-      "as_of": "2026-11-09",
+      "note": "Taylor Nugent (NAB, Yahoo Finance 19 Nov, after October jobs data): 'We think it's pretty clear now the RBA will be able to see enough cooling in the economy' to hold rates; a 25bp cut likely won't come until about August 2027. Earlier, Sally Auld (9 Nov): 'We think the RBA are done'",
+      "as_of": "2026-11-19",
       "sources": [
+        {
+          "label": "Yahoo Finance, 19 Nov",
+          "url": "https://au.finance.yahoo.com/news/nab-cuts-home-loan-rates-following-unemployment-surprise-pretty-clear-231957650.html"
+        },
         {
           "label": "NAB, 9 Nov",
           "url": "https://www.nab.com.au/news/economy-markets/rba-rate-rises-may-be-over-but-global-risks-remain"
@@ -75,10 +79,6 @@
         {
           "label": "Broker Daily, 4 Nov",
           "url": "https://www.brokerdaily.au/lender/22204-where-will-rates-go-from-here"
-        },
-        {
-          "label": "Reuters via AOL, 3 Nov",
-          "url": "https://www.aol.com/articles/australias-central-bank-lifts-rates-033706000.html"
         }
       ]
     },
@@ -92,9 +92,13 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "ANZ (Grafa citing Capital Brief, 17 Nov, after RBA minutes): ANZ says the cash rate has peaked at 4.85%; Adam Boyton expects it to stay there 'for some time', with ANZ Research forecasting no change until the end of 2027, though a further rise 'cannot be entirely ruled out'. Cuts seen from November 2027 (Canstar, 3 Nov)",
-      "as_of": "2026-11-17",
+      "note": "Madeline Dunk (ANZ, Broker News 19 Nov, after October jobs data): 'The numbers do make it harder to see the case for the RBA hiking in December'; ANZ expects the RBA 'to remain on hold until late 2027', with cuts forecast in November 2027 and February 2028. A hike had been flagged as a possibility, but 'this data does make it less likely'. Earlier (17 Nov): ANZ says the cash rate has peaked at 4.85%",
+      "as_of": "2026-11-19",
       "sources": [
+        {
+          "label": "Broker News, 19 Nov",
+          "url": "https://www.brokernews.com.au/news/breaking-news/unemployment-continues-to-rise-down-under-290340.aspx"
+        },
         {
           "label": "Grafa, 17 Nov",
           "url": "https://grafa.com/en/news/australia/banks-call-4-85-rate-peak-despite-bullock-s-inflation-warning"
@@ -102,10 +106,6 @@
         {
           "label": "investingLive, 12 Nov",
           "url": "https://investinglive.com/central-banks/anz-says-rba-hike-bets-have-cooled-but-3-7-core-inflation-will-keep-it-cautious/"
-        },
-        {
-          "label": "FNArena, 4 Nov",
-          "url": "https://fnarena.com/2026/11/04/the-overnight-report-us-mid-term-d-day/"
         }
       ]
     },
@@ -114,15 +114,19 @@
       "next_meeting": "2026-12-08",
       "call": "no change",
       "next_change": {
-        "month": "2027-11",
-        "label": "Late 2027",
+        "month": "2027-08",
+        "label": "Around August 2027",
         "direction": "cut",
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "Shane Oliver (13 Nov): RBA 'has likely now done enough to slow demand which will cool inflation', with softer data bringing 'a reduced risk of further RBA rate hikes' (though market hike odds 'may be a bit too low'); 'rates will be on hold ahead of rate cuts late next year' and no cut 'until second half next year' absent a crisis. Earlier (6 Nov): RBA 'will pause in December'. Month and 25bp cut size assumed",
-      "as_of": "2026-11-13",
+      "note": "Shane Oliver (AMP weekly update for the week of 20 Nov, via Livewire; page undated): RBA 'likely to remain on hold at the December meeting as it assesses the recent flow of data and then remain on hold into next year'; 'we had been thinking that the RBA would not start cutting until November next year, but the weakening jobs market mean it could now come earlier say around August'. Recession risk put at 'a high and still rising 40%'. 25bp cut size assumed",
+      "as_of": "2026-11-20",
       "sources": [
+        {
+          "label": "Livewire (AMP weekly), 20 Nov",
+          "url": "https://www.livewiremarkets.com/wires/is-the-music-about-to-stop-for-australia-s-economy"
+        },
         {
           "label": "AMP weekly update, 13 Nov",
           "url": "https://www.amp.com.au/resources/insights-hub/weekly-market-update-13-11-2026"
@@ -130,10 +134,6 @@
         {
           "label": "AMP weekly update, 6 Nov",
           "url": "https://www.amp.com.au/resources/insights-hub/weekly-market-update-6-11-2026-amp"
-        },
-        {
-          "label": "investingLive, 3 Nov",
-          "url": "https://investinglive.com/central-banks/rba-set-for-fifth-hike-of-2026-to-4-85-three-views-on-what-comes-next/"
         }
       ]
     },
@@ -142,15 +142,18 @@
       "next_meeting": "2026-12-08",
       "call": "no change",
       "next_change": {
-        "month": "2027-11",
-        "label": "Late 2027",
+        "month": "2027-08",
         "direction": "cut",
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "George Tharenou (investingLive, 13 Nov): central case is an extended hold with policy restrictive through much of 2027 and no cuts until 'late 2027 or 2028', as 'the AI boom is giving Australia the inflation now and the productivity later'; February flagged as a possible hike if inflation surprises to the upside, and a near-term move is more likely a hike than a cut. November cut timing from UBS's earlier view; size assumed 25bp",
-      "as_of": "2026-11-13",
+      "note": "George Tharenou (UBS, Reuters via Business Recorder 19 Nov, after October jobs data): 'We now expect the first rate cut of -25bps in Aug-27 (was Nov-27)' and 'an easing cycle of -75bps (was -50bps)'; UBS no longer expects further hikes (Market Index, 20 Nov). December hold inferred",
+      "as_of": "2026-11-19",
       "sources": [
+        {
+          "label": "Business Recorder (Reuters), 19 Nov",
+          "url": "https://www.brecorder.com/news/40449698/australian-dollar-falls-after-weak-jobs-data-bonds-rally-on-rate-cut-hopes"
+        },
         {
           "label": "investingLive (via SwingFish), 13 Nov",
           "url": "https://www.swingfish.trade/blog/market-news/ubs-sees-no-rba-cuts-until-late-2027-as-ai-boom-fuels-inflation-growth-slowing-to-1-4-442144/"
@@ -158,10 +161,6 @@
         {
           "label": "Business Recorder (Reuters), 4 Nov",
           "url": "https://www.brecorder.com/news/40447365/kiwi-in-brief-skid-after-weak-jobs-data-aussie-pressured-by-dovish-rba-turn"
-        },
-        {
-          "label": "ABC, 3 Nov",
-          "url": "https://www.abc.net.au/news/2026-11-03/rba-interest-rates-markets-live-coverage/107338216"
         }
       ]
     },
@@ -169,10 +168,20 @@
       "bank": "Goldman Sachs",
       "next_meeting": "2026-12-08",
       "call": "no change",
-      "next_change": null,
-      "note": "Goldman Sachs (Grafa citing Capital Brief, 17 Nov, after RBA minutes): says the cash rate has peaked at 4.85% and the minutes were broadly consistent with the post-meeting press conference. December hold inferred from the peak call; no published timing for its next change",
-      "as_of": "2026-11-17",
+      "next_change": {
+        "month": "2027-11",
+        "label": "Q4 2027",
+        "direction": "cut",
+        "size_bp": 25,
+        "rate_after": 4.6
+      },
+      "note": "Goldman Sachs (Pound Sterling Live, 20 Nov, new outlook; analyst not named): cash rate held at 4.85% 'until the fourth quarter of 2027', then lowered to 3.6% by end-2028; market pricing of about 4.4% called 'too hawkish'. Earlier (17 Nov): says the cash rate has peaked. December hold inferred. Month (November, first Q4 2027 meeting) and 25bp first-cut size assumed",
+      "as_of": "2026-11-20",
       "sources": [
+        {
+          "label": "Pound Sterling Live, 20 Nov",
+          "url": "https://www.poundsterlinglive.com/aud/23904-australian-dollar-forecast-2027-labour-market-turning-point-pound-to-aud"
+        },
         {
           "label": "Grafa, 17 Nov",
           "url": "https://grafa.com/en/news/australia/banks-call-4-85-rate-peak-despite-bullock-s-inflation-warning"
@@ -180,10 +189,6 @@
         {
           "label": "investingLive, 21 Oct",
           "url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-rba-s-hauser-puts-november-hike-in-play/"
-        },
-        {
-          "label": "investingLive, 14 Oct",
-          "url": "https://investinglive.com/central-banks/goldman-sachs-says-rba-minutes-lower-bar-for-november-hike-with-three-hawkish-signals"
         }
       ]
     },
