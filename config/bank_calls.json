@@ -65,9 +65,13 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "Taylor Nugent (NAB, Yahoo Finance 19 Nov, after October jobs data): 'We think it's pretty clear now the RBA will be able to see enough cooling in the economy' to hold rates; a 25bp cut likely won't come until about August 2027. Earlier, Sally Auld (9 Nov): 'We think the RBA are done'",
-      "as_of": "2026-11-19",
+      "note": "Sally Auld (NAB chief economist, National Forward View via Australian Conveyancer 23 Nov): 'With policy having been tightened to 4.85 per cent, rates are now clearly restrictive' and 'The balance between growth and inflation risks has shifted and we think the RBA is done hiking'; NAB expects the RBA to hold next month (December). Taylor Nugent (19 Nov, after October jobs data): a 25bp cut likely won't come until about August 2027",
+      "as_of": "2026-11-23",
       "sources": [
+        {
+          "label": "Australian Conveyancer, 23 Nov",
+          "url": "https://www.australianconveyancer.com.au/article/rates-to-remain-on-hold-as-policy-starts-to-normalise-/"
+        },
         {
           "label": "Yahoo Finance, 19 Nov",
           "url": "https://au.finance.yahoo.com/news/nab-cuts-home-loan-rates-following-unemployment-surprise-pretty-clear-231957650.html"
@@ -75,10 +79,6 @@
         {
           "label": "NAB, 9 Nov",
           "url": "https://www.nab.com.au/news/economy-markets/rba-rate-rises-may-be-over-but-global-risks-remain"
-        },
-        {
-          "label": "Broker Daily, 4 Nov",
-          "url": "https://www.brokerdaily.au/lender/22204-where-will-rates-go-from-here"
         }
       ]
     },
