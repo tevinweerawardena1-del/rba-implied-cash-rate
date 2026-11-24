@@ -1,8 +1,8 @@
 {
-  "_comment": "Taylor rule: i* = r* + pi + a*(pi - pi*) - b*(u - u*). Inflation is year-ended trimmed mean (RBA G1, extended with the ABS monthly CPI), unemployment is the seasonally adjusted rate (RBA H5, extended with the ABS Labour Force release). r* = neutral real rate (RBA neutral nominal ~3% minus the 2.5% target). u* = NAIRU (set to 4.65% Nov 2026; update when the RBA's estimate changes). smoothing_per_quarter = rho in i_t = rho*i_(t-1) + (1-rho)*i*, used for the next-meeting estimate. Edit these values to change the model; the page updates on the next run.",
+  "_comment": "Taylor rule: i* = r* + pi + a*(pi - pi*) - b*(u - u*). Inflation is year-ended trimmed mean (RBA G1, extended with the ABS monthly CPI), unemployment is the seasonally adjusted rate (RBA H5, extended with the ABS Labour Force release). r* = neutral real rate (RBA neutral nominal ~3% minus the 2.5% target). u* = NAIRU (set to 4.75% Nov 2026, per RBA SMP Nov 2026 'around 4¾ per cent'; update when the RBA's estimate changes). smoothing_per_quarter = rho in i_t = rho*i_(t-1) + (1-rho)*i*, used for the next-meeting estimate. Edit these values to change the model; the page updates on the next run.",
   "neutral_real_rate": 0.5,
   "inflation_target": 2.5,
-  "nairu": 4.65,
+  "nairu": 4.75,
   "inflation_gap_weight": 0.5,
   "unemployment_gap_weight": 1.0,
   "smoothing_per_quarter": 0.85,
