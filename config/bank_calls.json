@@ -11,9 +11,13 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "Savings.com.au (24 Nov): all four majors expect the RBA to hold in December; CBA still forecasts the first cut in August 2027. Earlier: Belinda Allen (CommBank, MPA 19 Nov, after October jobs data with unemployment at 4.9%): 'An on-hold decision in December is locked in for the RBA'; the data 'does tip the balance closer to even' between the next move being a hike or cut. Cuts remain pencilled in for August and November 2027. Earlier, Ashwin Clarke (18 Nov): growth to slow enough 'to stay the RBA's hand in H1 2027'",
-      "as_of": "2026-11-24",
+      "note": "Savings.com.au (25 Nov, after October CPI at 4.9% headline, 3.8% trimmed mean): major bank economists expect the RBA to hold next month; 'CBA, NAB, and Westpac likewise forecast rate cuts next year, albeit at a later timing for the first move, in August'. Belinda Allen (CommBank) also said December was unlikely to be a 'live' meeting (Trading and Investment News, 25 Nov). Earlier: Allen (MPA 19 Nov): 'An on-hold decision in December is locked in for the RBA'; cuts pencilled in for August and November 2027",
+      "as_of": "2026-11-25",
       "sources": [
+        {
+          "label": "Savings.com.au, 25 Nov",
+          "url": "https://www.savings.com.au/news/australia-s-inflation-accelerates-to-4-9-in-october"
+        },
         {
           "label": "Savings.com.au, 24 Nov",
           "url": "https://www.savings.com.au/news/inflation-tipped-to-peak-in-october"
@@ -21,10 +25,6 @@
         {
           "label": "MPA, 19 Nov",
           "url": "https://www.mpamag.com/au/news/general/rba-doves-handed-a-lifeline-as-unemployment-spikes/597994"
-        },
-        {
-          "label": "ABC, 18 Nov",
-          "url": "https://www.abc.net.au/news/2026-11-18/asx-markets-business-live-news-nvidia/107396692"
         }
       ]
     },
@@ -38,20 +38,20 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "Savings.com.au (24 Nov): all four majors expect a December hold; Westpac still forecasts the first cut in August 2027 and maintains the RBA 'has finished hiking rates in the current cycle'. Earlier: Westpac (Pound Sterling Live, 20 Nov, after October jobs data with unemployment at 4.9%): 'The data directly challenges the RBA's assessment that the labour market is \"a little tight\", reinforcing our view that it is done hiking'; peak unemployment forecast raised to 5.2% by mid-2027. Luci Ellis (13 Nov): RBA likely to pause in December; 'A rate hike in February 2027 cannot be ruled out but it is looking even less likely'. Cuts seen from August 2027 (Canstar via PropertyUpdate, 20 Nov)",
-      "as_of": "2026-11-24",
+      "note": "Westpac October CPI quick take (ActionForex, 25 Nov): October was 'a shade above our nowcast'; the board 'will be in something of a holding pattern at next month's meeting', the RBA is 'likely finished hiking rates', and 'the most likely date for the first interest rate cut is August next year'. Savings.com.au (25 Nov): CBA, NAB and Westpac forecast the first cut in August. Earlier, Luci Ellis (13 Nov): 'A rate hike in February 2027 cannot be ruled out but it is looking even less likely'",
+      "as_of": "2026-11-25",
       "sources": [
+        {
+          "label": "Westpac (ActionForex), 25 Nov",
+          "url": "https://actionforex.com/contributors/fundamental-analysis/662000-australia-october-2026-cpi-quick-take-and-rba-non-implications"
+        },
+        {
+          "label": "Savings.com.au, 25 Nov",
+          "url": "https://www.savings.com.au/news/australia-s-inflation-accelerates-to-4-9-in-october"
+        },
         {
           "label": "Savings.com.au, 24 Nov",
           "url": "https://www.savings.com.au/news/inflation-tipped-to-peak-in-october"
-        },
-        {
-          "label": "Pound Sterling Live, 20 Nov",
-          "url": "https://www.poundsterlinglive.com/aud/23904-australian-dollar-forecast-2027-labour-market-turning-point-pound-to-aud"
-        },
-        {
-          "label": "Westpac, 13 Nov",
-          "url": "https://www.westpaciq.com.au/economics/2026/11/lucis-weekly-note-13-november-2026"
         }
       ]
     },
@@ -65,20 +65,20 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "Savings.com.au (24 Nov): all four majors expect a December hold; NAB still forecasts the first cut in August 2027 and maintains the RBA 'has finished hiking rates in the current cycle'; Taylor Nugent expects October 'to mark the peak for headline inflation'. Earlier: Sally Auld (NAB chief economist, National Forward View via Australian Conveyancer 23 Nov): 'With policy having been tightened to 4.85 per cent, rates are now clearly restrictive' and 'The balance between growth and inflation risks has shifted and we think the RBA is done hiking'; NAB expects the RBA to hold next month (December). Taylor Nugent (19 Nov, after October jobs data): a 25bp cut likely won't come until about August 2027",
-      "as_of": "2026-11-24",
+      "note": "Savings.com.au (25 Nov, after October CPI at 4.9%): major bank economists expect a December hold; 'CBA, NAB, and Westpac likewise forecast rate cuts next year, albeit at a later timing for the first move, in August'. NAB economists said October 'would likely mark the peak for headline inflation'; Taylor Nugent: housing 'an unlikely source of persistent inflation pressure' (AAP, 25 Nov). Earlier, Sally Auld (23 Nov): 'we think the RBA is done hiking'; NAB expects the RBA to hold in December",
+      "as_of": "2026-11-25",
       "sources": [
+        {
+          "label": "Savings.com.au, 25 Nov",
+          "url": "https://www.savings.com.au/news/australia-s-inflation-accelerates-to-4-9-in-october"
+        },
+        {
+          "label": "AAP (Michael West), 25 Nov",
+          "url": "https://michaelwest.com.au/treasurer-looking-for-the-peak-in-ugly-inflation-figure"
+        },
         {
           "label": "Savings.com.au, 24 Nov",
           "url": "https://www.savings.com.au/news/inflation-tipped-to-peak-in-october"
-        },
-        {
-          "label": "Australian Conveyancer, 23 Nov",
-          "url": "https://www.australianconveyancer.com.au/article/rates-to-remain-on-hold-as-policy-starts-to-normalise-/"
-        },
-        {
-          "label": "Yahoo Finance, 19 Nov",
-          "url": "https://au.finance.yahoo.com/news/nab-cuts-home-loan-rates-following-unemployment-surprise-pretty-clear-231957650.html"
         }
       ]
     },
@@ -92,20 +92,20 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "Adam Boyton (ANZ, Savings.com.au 24 Nov, October CPI preview): ANZ has brought its first cut forward to June 2027 (25bp to 4.60%), followed by cuts in August 2027 and February 2028 to 4.10%; 'a weaker labour market and a softer demand environment will help to lower inflation, despite cost pressures', though a June cut is 'unlikely' if underlying inflation stays above target. All four majors expect a December hold. Earlier, Madeline Dunk (19 Nov): 'The numbers do make it harder to see the case for the RBA hiking in December'",
-      "as_of": "2026-11-24",
+      "note": "Savings.com.au (25 Nov, after October CPI at 4.9%): major bank economists expect a December hold; ANZ keeps its first cut in June 2027 (brought forward from November 2027), saying 'any easing cycle will depend on underlying inflation continuing to move towards the RBA's target band'; AAP (25 Nov): ANZ 'stuck with their timing for a first rate cut in June'. Earlier, Adam Boyton (24 Nov): 25bp to 4.60% in June, then August 2027 and February 2028 to 4.10%",
+      "as_of": "2026-11-25",
       "sources": [
+        {
+          "label": "Savings.com.au, 25 Nov",
+          "url": "https://www.savings.com.au/news/australia-s-inflation-accelerates-to-4-9-in-october"
+        },
+        {
+          "label": "AAP (Michael West), 25 Nov",
+          "url": "https://michaelwest.com.au/treasurer-looking-for-the-peak-in-ugly-inflation-figure"
+        },
         {
           "label": "Savings.com.au, 24 Nov",
           "url": "https://www.savings.com.au/news/inflation-tipped-to-peak-in-october"
-        },
-        {
-          "label": "Broker News, 19 Nov",
-          "url": "https://www.brokernews.com.au/news/breaking-news/unemployment-continues-to-rise-down-under-290340.aspx"
-        },
-        {
-          "label": "Grafa, 17 Nov",
-          "url": "https://grafa.com/en/news/australia/banks-call-4-85-rate-peak-despite-bullock-s-inflation-warning"
         }
       ]
     },
@@ -147,9 +147,13 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "George Tharenou (UBS, Reuters via Business Recorder 19 Nov, after October jobs data): 'We now expect the first rate cut of -25bps in Aug-27 (was Nov-27)' and 'an easing cycle of -75bps (was -50bps)'; UBS no longer expects further hikes (Market Index, 20 Nov). December hold inferred",
-      "as_of": "2026-11-19",
+      "note": "ABC (25 Nov, after October CPI at 4.9%): 'Economists at UBS, on the other hand, still expect the RBA to cut interest rates in August 2027'; UBS sees some risk of a February hike, but the board split with 'dovish external board members' makes a hike unlikely. Earlier, George Tharenou (19 Nov): 'We now expect the first rate cut of -25bps in Aug-27 (was Nov-27)' and 'an easing cycle of -75bps'. December hold inferred",
+      "as_of": "2026-11-25",
       "sources": [
+        {
+          "label": "ABC, 25 Nov",
+          "url": "https://www.abc.net.au/news/2026-11-25/abs-october-cpi-inflation-rises-year-/107424668"
+        },
         {
           "label": "Business Recorder (Reuters), 19 Nov",
           "url": "https://www.brecorder.com/news/40449698/australian-dollar-falls-after-weak-jobs-data-bonds-rally-on-rate-cut-hopes"
@@ -157,10 +161,6 @@
         {
           "label": "investingLive (via SwingFish), 13 Nov",
           "url": "https://www.swingfish.trade/blog/market-news/ubs-sees-no-rba-cuts-until-late-2027-as-ai-boom-fuels-inflation-growth-slowing-to-1-4-442144/"
-        },
-        {
-          "label": "Business Recorder (Reuters), 4 Nov",
-          "url": "https://www.brecorder.com/news/40447365/kiwi-in-brief-skid-after-weak-jobs-data-aussie-pressured-by-dovish-rba-turn"
         }
       ]
     },
