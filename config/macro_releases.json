@@ -1,8 +1,24 @@
 {
   "_comment": "Backup for the Taylor rule and real cash rate inputs. The daily update reads these from the ABS Data API on release day (Labour Force unemployment rate, monthly CPI) and from RBA tables H5/G1. If the ABS API is down, add the new figure here the day it is released: month = reference month (YYYY-MM), value = % (unemployment rate seasonally adjusted; trimmed mean and headline CPI year-ended). Figures already covered by the ABS/RBA data are ignored.",
   "unemployment_rate": [
-    { "month": "2026-10", "value": 4.9, "source": "ABS Labour Force, Oct 2026 (released 19 Nov 2026)" }
+    {
+      "month": "2026-10",
+      "value": 4.9,
+      "source": "ABS Labour Force, Oct 2026 (released 19 Nov 2026)"
+    }
   ],
-  "trimmed_mean_yy": [],
-  "headline_cpi_yy": []
+  "trimmed_mean_yy": [
+    {
+      "month": "2026-10",
+      "value": 3.8,
+      "source": "ABS Monthly CPI, Oct 2026 (released 25 Nov 2026)"
+    }
+  ],
+  "headline_cpi_yy": [
+    {
+      "month": "2026-10",
+      "value": 4.9,
+      "source": "ABS Monthly CPI, Oct 2026 (released 25 Nov 2026)"
+    }
+  ]
 }
