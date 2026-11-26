@@ -38,9 +38,13 @@
         "size_bp": 25,
         "rate_after": 4.6
       },
-      "note": "Westpac October CPI quick take (ActionForex, 25 Nov): October was 'a shade above our nowcast'; the board 'will be in something of a holding pattern at next month's meeting', the RBA is 'likely finished hiking rates', and 'the most likely date for the first interest rate cut is August next year'. Savings.com.au (25 Nov): CBA, NAB and Westpac forecast the first cut in August. Earlier, Luci Ellis (13 Nov): 'A rate hike in February 2027 cannot be ruled out but it is looking even less likely'",
-      "as_of": "2026-11-25",
+      "note": "Australian Property Update (26 Nov, after October CPI at 4.9%): Luci Ellis, 'we see nothing to change our view that the RBA is likely finished hiking rates but will still be considering another move in coming months' and 'Nor do we see anything to change our view that the most likely date for the first interest rate cut is August next year'. Westpac quick take (25 Nov): the board 'will be in something of a holding pattern at next month's meeting'. Earlier, Ellis (13 Nov): 'A rate hike in February 2027 cannot be ruled out but it is looking even less likely'",
+      "as_of": "2026-11-26",
       "sources": [
+        {
+          "label": "Australian Property Update, 26 Nov",
+          "url": "https://australianpropertyupdate.com.au/apu/inflation-shock-reignites-debate-over-another-rba-rate-rise"
+        },
         {
           "label": "Westpac (ActionForex), 25 Nov",
           "url": "https://actionforex.com/contributors/fundamental-analysis/662000-australia-october-2026-cpi-quick-take-and-rba-non-implications"
@@ -48,10 +52,6 @@
         {
           "label": "Savings.com.au, 25 Nov",
           "url": "https://www.savings.com.au/news/australia-s-inflation-accelerates-to-4-9-in-october"
-        },
-        {
-          "label": "Savings.com.au, 24 Nov",
-          "url": "https://www.savings.com.au/news/inflation-tipped-to-peak-in-october"
         }
       ]
     },
